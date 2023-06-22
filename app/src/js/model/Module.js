@@ -5,25 +5,25 @@ class Module {
         this.ECTS = ECTS;
 
         this.recommendedSemester = recommendedSemester;
-        this.period = period;
-        this.minSemLength = minSemLsength;
+        //this.period = period;
+        this.minSemLength = minSemLength;
         
-        this.moduleComponents = [];
+        //this.moduleComponents = [];
 
         this.selectedSemester = [];
-        this.grade = null;
-        this.passed = null;
+        //this.grade = null;
+        //this.passed = null;
     }
 
-    setGrade(grade) {
-        this.grade = grade;
-    }
+    // setGrade(grade) {
+    //     this.grade = grade;
+    // }
     
-    setPassed(passed) {
-        this.passed = passed;
-    }
+    // setPassed(passed) {
+    //     this.passed = passed;
+    // }
 
-    addModuleComponent(component) {
-        this.moduleComponents.push(component);
-    }
+    // addModuleComponent(component) {
+    //     this.moduleComponents.push(component);
+    // }
 }

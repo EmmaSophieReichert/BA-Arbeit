@@ -1,0 +1,25 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+footer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3%;
+    justify-content: right;
+    background-color: rgb(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    align-items: center;
+}

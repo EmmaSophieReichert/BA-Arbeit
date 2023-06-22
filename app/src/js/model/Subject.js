@@ -4,7 +4,11 @@ class Subject {
         this.ECTS = ECTS;
 
         this.modules = [];
-        this.grade = null;
+        //this.grade = null;
         this.currentECTS = null;
+    }
+
+    addModule(module) {
+        this.modules.push(module);
     }
 }
