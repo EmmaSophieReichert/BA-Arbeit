@@ -46,4 +46,6 @@
 
 .nav-align-right>a {
     margin: 0.2vh 1vw;
+    font-weight: 200;
+    text-decoration: underline;
 }

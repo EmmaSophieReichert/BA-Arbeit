@@ -4,7 +4,7 @@ import { Observable, Event } from "./Observable.js";
 
 const ROUTES = {
     "#impressum": "../src/html/impressum.html",
-    "#schedule": "../src/html/landing-page.html",
+    "#schedule": "../src/html/schedule.html",
 };
 
 // Router Class to navigate between pages with templates
