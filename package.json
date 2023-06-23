@@ -1,7 +1,7 @@
 {
-    "name": "mme-ws2122-task-1-countdown-starter",
+    "name": "BA Arbeit",
     "version": "1.0.0",
-    "description": "A browser based implementation of the letters game from the TV-show \"Countdown\"",
+    "description": "Something to plan your studies with",
     "main": "index.js",
     "type": "module",
     "scripts": {
@@ -13,7 +13,7 @@
         "type": "git",
         "url": "https://github.com/MME-Aufgaben-im-Winter-2021/MME-WS2122-Countdown-Starter"
     },
-    "author": "Alexander Bazo <alexander.bazo@ur.de> & Jakob Fehle <jakob.fehle@ur.de>",
+    "author": "Emma Sophie Reichert",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/MME-Aufgaben-im-Winter-2021/MME-WS2122-Countdown-Starter/issues"
@@ -24,6 +24,7 @@
         "eslint": "^8.0.1",
         "eslint-formatter-table": "^7.32.1",
         "express": "^4.17.1",
+        "gridstack": "^8.3.0",
         "open": "^8.3.0",
         "requirejs": "^2.3.6",
         "sqlite3": "^5.1.4"

@@ -8,6 +8,31 @@ html {
     box-sizing: inherit;
 }
 
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+:root {
+    --french-blue: #0079ccff;
+    --tiffany-blue: #97ead2ff;
+    --naples-yellow: #ffdd63ff;
+    --orange-crayola: #ff712fff;
+    --hollywood-cerise: #da2f9eff;
+
+    --celestial-blue: #0e9effff;
+    --tiffany-blue: #aaeedbff;
+    --jasmine: #ffe482ff;
+    --atomic-tangerine: #ff8d58ff;
+    --brilliant-rose: #e259b2ff;
+
+    --light-sky-blue: #87cfffff;
+    --mint-green: #d4f7edff;
+    --vanilla: #fff1bfff;
+    --apricot: #ffc5abff;
+    --lavender-pink: #f0add9ff;
+}
+
 .hidden {
     display: none !important;
 }
@@ -19,7 +44,29 @@ footer {
     width: 100%;
     height: 3%;
     justify-content: right;
-    background-color: rgb(255, 255, 255, 0.5);
-    backdrop-filter: blur(5px);
+    background: linear-gradient(to right, var(--french-blue), var(--tiffany-blue), var(--apricot));
     align-items: center;
+}
+
+footer p{
+    text-align: right;
+    font-size: 80%;
+    padding: 10px;
+}
+
+p {
+    color: black;
+}
+
+.main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-container {
+    flex: 1;
+    height: 100%;
+    background-color: rgb(234, 234, 234);
+    padding-bottom: 3%;
 }
