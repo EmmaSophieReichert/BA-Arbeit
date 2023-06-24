@@ -1,5 +1,7 @@
 import Router from "../utils/Router.js";
 
+import ScheduleController from "./ScheduleController.js";
+
 class AppController {
 
     init() {
@@ -55,8 +57,8 @@ class AppController {
         // After a template is set, we init a controller which takes care of the functionality
         switch (template.route) {
             case "#schedule":
-                 this.container.innerHTML = template.template;
-                // this.controller = new HomeController();
+                this.container.innerHTML = template.template;
+                this.controller = new ScheduleController();
                 // this.controller.init(this.navView);
                 // this.controller.addEventListener("on-view", this.onViewCastClicked.bind(this));
                 // this.controller.addEventListener("ad-status", (event) => this.onAdStatusChanged(event));
