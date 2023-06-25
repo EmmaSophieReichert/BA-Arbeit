@@ -24,6 +24,7 @@ class AppController {
 
     computeCurrentPage(event, loggedIn) {
         let currentHash = window.location.hash;
+        currentHash = "#schedule"; // change this, fist page shown
         // If a user is logged in, he should not be able to view login and register page
         // FROM HERE
         // If a user starts the app
@@ -54,6 +55,11 @@ class AppController {
 
         console.log("TEMPLATE READY");
 
+        if(template.route === "")
+        {
+            template.route = "#schedule";
+        }
+
         // After a template is set, we init a controller which takes care of the functionality
         switch (template.route) {
             case "#schedule":
@@ -70,7 +76,7 @@ class AppController {
                 // this.controller.init(this.navView);
                 break;
             default:
-                // this.container.innerHTML = template.template;
+                //this.container.innerHTML = template.template;
                 // this.controller = new ErrorController();
                 // this.controller.init(this.navView);
         }

@@ -3,8 +3,10 @@
 import { Observable, Event } from "./Observable.js";
 
 const ROUTES = {
+    "": "../src/html/schedule.html",
     "#impressum": "../src/html/impressum.html",
     "#schedule": "../src/html/schedule.html",
+    "#home": "../src/html/schedule.html",
 };
 
 // Router Class to navigate between pages with templates
