@@ -1,3 +1,5 @@
+@import '../../../node_modules/gridstack/dist/gridstack.min.css';
+
 .schedule-template {
     display: flex;
     flex-direction: row;
@@ -12,13 +14,18 @@
     overflow: auto;
 }
 
-.grid-stack {
+/* .grid-stack {
     background: #FAFAD2;
 }
 
-.grid-stack-item-content {
-    background-color: #18BC9C;
+.grid-stack-item {
+    background: blue;
 }
+
+.grid-stack-item-content {
+    width: 10%;
+    background-color: #18BC9C;
+} */
 
 /* RIGHT SIDE */
 
