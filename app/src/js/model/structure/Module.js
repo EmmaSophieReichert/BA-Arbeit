@@ -27,3 +27,5 @@ class Module {
     //     this.moduleComponents.push(component);
     // }
 }
+
+export default Module;
