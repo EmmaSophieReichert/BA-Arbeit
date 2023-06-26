@@ -1,9 +1,12 @@
 import { GridStack } from 'gridstack';
 import Module from '../model/structure/Module.js';
+import ModalView from './ModalView.js';
 
 class ScheduleView {
 
     constructor() {
+        this.modalView = new ModalView();
+        this.modalView.addEventListener("onModuleAdded", e => {this.addModule(e.data)});
         var items = [
             {
                 x: 0, y: 1,
@@ -59,8 +62,11 @@ class ScheduleView {
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: div.outerHTML
+            content: module.title
         }
+        console.log(module);
+        this.grid.addWidget(moduleWidget);
+        this.grid.save();
     }
 }
 

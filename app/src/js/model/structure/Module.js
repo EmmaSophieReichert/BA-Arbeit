@@ -1,5 +1,5 @@
 class Module {
-    constructor(title, ID, ECTS, recommendedSemester = null, period = null, minSemLength = null) {
+    constructor(title, ID, ECTS, recommendedSemester = null, minSemLength = null) {
         this.title = title;
         this.ID = ID;
         this.ECTS = ECTS;

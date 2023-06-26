@@ -24,8 +24,9 @@
 } */
 
 .grid-stack-item-content {
-    background-color: white;
+    background-color: var(--mint-green);
     border-radius: 0.5em;
+    text-align: center;
 }
 
 .semester {
