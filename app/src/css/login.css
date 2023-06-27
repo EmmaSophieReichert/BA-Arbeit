@@ -1,0 +1,90 @@
+.template {
+    height: 100%;
+}
+
+.login-container {
+    width: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 0.5em;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-container h2 {
+    text-align: center;
+}
+
+.login-container label {
+    text-align: left;
+    margin: 0;
+    width: 100%;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 0.5em;
+    margin-top: 15px;
+}
+
+.login-container .register-link {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.register-button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(120deg, var(--mint-green), var(--light-sky-blue));
+    color: black;
+    font-weight: bold;
+}
+
+.register-button:hover {
+    background: linear-gradient(120deg, var(--tiffany-blue), var(--celestial-blue));
+    color: black;
+    font-weight: bold;
+}
+
+/* Respensive Layout */
+
+@media (max-width: 310px) {
+    body {
+        font-size: 70%;
+    }
+    button {
+        font-size: 70%;
+    }
+    .login-container {
+        width: 90%;
+    }
+}
+
+@media (max-height: 520px) {
+    body {
+        font-size: 70%;
+    }
+    .login-container {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 20px auto;
+        transform: none;
+    }
+    .template {
+        overflow: auto;
+    }
+}

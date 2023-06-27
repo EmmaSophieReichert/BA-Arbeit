@@ -1,5 +1,7 @@
 import Router from "../utils/Router.js";
 
+import RegisterController from "./RegisterController.js";
+import LoginController from "./LoginController.js";
 import ScheduleController from "./ScheduleController.js";
 
 class AppController {
@@ -9,7 +11,7 @@ class AppController {
         window.addEventListener("hashchange", this.onHashChanged.bind(this));
         window.addEventListener("load", this.onHashChanged.bind(this));
         this.router.addEventListener("template-ready", this.onTemplateReady.bind(this));
-        
+
         this.container = document.querySelector(".content-container");
     }
 
@@ -55,13 +57,23 @@ class AppController {
 
         console.log("TEMPLATE READY");
 
-        if(template.route === "")
-        {
+        if (template.route === "") {
             template.route = "#schedule";
         }
 
         // After a template is set, we init a controller which takes care of the functionality
         switch (template.route) {
+            case "#login":
+                this.container.innerHTML = template.template;
+                this.controller = new LoginController();
+                // this.controller.init(this.navView);
+                break;
+            case "#register":
+                this.container.innerHTML = template.template;
+                console.log("REGISTER HASH");
+                this.controller = new RegisterController();
+                // this.controller.init(this.navView);
+                break;
             case "#schedule":
                 this.container.innerHTML = template.template;
                 this.controller = new ScheduleController();
@@ -76,9 +88,9 @@ class AppController {
                 // this.controller.init(this.navView);
                 break;
             default:
-                //this.container.innerHTML = template.template;
-                // this.controller = new ErrorController();
-                // this.controller.init(this.navView);
+            //this.container.innerHTML = template.template;
+            // this.controller = new ErrorController();
+            // this.controller.init(this.navView);
         }
     }
 

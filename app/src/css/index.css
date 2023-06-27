@@ -8,7 +8,8 @@ html {
     box-sizing: inherit;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     height: 100%;
 }
@@ -31,6 +32,15 @@ html, body {
     --vanilla: #fff1bfff;
     --apricot: #ffc5abff;
     --lavender-pink: #f0add9ff;
+
+    --columbia-blue: #c7e8ffff;
+    --azure-web: #ebfbf7ff;
+    --cornsilk: #fff8e1ff;
+    --champagne-pink: #ffe5d9ff;
+    --mimi-pink: #f8d9edff;
+
+    --light-grey: rgb(245, 245, 245);
+    --middle-grey: rgb(235, 235, 235);
 }
 
 body {
@@ -52,7 +62,7 @@ footer {
     align-items: center;
 }
 
-footer p{
+footer p {
     text-align: right;
     font-size: 80%;
     padding: 10px;
@@ -76,7 +86,11 @@ a {
 .content-container {
     flex: 1;
     height: 100%;
-    background-color: rgb(245, 245, 245);
+    background-color: var(--light-grey);
     overflow: auto;
     padding-bottom: 30px;
+}
+
+button {
+    font-family: "Nunito";
 }

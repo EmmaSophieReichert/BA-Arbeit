@@ -38,11 +38,17 @@ label {
     margin-right: 20px;
 }
 
-input[type="text"],
-input[type="number"] {
+input {
+    background-color: var(--middle-grey);
+    border: none;
+    box-shadow: none;
     padding: 5px;
-    border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+input:focus {
+    background-color: var(--champagne-pink);
+    outline-color: var(--champagne-pink);
 }
 
 input[type="number"] {
@@ -70,5 +76,5 @@ button[type="submit"]:hover {
 }
 
 .row-space {
-    margin-top: 30px;
+    margin-top: 35px;
 }
