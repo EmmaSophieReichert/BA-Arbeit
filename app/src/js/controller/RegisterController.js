@@ -10,22 +10,18 @@ class RegisterController {
 
     constructor(){
         this.registerView = new RegisterView();
+        this.registerView.addEventListener("account-submit", this.onSubmit.bind(this));
         this.registerManager = new RegisterManager();
+        this.registerManager.addEventListener("account-result", this.onAccountResult.bind(this));
     }
 
     init(navView) {
-        this.registerView = new RegisterView();
-        this.registerView.addEventListener("account-submit", this.onSubmit.bind(this));
-
         // Navbar Viev
         this.navView = navView;
         this.navView.hideLinks();
         this.navView.hideSafeBtn();
         this.navView.hideTitleInput();
         this.navView.hideNavView();
-
-        this.registerManager = new RegisterManager();
-        this.registerManager.addEventListener("account-result", this.onAccountResult.bind(this));
     }
 
     // On submit button click the data from the inputs is used create an account in the database

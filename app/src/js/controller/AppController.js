@@ -70,7 +70,6 @@ class AppController {
                 break;
             case "#register":
                 this.container.innerHTML = template.template;
-                console.log("REGISTER HASH");
                 this.controller = new RegisterController();
                 // this.controller.init(this.navView);
                 break;
