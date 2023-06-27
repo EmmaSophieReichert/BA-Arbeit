@@ -61,6 +61,7 @@
 
 .server-answer {
     color: var(--hollywood-cerise);
+    margin: 0;
 }
 
 /* Respensive Layout */

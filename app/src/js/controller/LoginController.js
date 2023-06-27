@@ -8,11 +8,15 @@ import LoginManager from "../model/LoginManager.js";
 // The Login View is there to show proceedings to the user
 class LoginController {
 
-    init(navView) {
+    constructor() {
         this.loginView = new LoginView();
         this.loginView.addEventListener("login-submit", this.onSubmit.bind(this));
-        this.loginView.addEventListener("onRegisterClicked", this.onRegisterClicked.bind(this));
 
+        this.loginManager = new LoginManager();
+        this.loginManager.addEventListener("login-result", this.onLoginResult.bind(this));
+    }
+
+    init(navView) {
         // Navbar View
         // Just because if you route back to the Login from another Page, the elements still show
         this.navView = navView;
@@ -20,13 +24,6 @@ class LoginController {
         this.navView.hideSafeBtn();
         this.navView.hideTitleInput();
         this.navView.hideNavView();
-
-        this.loginManager = new LoginManager();
-        this.loginManager.addEventListener("login-result", this.onLoginResult.bind(this));
-    }
-
-    onRegisterClicked() {
-        window.location.hash = "register";
     }
 
     // On submit button click the data from the inputs is used to search for a account in the database
@@ -40,8 +37,8 @@ class LoginController {
     onLoginResult(event) {
         let bool = event.data.login;
         if (bool) {
-            window.location.hash = "home";
-            this.navView.showNavView();
+            window.location.hash = "schedule";
+            //this.navView.showNavView(); show again?
         } else {
             this.loginView.clearInputs();
             this.loginView.setServerAnswer(event.data.answer.message);
