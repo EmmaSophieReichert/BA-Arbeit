@@ -59,6 +59,10 @@
     font-weight: bold;
 }
 
+.server-answer {
+    color: var(--hollywood-cerise);
+}
+
 /* Respensive Layout */
 
 @media (max-width: 310px) {
