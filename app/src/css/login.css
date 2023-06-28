@@ -26,7 +26,6 @@
 
 .login-container input {
     width: 100%;
-    padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
 }
@@ -48,6 +47,7 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    border-radius: 0.5em;
     background: linear-gradient(120deg, var(--mint-green), var(--light-sky-blue));
     color: black;
     font-weight: bold;

@@ -8,12 +8,14 @@ class LoginView extends Observable {
         super();
         document.getElementById('login-form').addEventListener('submit', this.onLogInButtonClicked.bind(this));
         this.answerView = document.getElementById("server-answer");
+        this.viewEmail = document.getElementById('email');
+        this.viewPassword = document.getElementById("password");
     }
 
     onLogInButtonClicked(event){
         event.preventDefault();
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
+        let email = this.viewEmail.value,
+            password = this.viewPassword.value;
 
         this.onSubmit(email, password);
     }

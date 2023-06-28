@@ -4,7 +4,7 @@
 
 .study-container {
     margin: 5vw;
-    width: 80vw;
+    width: 600px;
     padding: 20px;
     background-color: white;
     border-radius: 0.5em;
@@ -16,8 +16,113 @@
     transform: none;
 }
 
+.section{
+    margin: 10px 0;
+}
+
+.underline-button {
+    text-decoration: underline;
+    background-color: transparent;
+    border: 0; 
+    margin: 0;
+}
+
+.submit-subject-section {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: right;
+}
+
+.submit-subject-section button {
+    width: 15ch;
+}
+
+@media (max-width: 706px) {
+    .study-container {
+        width: 85vw;
+    }
+}
+
 .study-container label {
     text-align: left;
     width: auto;
     margin-left: 5px;
 }
+
+.study-container input[type='number'],
+input[type='text'] {
+    margin-bottom: 10px;
+}
+
+.study-input-box {
+    display: flex;
+}
+
+.study-input-box input{
+    margin-right: 20px;
+}
+
+.study-input-box input[type="number"]{
+    width: auto;
+}
+
+.study-input-box input[type="text"]{
+    width: auto;
+}
+
+.submit-subject-button{
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+.answer {
+    margin-left: auto;
+    margin-top: 20px;
+}
+
+/* Quelle: https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
+
+/* .radio-div {
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em; 
+} */
+
+.radio-div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.radio-div div {
+    display: flex;
+    align-items: center;
+}
+
+.radio-div label {
+    height: 2em;
+    display: flex;
+    align-items: center;
+}
+
+input[type='radio'] {
+    accent-color: #0079cc;
+    height: 1.2em;
+    width: 1.2em;
+    margin-top: 0;
+}
+
+/* input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 0;
+
+    font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+} */
+

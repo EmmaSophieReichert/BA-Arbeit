@@ -42,8 +42,8 @@ input {
     background-color: var(--middle-grey);
     border: none;
     box-shadow: none;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 0.5em;
 }
 
 input:focus {

@@ -2,21 +2,29 @@
     <div class="study-container">
         <h2>Studium einrichten</h2>
 
-        <form id="study-form">
+        <form id="study-form" onsubmit="return false;">
             <div class="section">
                 <h3>Studienabschluss</h3>
-                <input type="radio" id="bachelor" name="degree" value="Bachelor">
-                <label for="bachelor">Bachelor</label>
-                <input type="radio" id="master" name="degree" value="Master">
-                <label for="master">Master</label>
-                <input type="radio" id="staatsexamen" name="degree" value="Staatsexamen">
-                <label for="staatsexamen">Staatsexamen</label>
-                <!-- Weitere Studienabschlüsse ? -->
+                <div class="radio-div">
+                    <div>
+                        <input type="radio" id="bachelor" name="degree" value="Bachelor">
+                        <label for="bachelor">Bachelor</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="master" name="degree" value="Master">
+                        <label for="master">Master</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="staatsexamen" name="degree" value="Staatsexamen">
+                        <label for="staatsexamen">Staatsexamen</label>
+                    </div>
+                    <!-- Weitere Studienabschlüsse ? -->
+                </div>
             </div>
 
             <div class="section" id="specialization" style="display: none;">
                 <h3>Fachliche Ausrichtung</h3>
-                <div id="specialization-options"></div>
+                <div class="radio-div" id="specialization-options"></div>
             </div>
 
             <div class="section">
@@ -31,28 +39,33 @@
 
             <div class="section">
                 <h3>Start im</h3>
-                <input type="radio" id="winter" name="start" value="winter">
-                <label for="winter">❄️ Wintersemester</label>
-                <input type="radio" id="summer" name="start" value="summer">
-                <label for="summer">☀️ Sommersemester</label>
-                <!-- Eingabe für Jahreszahlen entsprechend der Auswahl einfügen -->
+                <div class="radio-div">
+                    <div>
+                        <input type="radio" id="winter" name="start" value="winter" checked>
+                        <label for="winter">❄️ Wintersemester</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="summer" name="start" value="summer">
+                        <label for="summer">☀️ Sommersemester</label>
+                    </div>
+                </div>
             </div>
 
             <h2>Studiengang hinzufügen</h2>
 
-            <div class="study-input-box">
-                <input type="text" id="title" name="title" placeholder="Titel">
+            <div id="additional-study-boxes">
+                <div class="study-input-box">
+                    <input class="study-title" type="text" id="title" name="title" placeholder="Titel">
+                </div>
             </div>
 
-            <div id="additional-study-boxes"></div>
-
-            <div class="section">
-                <button id="add-study">Weiterer Studiengang?</button>
+            <div class="section" id="add-study-div">
+                <button type="button" class="underline-button" id="add-study">Weiterer Studiengang?</button>
             </div>
 
-            <div class="section">
-                <button type="submit">Weiter</button>
-                <p id="error-message"></p>
+            <div class="section submit-subject-section">
+                <button class="submit-subject-button" type="submit">Weiter</button>
+                <p class="server-answer answer" id="error-message"></p>
             </div>
         </form>
     </div>

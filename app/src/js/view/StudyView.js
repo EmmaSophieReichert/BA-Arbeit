@@ -49,8 +49,11 @@ class StudyView extends Observable {
         this.errorMessage = document.getElementById('error-message');
         this.specialization = document.getElementById("specialization");
 
+        this.addSubjectButton = document.getElementById("add-study");
+        this.addSubjectButton.addEventListener("click", this.onAddSubjectButtonClicked.bind(this));
+
         this.degreeRadioButtons = document.querySelectorAll('input[name="degree"]');
-        this.degreeRadioButtons.forEach((radio) => {radio.addEventListener('change', this.onDegreeChanged.bind(this));});
+        this.degreeRadioButtons.forEach((radio) => { radio.addEventListener('change', this.onDegreeChanged.bind(this)); });
 
         document.getElementById('study-form').addEventListener('submit', this.onSubmitButtonClicked.bind(this));
     }
@@ -67,7 +70,8 @@ class StudyView extends Observable {
             var selectedOptions = subjectOptions[selectedDegree.value];
             this.specialization.style.display = "block";
             selectedOptions.forEach((option) => {
-                let input = document.createElement('input');
+                let div = document.createElement('div'),
+                    input = document.createElement('input');
                 input.type = 'radio';
                 input.id = option.replace(/\s+/g, '-').toLowerCase();
                 input.name = 'specialization';
@@ -77,8 +81,9 @@ class StudyView extends Observable {
                 label.htmlFor = input.id;
                 label.textContent = option;
 
-                this.specializationOptions.appendChild(input);
-                this.specializationOptions.appendChild(label);
+                div.appendChild(input);
+                div.appendChild(label);
+                this.specializationOptions.appendChild(div);
             });
         }
         else {
@@ -96,19 +101,30 @@ class StudyView extends Observable {
         }
     }
 
-    onAddStudyButtonClicked() {
-        if (this.studyBoxes.length >= MAX_NUM_SUBJECTS) {
-            return; //Maximum number of subjects reached
+    onAddSubjectButtonClicked() {
+        if (this.studyBoxes.length === 1) {
+            let input = document.createElement('input');
+            input.type = 'number';
+            input.classList.add("study-ects");
+            input.id = "ects";
+            input.name = 'ects';
+            input.min = 0;
+            input.placeholder = "ECTS Punkte";
+            this.studyBoxes[0].appendChild(input);
         }
         //create new StudyBox
         let newStudyBox = document.createElement('div');
         newStudyBox.classList.add('study-input-box');
         newStudyBox.innerHTML = `
-            <input type="text" id="title" name="title" placeholder="Titel">
-            <input type="number" id="ects" name="ects" placeholder="ECTS Punkte" min="0">
+            <input class="study-title" type="text" id="title" name="title" placeholder="Titel">
+            <input class="study-ects" type="number" id="ects" name="ects" placeholder="ECTS Punkte" min="0">
         `;
-        let section = document.querySelector('.section');
-        section.insertBefore(newStudyBox, addStudyButton);
+        let container = document.getElementById("additional-study-boxes");
+        container.appendChild(newStudyBox);
+        this.studyBoxes = document.querySelectorAll('.study-input-box');
+        if (this.studyBoxes.length >= MAX_NUM_SUBJECTS) {
+            this.addSubjectButton.style.display = "none";
+        }
     }
 
     onSubmitButtonClicked() {
@@ -121,13 +137,13 @@ class StudyView extends Observable {
         if (this.studyBoxes.length === 1) {
             return true; //No split of ECTS, one subject
         }
-        let totalECTS = parseInt(this.ectsInput.value);
+        let totalECTS = 0;
         this.studyBoxes.forEach(function (box) {
             let ects = box.querySelector('input[name="ects"]');
             totalECTS += parseInt(ects.value);
         });
 
-        if (totalECTS !== parseInt(ectsInput.value)) {
+        if (totalECTS !== parseInt(this.ectsInput.value)) {
             // Error: sum of ECTS is not equal
             this.errorMessage.textContent = 'Die Summe der ECTS stimmt nicht mit der Gesamt-ECTS-Zahl überein.';
             return false;
@@ -137,6 +153,40 @@ class StudyView extends Observable {
 
     saveData() {
         console.log("SAVE STUDY DATA");
+        let selectedDegree = document.querySelector('input[name="degree"]:checked'),
+            selectedSpecializations = document.querySelectorAll('input[name="specialization"]:checked'),
+            ectsValue = parseInt(this.ectsInput.value),
+            semesterValue = parseInt(this.semesterInput.value),
+            period = document.querySelector('input[name="start"]:checked').value,
+            studyData = [];
+
+        let degree = selectedDegree ? selectedDegree.value : null;
+        let specializations = Array.from(selectedSpecializations).map(specialization => specialization.value);
+
+        this.studyBoxes.forEach(studyBox => {
+            let title = studyBox.querySelector('.study-title').value,
+                ects = ectsValue;
+            if (this.studyBoxes.length !== 1) {
+                ects = parseInt(studyBox.querySelector('.study-ects').value);
+            }
+            studyData.push({ title, ects });
+        });
+
+        if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
+            this.errorMessage.textContent = 'Bitte füllen Sie alle Felder aus.';
+            return;
+        }
+
+        let data = {
+            degree: degree,
+            specializations: specialization,
+            ects: ectsValue,
+            semester: semesterValue,
+            subjects: studyData,
+            period: period,
+        },
+            e = new Event("study-submit", data)
+        this.notifyAll(e);
     }
 }
 
