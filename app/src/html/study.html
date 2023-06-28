@@ -1,0 +1,59 @@
+<div class="study-template">
+    <div class="study-container">
+        <h2>Studium einrichten</h2>
+
+        <form id="study-form">
+            <div class="section">
+                <h3>Studienabschluss</h3>
+                <input type="radio" id="bachelor" name="degree" value="Bachelor">
+                <label for="bachelor">Bachelor</label>
+                <input type="radio" id="master" name="degree" value="Master">
+                <label for="master">Master</label>
+                <input type="radio" id="staatsexamen" name="degree" value="Staatsexamen">
+                <label for="staatsexamen">Staatsexamen</label>
+                <!-- Weitere Studienabschlüsse ? -->
+            </div>
+
+            <div class="section" id="specialization" style="display: none;">
+                <h3>Fachliche Ausrichtung</h3>
+                <div id="specialization-options"></div>
+            </div>
+
+            <div class="section">
+                <h3>ECTS gesamt</h3>
+                <input type="number" id="ects" name="ects" min="1">
+            </div>
+
+            <div class="section">
+                <h3>Geplante Semesterzahl</h3>
+                <input type="number" id="semester" name="semester" min="1">
+            </div>
+
+            <div class="section">
+                <h3>Start im</h3>
+                <input type="radio" id="winter" name="start" value="winter">
+                <label for="winter">❄️ Wintersemester</label>
+                <input type="radio" id="summer" name="start" value="summer">
+                <label for="summer">☀️ Sommersemester</label>
+                <!-- Eingabe für Jahreszahlen entsprechend der Auswahl einfügen -->
+            </div>
+
+            <h2>Studiengang hinzufügen</h2>
+
+            <div class="study-input-box">
+                <input type="text" id="title" name="title" placeholder="Titel">
+            </div>
+
+            <div id="additional-study-boxes"></div>
+
+            <div class="section">
+                <button id="add-study">Weiterer Studiengang?</button>
+            </div>
+
+            <div class="section">
+                <button type="submit">Weiter</button>
+                <p id="error-message"></p>
+            </div>
+        </form>
+    </div>
+</div>

@@ -6,6 +6,7 @@ const ROUTES = {
     "": "../app/src/html/schedule.html",
     "#login": "../app/src/html/login.html",
     "#register": "../app/src/html/register.html",
+    "#study": "../app/src/html/study.html",
     "#impressum": "../app/src/html/impressum.html",
     "#schedule": "../app/src/html/schedule.html",
     "#home": "../app/src/html/schedule.html",

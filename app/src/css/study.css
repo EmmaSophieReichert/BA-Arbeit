@@ -1,0 +1,23 @@
+.study-template {
+    overflow: auto;
+}
+
+.study-container {
+    margin: 5vw;
+    width: 80vw;
+    padding: 20px;
+    background-color: white;
+    border-radius: 0.5em;
+
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 20px auto;
+    transform: none;
+}
+
+.study-container label {
+    text-align: left;
+    width: auto;
+    margin-left: 5px;
+}

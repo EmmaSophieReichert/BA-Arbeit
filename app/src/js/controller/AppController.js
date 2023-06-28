@@ -3,6 +3,7 @@ import Router from "../utils/Router.js";
 import RegisterController from "./RegisterController.js";
 import LoginController from "./LoginController.js";
 import ScheduleController from "./ScheduleController.js";
+import StudyController from "./StudyController.js";
 
 class AppController {
 
@@ -61,20 +62,23 @@ class AppController {
             template.route = "#schedule";
         }
 
+        this.container.innerHTML = template.template;
+
         // After a template is set, we init a controller which takes care of the functionality
         switch (template.route) {
             case "#login":
-                this.container.innerHTML = template.template;
                 this.controller = new LoginController();
                 // this.controller.init(this.navView);
                 break;
             case "#register":
-                this.container.innerHTML = template.template;
                 this.controller = new RegisterController();
                 // this.controller.init(this.navView);
                 break;
+            case "#study":
+                this.controller = new StudyController();
+                // this.controller.init(this.navView);
+                break;
             case "#schedule":
-                this.container.innerHTML = template.template;
                 this.controller = new ScheduleController();
                 // this.controller.init(this.navView);
                 // this.controller.addEventListener("on-view", this.onViewCastClicked.bind(this));
@@ -82,7 +86,6 @@ class AppController {
                 break;
             case "#impressum":
                 console.log("IMPRESSUM");
-                this.container.innerHTML = template.template;
                 // this.controller = new ImpressumController();
                 // this.controller.init(this.navView);
                 break;
