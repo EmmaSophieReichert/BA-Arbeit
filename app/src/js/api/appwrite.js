@@ -1,15 +1,17 @@
-const { Client, Account, ID, Databases } = Appwrite;
+const { Client, Account, ID, Databases, Storage } = Appwrite;
 // const appwrite = new Client();
 
 const client = new Client(),
      account = new Account(client),
-     database = new Databases(client);
+     database = new Databases(client),
+     storage = new Storage(client);
 
 const appwrite = {
      client: client,
      account: account,
      database: database,
      ID: ID,
+     storage: storage,
 }
 
 appwrite.client

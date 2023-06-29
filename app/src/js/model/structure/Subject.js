@@ -12,3 +12,5 @@ class Subject {
         this.modules.push(module);
     }
 }
+
+export default Subject;

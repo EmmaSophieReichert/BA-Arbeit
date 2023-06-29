@@ -1,12 +1,14 @@
 /* eslint-env browser */
 
-import { createSession } from "../api/Session/createSession.js";
+import { createFile } from "../api/Storage/createFile.js";
 import {Observable, Event} from "../utils/Observable.js";
+import Studies from "./structure/Studies.js";
 
 class StudyManager extends Observable {
 
     constructor() {
         super();
+        this.studies = null;
     }
     // If a user wants to login, the database is asked to create a session with this user
     // If this is not possible -> user account is not real
@@ -16,6 +18,15 @@ class StudyManager extends Observable {
             // res is either true or false and is passed to the controller
             event = new Event("save-result", res);
         this.notifyAll(event);
+    }
+
+    async saveData(data) {
+        this.studies = new Studies(data.degree, data.ects, data.semester, data.period, data.subjects, data.specializations);
+        let studyJSON = JSON.stringify(this.studies),
+            blob = new Blob([studyJSON], { type: "text/plain" }),
+            file = new File([blob], "Study-ID1");
+        await createFile(file)
+            .then(this.notifyAll(new Event("studies-reached-cloud", "studies reached cloud")));
     }
 
 }

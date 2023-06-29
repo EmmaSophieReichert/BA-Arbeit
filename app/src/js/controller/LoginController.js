@@ -38,6 +38,7 @@ class LoginController {
         let bool = event.data.login;
         if (bool) {
             window.location.hash = "schedule";
+            console.log("LogIn Success Session Created");
             //this.navView.showNavView(); show again?
         } else {
             this.loginView.clearInputs();

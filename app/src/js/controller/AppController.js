@@ -5,6 +5,8 @@ import LoginController from "./LoginController.js";
 import ScheduleController from "./ScheduleController.js";
 import StudyController from "./StudyController.js";
 
+import {getAuth} from "../api/Auth/getAuth.js";
+
 class AppController {
 
     init() {
@@ -21,32 +23,41 @@ class AppController {
         window.location.hash = hash;
     }
 
+    // When the user routes through the application, he has to be authenticated to use some pages
+    // Thats why u have to look for current sessions before giving access
     onHashChanged(event) {
-        this.computeCurrentPage(event);
+        getAuth().then(res => {
+            // The case we have a good result
+            // Now we have to test if a user is logged in or not
+            let logged = res.login;
+            console.log("LOGGED: ", logged);
+            // if (logged) {
+            //     this.navView.setCurrentlyLoggedInUser(res.user.name);
+            // }
+            this.computeCurrentPage(event, logged);
+        });
+
     }
 
     computeCurrentPage(event, loggedIn) {
         let currentHash = window.location.hash;
-        currentHash = "#schedule"; // change this, fist page shown
         // If a user is logged in, he should not be able to view login and register page
-        // FROM HERE
         // If a user starts the app
-        // if (currentHash === "") {
-        //     this.setHash("login");
-        // }
-        // if (!this.router.isDynamicShareRoute(currentHash)) {
-        //     if (loggedIn) {
-        //         if (currentHash === "#login" || currentHash === "#register") {
-        //             this.setHash("home");
-        //         }
-        //     } else {
-        //         if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
-        //             currentHash !== "#datenschutz") {
-        //             this.setHash("landing");
-        //         }
-        //     }
-        // }
-        // TO HERE
+        if (currentHash === "") {
+            this.setHash("login");
+        }
+        if (!this.router.isDynamicShareRoute(currentHash)) {
+            if (loggedIn) {
+                if (currentHash === "#login" || currentHash === "#register") {
+                    this.setHash("schedule");
+                }
+            } else {
+                if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
+                    currentHash !== "#datenschutz") {
+                    this.setHash("login");
+                }
+            }
+        }
         this.router.onHashChanged(event);
     }
 

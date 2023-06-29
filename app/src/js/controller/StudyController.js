@@ -7,10 +7,10 @@ class StudyController {
 
     constructor() {
         this.studyView = new StudyView();
-        this.studyView.addEventListener("login-submit", this.onSubmit.bind(this));
+        this.studyView.addEventListener("study-submit", this.onSubmit.bind(this));
 
         this.studyManager = new StudyManager();
-        this.studyManager.addEventListener("save-result", this.onSaveResult.bind(this));
+        this.studyManager.addEventListener("studies-reached-cloud", this.onSaveResult.bind(this));
     }
 
     init(navView) {
@@ -23,23 +23,15 @@ class StudyController {
         this.navView.hideNavView();
     }
 
-    // On submit button click the data from the inputs is used to search for a account in the database
+    // Get the data from the study and give it the studyManager to store in DB
     onSubmit(event) {
-        let email = event.data.email,
-            password = event.data.password;
-        this.studyManager.createSession(email, password);
+        this.studyManager.saveData(event.data);
     }
 
     // If the result from the login try is ready, the user will be taken to the home page (if login was successful)
-    onSaveResult(event) {
-        let bool = event.data.login;
-        if (bool) {
-            window.location.hash = "schedule";
-            //this.navView.showNavView(); show again?
-        } else {
-            this.studyView.clearInputs();
-            this.studyView.setServerAnswer(event.data.answer.message);
-        }
+    onSaveResult() {
+        console.log("DATA Has been successfully changed");
+        window.location.hash = "schedule";
     }
 
 }
