@@ -4,13 +4,13 @@ import Subject from "./Subject";
 class Studies {
 
     constructor(degree, totalECTS, semesters, subjects, specialization = null) {
-        this.degree = degree
-        this.specialization = specialization,
+        this.degree = degree;
+        this.specialization = specialization;
         this.totalECTS = totalECTS;
 
         this.subjects = [];
         this.semesters = [];
-        this.initSemesters(semesters)
+        this.initSemesters(semesters);
         this.initSubjects(subjects);
         //this.grade = null;
     }
@@ -34,10 +34,10 @@ class Studies {
         return semesters;
     }
 
-    initSemesters(semesters){
+    initSemesters(semesters) {
         for (let semester of semesters) {
             let sem = new Semester(semester.period, semester.count);
-            this.subjects.push(sem);
+            this.semesters.push(sem);
         }
     }
 
@@ -57,6 +57,26 @@ class Studies {
     //         semester: JSON.stringify(this.semesters),
     //     }
     // }
+
+    /* get degree() {
+        return this.degree;
+    }
+
+    get specialization() {
+        return this.specialization;
+    }
+
+    get totalECTS() {
+        return this.totalECTS;
+    }
+
+    get subjects() {
+        return this.subjects;
+    }
+
+    get semesters() {
+        return this.semesters;
+    } */
 }
 
 export default Studies;

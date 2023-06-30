@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
 import { createFile } from "../api/Storage/createFile.js";
-import {Observable, Event} from "../utils/Observable.js";
+import { Observable, Event } from "../utils/Observable.js";
 import Studies from "./structure/Studies.js";
 
 class StudyManager extends Observable {
@@ -27,7 +27,9 @@ class StudyManager extends Observable {
             blob = new Blob([studyJSON], { type: "text/plain" }),
             file = new File([blob], "Study-ID-2");
         await createFile(file)
-            .then(this.notifyAll(new Event("studies-reached-cloud", "studies reached cloud")));
+            .then(() => { 
+                this.notifyAll(new Event("studies-reached-cloud", "studies reached cloud")); 
+            });
     }
 
 }

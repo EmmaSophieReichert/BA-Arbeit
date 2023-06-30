@@ -1,59 +1,69 @@
 import { listFiles } from "../api/Storage/listFiles.js";
 import { getFile } from "../api/Storage/getFile.js";
 import Studies from "./structure/Studies.js";
+import appwrite from "../api/appwrite.js";
+import Config from "../utils/Config.js";
+import { Observable, Event } from "../utils/Observable.js";
 
-class FileManager{
+class FileManager extends Observable {
 
-    constructor(){
+    constructor() {
+        super();
         this.study = null;
     }
 
-    async getStudy(){
+    async getStudy() {
         let promise = listFiles(),
             res = await computePromise(promise);
         console.log(res);
-        if(res.total === 0){
+        if (res.total === 0) {
             window.location.hash = "study";
             return;
         }
+        console.log(res.files[0]);
         let id = res.files[0].$id,
-            data = getFile(id),
-            reader = new FileReader();
-        console.log(data);
-        console.log(data.href);
-        fetch(data.href).then(dat => {
-            dat.blob();
-        }).then(blob => {
+            jwtPromise = getFile(id),
+            reader = new FileReader(),
+            data;
+
+        jwtPromise.then(function (response) {
+            console.log(response.jwt);
+            appwrite.client.setJWT(response.jwt);
+            let headers = new Headers();
+            headers.append('X-Appwrite-JWT', response.jwt);
+            data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
+            console.log(data);
+            return fetch(data.href, {headers: headers});
+        }, function (error) {
+            console.log(error);
+        }).then(data => data.blob()).then(blob => {
             let file = new File([blob], "CodeFile");
-            console.log(file);
             reader.readAsText(file);
-        }).catch(error => {
-            console.error(error);
-        });       
+        });
 
         reader.onload = (res) => {
-            let text = res.target.result;
-                //obj = JSON.parse(text);
+            let text = res.target.result,
+                obj = JSON.parse(text);
+            this.translateObject(obj);
             console.log(text);
-            //this.translateObject(obj);
-            
             //this.notifyAll(new Event("codeHTML-downloaded", text));
         };
     }
 
-    translateObject(obj){
-        this.study = new Studies(obj.degree, obj.totalECTS)
+    translateObject(obj) {
+        this.study = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization);
+        console.log(this.study);
+        let e = new Event("on-study-loaded", this.study);
+        this.notifyAll(e);
     }
 
-    //{"degree":"Bachelor","specialization":{},"totalECTS":180,"subjects":[{"title":"bedf","ECTS":180,"modules":[],"currentECTS":null}],"semesters":[{"period":"Wintersemester"},{"period":"Sommersemester"},{"period":"Wintersemester"},{"period":"Sommersemester"},{"period":"Wintersemester"},{"period":"Sommersemester"}]}
-
-    updateFile(){
+    updateFile() {
 
     }
 
 }
 
-async function computePromise(promise){
+async function computePromise(promise) {
     let res = await promise.then((res) => {
         return res;
     }, (error) => {

@@ -41,12 +41,25 @@
     text-align: center;
 }
 
+.semester.Wintersemester{
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(120deg, var(--french-blue), var(--tiffany-blue)) border-box;
+}
+
+.semester.Sommersemester{
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(120deg, var(--apricot), var(--brilliant-rose)) border-box;
+}
+
 .semester p {
-    margin: 0.25em;
+    /* margin: 0.25em; */
+    font-size: small;
+    margin: 0;
 }
 
 .semester h3 {
-    margin: 0.25em;
+    /* margin: 0.25em; */
+    margin:0;
 }
 
 /* RIGHT SIDE */

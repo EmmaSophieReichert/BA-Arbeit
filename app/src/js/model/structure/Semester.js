@@ -7,11 +7,11 @@ class Semester {
         this.ECTS = null;
     }
 
-    toJSON(){
-        return {
-            period: this.period,
-        }
-    }
+    // toJSON(){
+    //     return {
+    //         period: this.period,
+    //     }
+    // }
 }
 
 export default Semester;

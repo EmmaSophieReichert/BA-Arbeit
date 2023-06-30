@@ -6,12 +6,16 @@ class ScheduleController{
     
     constructor(){
         this.fileManager = new FileManager();
+        this.fileManager.addEventListener("on-study-loaded", e => {
+            console.log(e.data);
+            this.scheduleView.show(e.data);
+        });
 
         this.scheduleModel = new ScheduleModel(this.fileManager);
         this.scheduleView = new ScheduleView();
 
         this.fileManager.getStudy();
-        console.log("Hier bin ich");
+        
     }
 }
 

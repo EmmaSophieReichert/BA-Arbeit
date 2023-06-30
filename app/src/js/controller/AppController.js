@@ -6,6 +6,7 @@ import ScheduleController from "./ScheduleController.js";
 import StudyController from "./StudyController.js";
 
 import {getAuth} from "../api/Auth/getAuth.js";
+import {deleteSession} from "../api/Session/deleteSession.js";
 
 class AppController {
 
@@ -16,7 +17,21 @@ class AppController {
         this.router.addEventListener("template-ready", this.onTemplateReady.bind(this));
 
         this.container = document.querySelector(".content-container");
+
+        this.logoutButton = document.getElementById("logout-button");
+        this.logoutButton.addEventListener("click", async function(){
+            let promise = deleteSession();
+            await promise.then((res) => {
+                console.log("Logged out");
+                window.location.hash = "login";
+            }, (error) => {
+                console.log("Failed to log out", error);
+            });
+        });
     }
+
+    //649e8e47d2815c045ea9
+    //649af88432a0fae5627b
 
     setHash(hash) {
         console.log(hash);
