@@ -2,22 +2,22 @@ import Semester from "./Semester";
 import Subject from "./Subject";
 
 class Studies {
-    constructor(degree, totalECTS, semester, period, subjects, specialization = null) {
+
+    constructor(degree, totalECTS, semesters, subjects, specialization = null) {
         this.degree = degree
         this.specialization = specialization,
-            this.totalECTS = totalECTS;
+        this.totalECTS = totalECTS;
 
         this.subjects = [];
         this.semesters = [];
-        this.initSemesters(semester, period);
+        this.initSemesters(semesters)
         this.initSubjects(subjects);
-
-        console.log(JSON.stringify(this));
         //this.grade = null;
     }
 
-    initSemesters(semester, period) {
-        let periodCount = 0;
+    static initFirstSemesters(semester, period) {
+        let periodCount = 0,
+            semesters = [];
         if (period === "summer") {
             periodCount = 1;
         }
@@ -29,7 +29,15 @@ class Studies {
             else {
                 sem = new Semester("Sommersemester", i);
             }
-            this.semesters.push(sem);
+            semesters.push(sem);
+        }
+        return semesters;
+    }
+
+    initSemesters(semesters){
+        for (let semester of semesters) {
+            let sem = new Semester(semester.period, semester.count);
+            this.subjects.push(sem);
         }
     }
 

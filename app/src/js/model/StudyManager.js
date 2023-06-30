@@ -21,7 +21,8 @@ class StudyManager extends Observable {
     }
 
     async saveData(data) {
-        this.studies = new Studies(data.degree, data.ects, data.semester, data.period, data.subjects, data.specializations);
+        let semesters = Studies.initFirstSemesters(data.semester, data.period);
+        this.studies = new Studies(data.degree, data.ects, semesters, data.subjects, data.specializations);
         let studyJSON = JSON.stringify(this.studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
             file = new File([blob], "Study-ID-2");

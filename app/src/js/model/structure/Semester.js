@@ -2,7 +2,7 @@ class Semester {
     constructor(period, count) {
         this.period = period;
         this.year = null;
-        this.count = null;
+        this.count = count;
         
         this.ECTS = null;
     }

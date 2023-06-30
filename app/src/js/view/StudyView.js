@@ -182,7 +182,7 @@ class StudyView extends Observable {
 
         let data = {
             degree: degree,
-            specializations: specialization,
+            specializations: specializations,
             ects: ectsValue,
             semester: semesterValue,
             subjects: studyData,
