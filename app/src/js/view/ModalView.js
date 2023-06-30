@@ -21,7 +21,7 @@ class ModalView extends Observable{
 
         this.moduleForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            let title = document.getElementById('title').value,
+            let title = document.getElementById('module-title').value,
                 shortname = document.getElementById('shortname').value,
                 ects = parseInt(document.getElementById('ects').value),
                 semester = document.getElementById('semester').value,

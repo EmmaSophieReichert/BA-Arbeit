@@ -1,10 +1,10 @@
 .study-template {
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .study-container {
     margin: 5vw;
-    width: 600px;
+    width: 700px;
     padding: 20px;
     background-color: white;
     border-radius: 0.5em;
@@ -16,8 +16,16 @@
     transform: none;
 }
 
+.grid-input-study{
+    display: grid;
+    grid-template-columns: 3fr 8fr;
+    align-items: center;
+    gap: 10px;
+    overflow-y: hidden;
+}
+
 .section{
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .underline-button {
@@ -37,21 +45,39 @@
     width: 15ch;
 }
 
-@media (max-width: 706px) {
+@media (max-width: 824px) {
     .study-container {
         width: 85vw;
+    }
+    .grid-input-study{
+        grid-template-columns: 3fr 8fr;
+    }
+    .radio-div {
+        width: 75vw;
     }
 }
 
 .study-container label {
-    text-align: left;
-    width: auto;
+    /* text-align: left;
+    width: auto; */
     margin-left: 5px;
+    /* min-width: 180px;
+    width: 180px; */
+    grid-column: 1;
+}
+
+.grid-right {
+    grid-column: 2;
+}
+
+.study-container input {
+    grid-column: 2;
 }
 
 .study-container input[type='number'],
 input[type='text'] {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .study-input-box {
@@ -67,7 +93,7 @@ input[type='text'] {
 }
 
 .study-input-box input[type="text"]{
-    width: auto;
+    width: 60ch;
 }
 
 .submit-subject-button{
@@ -92,17 +118,23 @@ input[type='text'] {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
+    /* max-width: 400px;
+    min-width: 300px; */
 }
 
 .radio-div div {
     display: flex;
     align-items: center;
+    margin: 5px 0;
 }
 
 .radio-div label {
-    height: 2em;
-    display: flex;
+    /* min-height: 2em; */
+    text-align: left;
     align-items: center;
+    width: auto;
+    min-width: 0;
 }
 
 input[type='radio'] {

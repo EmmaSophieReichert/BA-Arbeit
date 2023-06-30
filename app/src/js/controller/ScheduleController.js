@@ -6,6 +6,8 @@ class ScheduleController{
     constructor(){
         this.scheduleModel = new ScheduleModel();
         this.scheduleView = new ScheduleView();
+
+        
     }
 }
 

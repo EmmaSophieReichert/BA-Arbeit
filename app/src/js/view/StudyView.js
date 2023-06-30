@@ -3,22 +3,22 @@ import { Observable, Event } from "../utils/Observable.js";
 // Subject depending on degree
 const subjectOptions = {
     Bachelor: [
-        'B.A. - Bachelor of Arts',
-        'B.Sc. - Bachelor of Science',
-        'B.Edu. - Bachelor of Education',
-        'B.Eng. - Bachelor of Engineering',
-        'LL.B. - Bachelor of Laws',
-        'B.Mus. - Bachelor of Music',
-        'B.F.A. - Bachelor of Fine Arts',
+        'B.A.',// - Bachelor of Arts',
+        'B.Sc.', // - Bachelor of Science',
+        'B.Edu.',// - Bachelor of Education',
+        'B.Eng.',// - Bachelor of Engineering',
+        'LL.B.', // - Bachelor of Laws',
+        'B.Mus.', // - Bachelor of Music',
+        'B.F.A.', // - Bachelor of Fine Arts',
     ],
     Master: [
-        'M.A. - Master of Arts',
-        'M.Sc. - Master of Science',
-        'M.Edu. - Master of Education',
-        'M.Eng. - Master of Engineering',
-        'LL.M. - Master of Laws',
-        'M.Mus. - Master of Music',
-        'M.F.A. - Master of Fine Arts',
+        'M.A.', // - Master of Arts',
+        'M.Sc.', // - Master of Science',
+        'M.Edu.', // - Master of Education',
+        'M.Eng.', // - Master of Engineering',
+        'LL.M.', // - Master of Laws',
+        'M.Mus.', // - Master of Music',
+        'M.F.A.', // - Master of Fine Arts',
     ],
     // Weitere Studienabschlüsse ?
 };
@@ -47,7 +47,8 @@ class StudyView extends Observable {
         this.semesterInput = document.getElementById('semester');
         this.studyBoxes = document.querySelectorAll('.study-input-box');
         this.errorMessage = document.getElementById('error-message');
-        this.specialization = document.getElementById("specialization");
+        this.specializationLabel = document.getElementById("specialization-label");
+        this.specializationRadio = document.getElementById("specialization-radio");
 
         this.addSubjectButton = document.getElementById("add-study");
         this.addSubjectButton.addEventListener("click", this.onAddSubjectButtonClicked.bind(this));
@@ -68,7 +69,8 @@ class StudyView extends Observable {
         this.specializationOptions.innerHTML = '';
         if (selectedDegree && subjectOptions.hasOwnProperty(selectedDegree.value)) {
             var selectedOptions = subjectOptions[selectedDegree.value];
-            this.specialization.style.display = "block";
+            this.specializationLabel.style.display = "grid";
+            this.specializationRadio.style.display = "grid";
             selectedOptions.forEach((option) => {
                 let div = document.createElement('div'),
                     input = document.createElement('input');
@@ -87,7 +89,8 @@ class StudyView extends Observable {
             });
         }
         else {
-            this.specialization.style.display = "none";
+            this.specializationLabel.style.display = "none";
+            this.specializationRadio.style.display = "none";
         }
     }
 

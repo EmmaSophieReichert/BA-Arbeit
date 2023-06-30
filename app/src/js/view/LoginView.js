@@ -6,7 +6,8 @@ class LoginView extends Observable {
 
     constructor() {
         super();
-        document.getElementById('login-form').addEventListener('submit', this.onLogInButtonClicked.bind(this));
+        this.loginForm = document.getElementById('login-form');
+        this.loginForm.addEventListener('submit', this.onLogInButtonClicked.bind(this));
         this.answerView = document.getElementById("server-answer");
         this.viewEmail = document.getElementById('email');
         this.viewPassword = document.getElementById("password");
@@ -37,8 +38,7 @@ class LoginView extends Observable {
     }
 
     clearInputs() {
-        this.viewEmail.value = "";
-        this.viewPassword.value = "";
+        this.loginForm.reset();
     }
 
 }

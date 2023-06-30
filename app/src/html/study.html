@@ -3,9 +3,10 @@
         <h2>Studium einrichten</h2>
 
         <form id="study-form" onsubmit="return false;">
-            <div class="section">
-                <h3>Studienabschluss</h3>
-                <div class="radio-div">
+            <div class="grid-input-study">
+
+                <label>Studienabschluss</label>
+                <div class="radio-div grid-right">
                     <div>
                         <input type="radio" id="bachelor" name="degree" value="Bachelor">
                         <label for="bachelor">Bachelor</label>
@@ -20,26 +21,28 @@
                     </div>
                     <!-- Weitere Studienabschlüsse ? -->
                 </div>
-            </div>
 
-            <div class="section" id="specialization" style="display: none;">
-                <h3>Fachliche Ausrichtung</h3>
-                <div class="radio-div" id="specialization-options"></div>
-            </div>
+                <div class="" id="specialization-label" style="display: none;">
+                    <label>Fachliche Ausrichtung</label>
+                </div>
 
-            <div class="section">
-                <h3>ECTS gesamt</h3>
+                <div class="" id="specialization-radio" style="display: none;">
+                    <div class="radio-div grid-right" id="specialization-options"></div>
+                </div>
+
+
+                <label>ECTS gesamt</label>
                 <input type="number" id="ects" name="ects" min="1">
-            </div>
 
-            <div class="section">
-                <h3>Geplante Semesterzahl</h3>
+
+
+                <label>Geplante Semesterzahl</label>
                 <input type="number" id="semester" name="semester" min="1">
-            </div>
 
-            <div class="section">
-                <h3>Start im</h3>
-                <div class="radio-div">
+
+
+                <label>Start im</label>
+                <div class="radio-div grid-right">
                     <div>
                         <input type="radio" id="winter" name="start" value="winter" checked>
                         <label for="winter">❄️ Wintersemester</label>
@@ -49,6 +52,8 @@
                         <label for="summer">☀️ Sommersemester</label>
                     </div>
                 </div>
+
+
             </div>
 
             <h2>Studiengang hinzufügen</h2>
