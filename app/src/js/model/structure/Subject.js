@@ -5,7 +5,7 @@ class Subject {
 
         this.modules = [];
         //this.grade = null;
-        this.currentECTS = null;
+        this.currentECTS = 0;
     }
 
     addModule(module) {

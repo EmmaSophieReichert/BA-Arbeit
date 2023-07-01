@@ -43,7 +43,7 @@ class Studies {
 
     initSubjects(subjects) {
         for (let subject of subjects) {
-            let sub = new Subject(subject.title, subject.ects);
+            let sub = new Subject(subject.title, subject.ECTS);
             this.subjects.push(sub);
         }
     }

@@ -62,9 +62,9 @@ class ScheduleView {
     getSemesterWidget(period, count) {
         let div = document.createElement("div");
 
-        let pPeriod = document.createElement("p");
-        pPeriod.id = "sem" + count + "period";
-        pPeriod.innerHTML = period;
+        // let pPeriod = document.createElement("p");
+        // pPeriod.id = "sem" + count + "period";
+        // pPeriod.innerHTML = period;
 
         let h3 = document.createElement("h3");
         h3.innerHTML = "<b>" + "Semester " + count + "</b>";
@@ -73,7 +73,8 @@ class ScheduleView {
         p.id = "sem" + count + "ects";
         p.innerHTML = "0 ECTS";
 
-        div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
+        //div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
+        div.innerHTML = h3.outerHTML + p.outerHTML;
         div.className = "semester";
         div.classList.add(period);
 
@@ -122,11 +123,34 @@ class ScheduleView {
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: module.title
+            content: this.getModuleDiv(module),
         }
         console.log(module);
         this.grid.addWidget(moduleWidget);
         this.grid.save();
+    }
+
+    getModuleDiv(module) {
+        let moduleDiv = document.createElement('div');
+        moduleDiv.classList.add('module-div');
+
+        let ectsBox = document.createElement('div');
+        ectsBox.classList.add('ects-box');
+        ectsBox.textContent = module.ECTS;
+
+        let moduleAbbreviation = document.createElement('span');
+        moduleAbbreviation.classList.add('module-abbreviation');
+        moduleAbbreviation.textContent = module.ID;
+
+        let moduleTitle = document.createElement('h3');
+        moduleTitle.classList.add('module-title');
+        moduleTitle.textContent = module.title;
+
+        moduleDiv.appendChild(ectsBox);
+        moduleDiv.appendChild(moduleAbbreviation);
+        moduleDiv.appendChild(moduleTitle);
+
+        return moduleDiv.outerHTML;
     }
 }
 

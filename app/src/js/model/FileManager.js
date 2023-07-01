@@ -45,7 +45,6 @@ class FileManager extends Observable {
             let text = res.target.result,
                 obj = JSON.parse(text);
             this.translateObject(obj);
-            console.log(text);
             //this.notifyAll(new Event("codeHTML-downloaded", text));
         };
     }

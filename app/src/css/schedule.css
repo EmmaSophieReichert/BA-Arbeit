@@ -41,26 +41,59 @@
     text-align: center;
 }
 
-.semester.Wintersemester{
+.semester.Wintersemester {
     background: linear-gradient(white, white) padding-box,
         linear-gradient(120deg, var(--french-blue), var(--tiffany-blue)) border-box;
 }
 
-.semester.Sommersemester{
+.semester.Sommersemester {
     background: linear-gradient(white, white) padding-box,
         linear-gradient(120deg, var(--apricot), var(--brilliant-rose)) border-box;
 }
 
 .semester p {
-    /* margin: 0.25em; */
+    margin-bottom: 0.25em;
+    margin-top: 0;
     font-size: small;
-    margin: 0;
+    /* margin: 0; */
 }
 
 .semester h3 {
-    /* margin: 0.25em; */
-    margin:0;
+    margin: 0.25em;
+    /* margin: 0; */
 }
+
+.module-div {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.ects-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* width: 50px;
+    height: 50px; */
+    background-color: blue;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 0.5em;
+}
+
+.module-abbreviation {
+    font-size: small;
+    margin-right: 60px;
+}
+
+.module-title {
+    margin-top: 10px;
+}
+
+
+
 
 /* RIGHT SIDE */
 
@@ -68,6 +101,59 @@
     display: flex;
     flex-direction: column;
     width: 20vw;
-    border-left: 1px solid rgb(192, 192, 192);
+    border-left: 1px solid var(--elephant-grey);
     padding: 2vw;
+}
+
+.subject-box {
+    background-color: var(--champagne-pink);
+    border-radius: 0.5em;
+    padding: 5%;
+    margin: 10px 0;
+}
+
+.subject-box-title {
+    /* word-wrap: break-word; */
+    hyphens: auto;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: white;
+    overflow: hidden;
+    border-radius: 10px;
+    /* border: 1px solid var(--elephant-grey); */
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    /* background-image: linear-gradient(to right, var(--vanilla), var(--mint-green)); */
+    background-color: var(--apricot);
+    transition: width 0.5s ease-in-out;
+    border-radius: 10px 0 0 10px;
+}
+
+.progress-bar {
+    position: relative;
+}
+
+
+.progress-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-right: 5%;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
 }
