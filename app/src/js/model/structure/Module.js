@@ -1,5 +1,5 @@
 class Module {
-    constructor(title, ID, ECTS, recommendedSemester = null, minSemLength = null) {
+    constructor(title, ID, ECTS, recommendedSemester = null, minSemLength = null, posY = 0) {
         this.title = title;
         this.ID = ID;
         this.ECTS = ECTS;
@@ -14,7 +14,7 @@ class Module {
         //this.grade = null;
         //this.passed = null;
 
-        this.posY = 0;
+        this.posY = posY;
     }
 
     setPosition(x, y){

@@ -38,7 +38,7 @@ class FileManager extends Observable {
             let headers = new Headers();
             headers.append('X-Appwrite-JWT', response.jwt);
             data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-            return fetch(data.href + "&mode=admin", {headers: headers});
+            return fetch(data.href, {headers: headers});
         }, function (error) {
             console.log(error);
         }).then(data => data.blob()).then(blob => {
@@ -76,11 +76,14 @@ class FileManager extends Observable {
             let studyJSON = JSON.stringify(studies),
                 blob = new Blob([studyJSON], { type: "text/plain" }),
                 file = new File([blob], "Study.txt", { type: 'text/plain' });
-            console.log(file.type);
             return createFile(file, this.fileID);
+        }, (error) => {
+            console.log(error);
         }).then((res) => { 
             console.log(res);
             console.log("Change gas been successfully saved.")
+        }, (error) => {
+            console.log(error);
         })
         //await computePromise(deletePromise);
         

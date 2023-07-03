@@ -45,9 +45,12 @@ class Studies {
     initSubjects(subjects) {
         for (let subject of subjects) {
             let sub = new Subject(subject.title, subject.ects);
-            for (let mod of sub.modules){
-                let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength);
-                sub.addModule(m);
+            if(subject.modules !== null && subject.modules !== undefined){
+                for (let mod of subject.modules){
+                    console.log(mod);
+                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength, mod.posY);
+                    sub.addModule(m);
+                }
             }
             this.subjects.push(sub);
         }

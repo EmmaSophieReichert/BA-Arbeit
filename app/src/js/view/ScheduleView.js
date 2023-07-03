@@ -134,6 +134,7 @@ class ScheduleView extends Observable {
         div.className = "module";
         let moduleWidget = {
             x: module.selectedSemester[0] - 1,
+            y: module.posY,
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
@@ -172,15 +173,15 @@ class ScheduleView extends Observable {
             stud.changeModulePosition(item.id, item.x, item.y);
             setInstance(stud);
         });
-        if (this.timerId === null) {
-            this.timerId = setTimeout(() => {
-                console.log("Timer finished");
-                this.timerId = null;
-                console.log(studies);
-                let e = new Event("positionsChanged", "positionsChanged");
-                this.notifyAll(e);
-            }, 30000);
-        }
+        // if (this.timerId === null) {
+        //     this.timerId = setTimeout(() => {
+        //         console.log("Timer finished");
+        //         this.timerId = null;
+        //         console.log(studies);
+        //         let e = new Event("positionsChanged", "positionsChanged");
+        //         this.notifyAll(e);
+        //     }, 30000);
+        // }
 
 
     }

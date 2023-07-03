@@ -46,6 +46,7 @@ class AppController {
             // Now we have to test if a user is logged in or not
             let logged = res.login;
             console.log("LOGGED: ", logged);
+            console.log("USER: ", res.user);
             // if (logged) {
             //     this.navView.setCurrentlyLoggedInUser(res.user.name);
             // }
