@@ -155,7 +155,6 @@ class StudyView extends Observable {
     }
 
     saveData() {
-        console.log("SAVE STUDY DATA");
         let selectedDegree = document.querySelector('input[name="degree"]:checked'),
             selectedSpecializations = document.querySelectorAll('input[name="specialization"]:checked'),
             ectsValue = parseInt(this.ectsInput.value),
@@ -175,7 +174,8 @@ class StudyView extends Observable {
             studyData.push({ title, ects });
         });
 
-        if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
+        //if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
+        if (!degree || isNaN(ectsValue) || isNaN(semesterValue)) {
             this.errorMessage.textContent = 'Bitte füllen Sie alle Felder aus.';
             return;
         }

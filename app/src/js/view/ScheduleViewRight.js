@@ -9,10 +9,8 @@ class ScheduleViewRight {
     }
 
     showStudy(study) {
-        console.log(study.subjects[0]);
         for(let subject of study.subjects){
             this.showSubject(subject);
-            console.log(subject);
         }
     }
 
@@ -23,7 +21,7 @@ class ScheduleViewRight {
         h2.innerHTML = subject.title;
         h2.className = "subject-box-title";
 
-        let progressBar = this.getProgressbar(subject.ECTS, subject.currentECTS);
+        let progressBar = this.getProgressbar(subject.ects, subject.currentECTS);
         div.innerHTML = h2.outerHTML + progressBar.outerHTML;
         this.studyBoxesContainer.appendChild(div);
     }

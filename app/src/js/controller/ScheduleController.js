@@ -12,11 +12,12 @@ class ScheduleController{
         this.scheduleViewRight = new ScheduleViewRight();
 
         this.fileManager.addEventListener("on-study-loaded", e => {
-            console.log(e.data);
             let study = e.data;
             this.scheduleView.show(study);
             this.scheduleViewRight.showStudy(study);
         });
+        this.scheduleView.addEventListener("onModuleAdded", e => { this.fileManager.addModule(e.data) });
+
         this.fileManager.getStudy();
         
     }

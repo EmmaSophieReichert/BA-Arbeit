@@ -1,12 +1,17 @@
 import { GridStack } from 'gridstack';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
+import Observable from '../utils/Observable.js';
 
-class ScheduleView {
+class ScheduleView extends Observable {
 
     constructor() {
+        super();
         this.modalView = new ModalView();
-        this.modalView.addEventListener("onModuleAdded", e => { this.addModule(e.data) });
+        this.modalView.addEventListener("onModuleAdded", e => { 
+            this.addModule(e.data);
+            this.notifyAll(e);
+         });
 
         this.grid = null;
         // var items = [
@@ -35,8 +40,13 @@ class ScheduleView {
     show(study) {
         console.log(study);
         let semesters = study.semesters;
-        this.initGrid(semesters.length)
-        this.initSemesters(semesters)
+        this.initGrid(semesters.length);
+        this.initSemesters(semesters);
+        for(let subject of study.subjects){
+            for(let module of subject.modules){
+                this.addModule(module);
+            }
+        }
     }
 
     initGrid(count) {
@@ -125,7 +135,6 @@ class ScheduleView {
             noResize: true,
             content: this.getModuleDiv(module),
         }
-        console.log(module);
         this.grid.addWidget(moduleWidget);
         this.grid.save();
     }
@@ -136,7 +145,7 @@ class ScheduleView {
 
         let ectsBox = document.createElement('div');
         ectsBox.classList.add('ects-box');
-        ectsBox.textContent = module.ECTS;
+        ectsBox.textContent = module.ECTS + " ECTS";
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');

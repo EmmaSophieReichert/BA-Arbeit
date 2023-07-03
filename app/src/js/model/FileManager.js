@@ -4,35 +4,35 @@ import Studies from "./structure/Studies.js";
 import appwrite from "../api/appwrite.js";
 import Config from "../utils/Config.js";
 import { Observable, Event } from "../utils/Observable.js";
+import { deleteFile } from "../api/Storage/deleteFile.js";
+import { createFile } from "../api/Storage/createFile.js";
 
 class FileManager extends Observable {
 
     constructor() {
         super();
         this.study = null;
+        this.fileID = null;
     }
 
     async getStudy() {
         let promise = listFiles(),
             res = await computePromise(promise);
-        console.log(res);
         if (res.total === 0) {
             window.location.hash = "study";
             return;
         }
-        console.log(res.files[0]);
         let id = res.files[0].$id,
             jwtPromise = getFile(id),
             reader = new FileReader(),
             data;
+        this.fileID = id;
 
         jwtPromise.then(function (response) {
-            console.log(response.jwt);
             appwrite.client.setJWT(response.jwt);
             let headers = new Headers();
             headers.append('X-Appwrite-JWT', response.jwt);
             data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-            console.log(data);
             return fetch(data.href, {headers: headers});
         }, function (error) {
             console.log(error);
@@ -51,13 +51,25 @@ class FileManager extends Observable {
 
     translateObject(obj) {
         this.study = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization);
-        console.log(this.study);
         let e = new Event("on-study-loaded", this.study);
         this.notifyAll(e);
     }
 
-    updateFile() {
+    addModule(module){
+        this.study.subjects[0].addModule(module);
+        this.updateFile();
+    }
 
+    async updateFile() {
+        let deletePromise = deleteFile(this.fileID);
+        await computePromise(deletePromise);
+        let studyJSON = JSON.stringify(this.study),
+            blob = new Blob([studyJSON], { type: "text/plain" }),
+            file = new File([blob], "Study-ID-2");
+        await createFile(file)
+            .then(() => { 
+                console.log("Change gas been successfully saved.")
+            });
     }
 
 }

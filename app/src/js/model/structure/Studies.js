@@ -1,5 +1,6 @@
-import Semester from "./Semester";
-import Subject from "./Subject";
+import Module from "./Module.js";
+import Semester from "./Semester.js";
+import Subject from "./Subject.js";
 
 class Studies {
 
@@ -43,20 +44,25 @@ class Studies {
 
     initSubjects(subjects) {
         for (let subject of subjects) {
-            let sub = new Subject(subject.title, subject.ECTS);
+            let sub = new Subject(subject.title, subject.ects);
+            for (let mod of subject.modules){
+                let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength);
+                sub.addModule(m);
+            }
             this.subjects.push(sub);
         }
     }
 
-    // toJSON() {
-    //     return {
-    //         degree: this.degree,
-    //         specialization: this.specialization,
-    //         totalECTS: this.totalECTS,
-    //         subjects: JSON.stringify(this.subjects),
-    //         semester: JSON.stringify(this.semesters),
-    //     }
-    // }
+    toJSON() {
+
+        return {
+            degree: this.degree,
+            specialization: this.specialization,
+            totalECTS: this.totalECTS,
+            subjects: this.subjects,
+            semesters: this.semesters,
+        }
+    }
 
     /* get degree() {
         return this.degree;

@@ -1,7 +1,7 @@
 class Subject {
     constructor(title, ECTS) {
         this.title = title;
-        this.ECTS = ECTS;
+        this.ects = ECTS;
 
         this.modules = [];
         //this.grade = null;
@@ -10,6 +10,15 @@ class Subject {
 
     addModule(module) {
         this.modules.push(module);
+    }
+
+    toJSON(){
+        return {
+            title: this.title,
+            ects: this.ects,
+            modules: this.modules,
+            currentECTS: this.currentECTS,
+        }
     }
 }
 
