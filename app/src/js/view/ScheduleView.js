@@ -1,19 +1,21 @@
 import { GridStack } from 'gridstack';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
-import Observable from '../utils/Observable.js';
+import { Observable, Event } from '../utils/Observable.js';
+import { studies, setInstance } from '../model/studiesInstance.js';
 
 class ScheduleView extends Observable {
 
     constructor() {
         super();
         this.modalView = new ModalView();
-        this.modalView.addEventListener("onModuleAdded", e => { 
+        this.modalView.addEventListener("onModuleAdded", e => {
             this.addModule(e.data);
             this.notifyAll(e);
-         });
+        });
 
         this.grid = null;
+        this.timerId = null;
         // var items = [
         //     {
         //         x: 0, y: 1,
@@ -42,8 +44,8 @@ class ScheduleView extends Observable {
         let semesters = study.semesters;
         this.initGrid(semesters.length);
         this.initSemesters(semesters);
-        for(let subject of study.subjects){
-            for(let module of subject.modules){
+        for (let subject of study.subjects) {
+            for (let module of subject.modules) {
                 this.addModule(module);
             }
         }
@@ -58,6 +60,8 @@ class ScheduleView extends Observable {
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
+        this.grid.on('change', this.handleWidgetChange.bind(this));
+        this.grid.on('added', this.handleWidgetChange.bind(this));
     }
 
     initSemesters(semesters) {
@@ -129,7 +133,7 @@ class ScheduleView extends Observable {
         let div = document.createElement("div");
         div.className = "module";
         let moduleWidget = {
-            x: module.selectedSemester[0],
+            x: module.selectedSemester[0] - 1,
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
@@ -161,6 +165,29 @@ class ScheduleView extends Observable {
 
         return moduleDiv.outerHTML;
     }
+
+    handleWidgetChange(event, items) {
+        items.forEach(item => {
+            let stud = studies;
+            stud.changeModulePosition(item.id, item.x, item.y);
+            setInstance(stud);
+        });
+        if (this.timerId === null) {
+            this.timerId = setTimeout(() => {
+                console.log("Timer finished");
+                this.timerId = null;
+                console.log(studies);
+                let e = new Event("positionsChanged", "positionsChanged");
+                this.notifyAll(e);
+            }, 30000);
+        }
+
+
+    }
+
 }
+
+
+
 
 export default ScheduleView;

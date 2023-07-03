@@ -45,11 +45,32 @@ class Studies {
     initSubjects(subjects) {
         for (let subject of subjects) {
             let sub = new Subject(subject.title, subject.ects);
-            for (let mod of subject.modules){
+            for (let mod of sub.modules){
                 let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength);
                 sub.addModule(m);
             }
             this.subjects.push(sub);
+        }
+    }
+
+    getModuleByID(id){
+        for(let subject of this.subjects){
+            for(let module of subject.modules){
+                if(module.ID === id){
+                    return module;
+                }
+            }
+        }
+        return null;
+    }
+
+    changeModulePosition(id, x, y){
+        for(let subject of this.subjects){
+            for(let module of subject.modules){
+                if(module.ID === id){
+                    module.setPosition(x, y);
+                }
+            }
         }
     }
 
