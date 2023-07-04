@@ -1,5 +1,4 @@
 import Module from '../model/structure/Module.js';
-import { studies } from '../model/studiesInstance.js';
 import {Event, Observable} from '../utils/Observable.js';
 
 class ModalView extends Observable{
@@ -10,7 +9,6 @@ class ModalView extends Observable{
         this.modal = document.getElementById('modal');
         this.closeModalButton = document.querySelector('.close');
         this.moduleForm = document.getElementById('module-form');
-        this.errorMessage = document.getElementById('module-error-message');
         
         this.openModalButton.addEventListener('click', () => {
             this.modal.showModal();
@@ -18,7 +16,6 @@ class ModalView extends Observable{
 
         this.closeModalButton.addEventListener('click', () => {
             this.moduleForm.reset();
-            this.errorMessage.textContent = "";
             this.modal.close();
         });
 
@@ -30,11 +27,6 @@ class ModalView extends Observable{
                 semester = document.getElementById('semester').value,
                 length = parseInt(document.getElementById('length').value);
             semester = semester === "" ? null : parseInt(semester);
-
-            if(studies.getModuleByID(shortname) !== null){
-                this.errorMessage.textContent = 'Diese Kurzform existiert schon. Bitte wählen Sie eine Kurzform, die noch nicht existiert.';
-                return;
-            }
 
             this.moduleForm.reset();
 

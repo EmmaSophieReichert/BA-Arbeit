@@ -6,19 +6,14 @@ import Config from "../utils/Config.js";
 import { Observable, Event } from "../utils/Observable.js";
 import { deleteFile } from "../api/Storage/deleteFile.js";
 import { createFile } from "../api/Storage/createFile.js";
-import { studies, setInstance } from "./studiesInstance.js";
 
 class FileManager extends Observable {
 
     constructor() {
         super();
+        this.study = null;
         this.fileID = null;
     }
-
-    //https://cloud.appwrite.io/v1/storage/buckets/649d550640f146162c94/files/64a29e91469d373c11cf/download?project=649ab3887121a935da21&mode=admin
-    //https://cloud.appwrite.io/v1/storage/buckets/649d550640f146162c94/files/64a29e91469d373c11cf/download?project=649ab3887121a935da21
-    //https://cloud.appwrite.io/v1/storage/buckets/649d550640f146162c94/files/64a29e91469d373c11cf/download?project=649ab3887121a935da21&mode=admin
-    //https://cloud.appwrite.io/v1/storage/buckets/649d550640f146162c94/files/64a29e91469d373c11cf/view?project=649ab3887121a935da21&mode=admin
 
     async getStudy() {
         let promise = listFiles(),
@@ -38,7 +33,7 @@ class FileManager extends Observable {
             let headers = new Headers();
             headers.append('X-Appwrite-JWT', response.jwt);
             data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-            return fetch(data.href + "&mode=admin", {headers: headers});
+            return fetch(data.href, {headers: headers});
         }, function (error) {
             console.log(error);
         }).then(data => data.blob()).then(blob => {
@@ -49,41 +44,32 @@ class FileManager extends Observable {
         reader.onload = (res) => {
             let text = res.target.result,
                 obj = JSON.parse(text);
-            console.log(res);
             this.translateObject(obj);
             //this.notifyAll(new Event("codeHTML-downloaded", text));
         };
     }
 
     translateObject(obj) {
-        console.log(obj);
-        setInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization));
-        let e = new Event("on-study-loaded", studies);
+        this.study = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization);
+        let e = new Event("on-study-loaded", this.study);
         this.notifyAll(e);
     }
 
     addModule(module){
-        let stud = studies
-        stud.subjects[0].addModule(module);
-        setInstance(stud);
+        this.study.subjects[0].addModule(module);
         this.updateFile();
     }
 
     async updateFile() {
-        let deletePromise = deleteFile(this.fileID); //TODO: ist delete hier nötig? Sollte bei create mit ID eigl überschrieben werden
-        deletePromise.then(() => {
-            console.log("Delete", studies);
-            let studyJSON = JSON.stringify(studies),
-                blob = new Blob([studyJSON], { type: "text/plain" }),
-                file = new File([blob], "Study.txt", { type: 'text/plain' });
-            console.log(file.type);
-            return createFile(file, this.fileID);
-        }).then((res) => { 
-            console.log(res);
-            console.log("Change gas been successfully saved.")
-        })
-        //await computePromise(deletePromise);
-        
+        let deletePromise = deleteFile(this.fileID);
+        await computePromise(deletePromise);
+        let studyJSON = JSON.stringify(this.study),
+            blob = new Blob([studyJSON], { type: "text/plain" }),
+            file = new File([blob], "Study-ID-2");
+        await createFile(file)
+            .then(() => { 
+                console.log("Change gas been successfully saved.")
+            });
     }
 
 }

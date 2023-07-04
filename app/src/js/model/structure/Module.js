@@ -13,13 +13,6 @@ class Module {
         this.selectedSemester = [];
         //this.grade = null;
         //this.passed = null;
-
-        this.posY = 0;
-    }
-
-    setPosition(x, y){
-        this.selectedSemester = x + 1;
-        this.posY = y;
     }
 
     // setGrade(grade) {
