@@ -27,8 +27,7 @@ class StudyManager extends Observable {
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
             file = new File([blob], "Study-ID-2.txt", { type: 'text/plain' });
-        await createFile(file, appwrite.ID.unique()).then((res) => {
-            console.log(res); 
+        await createFile(file, appwrite.ID.unique()).then(() => { 
             this.notifyAll(new Event("studies-reached-cloud", "studies reached cloud")); 
         });
     }
