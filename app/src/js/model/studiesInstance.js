@@ -1,4 +1,4 @@
-var studies;
+var studies = null;
 
 function setStudyInstance(stud){
     studies = stud;

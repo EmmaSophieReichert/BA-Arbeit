@@ -7,6 +7,7 @@ import StudyController from "./StudyController.js";
 
 import {getAuth} from "../api/Auth/getAuth.js";
 import {deleteSession} from "../api/Session/deleteSession.js";
+import ModuleCatalogueController from "./ModuleCatalogueController.js";
 
 class AppController {
 
@@ -117,6 +118,9 @@ class AppController {
                 // this.controller.init(this.navView);
                 // this.controller.addEventListener("on-view", this.onViewCastClicked.bind(this));
                 // this.controller.addEventListener("ad-status", (event) => this.onAdStatusChanged(event));
+                break;
+            case "#module-catalogue":
+                this.controller = new ModuleCatalogueController();
                 break;
             case "#impressum":
                 console.log("IMPRESSUM");

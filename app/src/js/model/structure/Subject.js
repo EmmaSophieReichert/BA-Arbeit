@@ -1,5 +1,3 @@
-import Config from "../../utils/Config";
-
 class Subject {
     constructor(title, ECTS, colourCode = 0) {
         this.title = title;

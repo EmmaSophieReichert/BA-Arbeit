@@ -29,6 +29,7 @@
 }
 
 .underline-button {
+    color: black;
     text-decoration: underline;
     background-color: transparent;
     border: 0; 
