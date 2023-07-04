@@ -72,7 +72,16 @@ class AppController {
                 }
             }
         }
-        this.router.onHashChanged(event);
+        if(currentHash === "#schedule"){
+            setTimeout(() =>{
+                console.log("TIMER");
+                this.router.onHashChanged(event);
+                return;
+            }, 500);
+        }
+        else{
+            this.router.onHashChanged(event);
+        }
     }
 
     async onTemplateReady(event) {

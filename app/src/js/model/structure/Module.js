@@ -1,5 +1,5 @@
 class Module {
-    constructor(title, ID, ECTS, recommendedSemester = null, minSemLength = null, posY = 0) {
+    constructor(title, ID, ECTS, recommendedSemester = 1, minSemLength = 1, posY = 0) {
         this.title = title;
         this.ID = ID;
         this.ECTS = ECTS;
@@ -17,7 +17,11 @@ class Module {
     }
 
     setPosition(x, y) {
-        this.selectedSemester = x + 1;
+        this.selectedSemester.splice(0, this.selectedSemester.length);
+        for(let i = 1; i <= this.minSemLength; i++){
+            this.addSelectedSemester(x+i);
+        }
+        this.selectedSemester.sort();
         this.posY = y;
     }
 

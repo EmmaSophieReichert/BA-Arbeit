@@ -17,6 +17,7 @@ class ScheduleController{
             this.scheduleViewRight.showStudy(study);
         });
         this.scheduleView.addEventListener("onModuleAdded", e => { this.fileManager.addModule(e.data) });
+        this.scheduleView.addEventListener("positionsChanged", () => {this.fileManager.updateFile()} );
 
         this.fileManager.getStudy();
         

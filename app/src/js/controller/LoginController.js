@@ -37,8 +37,10 @@ class LoginController {
     onLoginResult(event) {
         let bool = event.data.login;
         if (bool) {
-            window.location.hash = "schedule";
-            console.log("LogIn Success Session Created");
+            setTimeout(() => { //TODO: FIX this, error when log out and log in
+                window.location.hash = "schedule";
+                console.log("LogIn Success Session Created");
+            }, 5000);
             //this.navView.showNavView(); show again?
         } else {
             console.log("Login failed");

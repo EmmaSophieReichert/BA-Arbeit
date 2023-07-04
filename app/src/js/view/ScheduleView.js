@@ -2,6 +2,8 @@ import { GridStack } from 'gridstack';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
 import {Observable, Event} from '../utils/Observable.js';
+import { studies, setStudyInstance } from '../model/studiesInstance.js';
+
 
 class ScheduleView extends Observable {
 
@@ -130,8 +132,10 @@ class ScheduleView extends Observable {
     addModule(module) {
         let div = document.createElement("div");
         div.className = "module";
+        console.log(module.selectedSemester[0] - 1,);
         let moduleWidget = {
             x: module.selectedSemester[0] - 1,
+            y: module.posY,
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
@@ -162,6 +166,25 @@ class ScheduleView extends Observable {
         moduleDiv.appendChild(moduleTitle);
 
         return moduleDiv.outerHTML;
+    }
+
+    handleWidgetChange(event, items) {
+        items.forEach(item => {
+            let stud = studies;
+            stud.changeModulePosition(item.id, item.x, item.y);
+            setStudyInstance(stud);
+        });
+        if (this.timerId === null) {
+            this.timerId = setTimeout(() => {
+                console.log("Timer finished");
+                this.timerId = null;
+                console.log(studies);
+                let e = new Event("positionsChanged", "positionsChanged");
+                this.notifyAll(e);
+            }, 5000);
+        }
+
+
     }
 }
 
