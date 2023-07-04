@@ -9,6 +9,7 @@ const ROUTES = {
     "#study": "../app/src/html/study.html",
     "#impressum": "../app/src/html/impressum.html",
     "#schedule": "../app/src/html/schedule.html",
+    "#module-catalogue": "../app/src/html/module-catalogue.html",
     "#home": "../app/src/html/schedule.html",
 };
 

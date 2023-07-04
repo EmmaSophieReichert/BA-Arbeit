@@ -24,7 +24,7 @@
 } */
 
 .grid-stack-item-content {
-    background-color: var(--mint-green);
+    /* background-color: var(--mint-green); */ 
     border-radius: 0.5em;
     text-align: center;
 }
@@ -68,6 +68,7 @@
     display: inline-block;
     border-radius: 0.5em;
     width: 100%;
+    min-height: 80px;
     text-align: left;
     padding: 5px;
 }
@@ -78,7 +79,7 @@
     right: 0;
     /* width: 50px;
     height: 50px; */
-    background-color: var(--tiffany-blue);
+    /* background-color: var(--elephant-grey); */
     color: black;
     text-align: center;
     font-size: small;
@@ -97,7 +98,6 @@
     font-size: 1em;
     hyphens: auto;
 }
-
 
 
 
@@ -147,7 +147,7 @@
     width: 0%;
     height: 100%;
     /* background-image: linear-gradient(to right, var(--vanilla), var(--mint-green)); */
-    background-color: var(--apricot);
+    /* background-color: var(--apricot); */
     transition: width 0.5s ease-in-out;
     border-radius: 10px 0 0 10px;
 }

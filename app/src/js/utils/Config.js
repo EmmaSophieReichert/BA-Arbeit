@@ -7,7 +7,36 @@ const Config = {
     DATABASE_ID: "649afbb84bb08d4663e1",
     COLLECTION_ID: "649b037f907ae057e75a",
     BUCKET_ID: "649d550640f146162c94",
+    // COLOUR_CODES: [
+    //     "#c7e8ffff",
+    //     "#ebfbf7ff",
+    //     "#fff8e1ff",
+    //     "#ffe5d9ff",
+    //     "#f8d9edff"
+    // ],
+    COLOUR_CODES: [
+        "#b0deffff", //blue
+        "#d5f7eeff", //green
+        "#ffd6c4ff", 
+        "#f4c5e4ff",
+        "#fff2c8ff", //yellow
+    ],
+    // COLOUR_CODES_DARK: [
+    //     "#87cfffff",
+    //     "#d4f7edff",
+    //     "#fff1bfff",
+    //     "#ffc5abff",
+    //     "#f0add9ff",
+    // ],
+    COLOUR_CODES_DARK: [
+        "#87cfffff",//"#0e9effff", //blue
+        "#aaeedbff", //green
+        "#ffc5abff", //"#ff8d58ff", //orange
+        "#e259b2ff", //pink
+        "#ffe482ff", //yellow
+    ],
 };
+
 
 Object.freeze(Config);
 

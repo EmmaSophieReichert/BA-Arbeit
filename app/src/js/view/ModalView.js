@@ -33,8 +33,11 @@ class ModalView extends Observable{
             let module = new Module(title, shortname, ects, semester, length),
                 ev;
             module.addSelectedSemester(semester ? semester : 1);
-            console.log("MODAL: ", module);
-            ev = new Event("onModuleAdded", module);
+            let data = {
+                module: module,
+                subject: 1,
+            }
+            ev = new Event("onModuleAdded", data);
             this.notifyAll(ev);
 
             this.modal.close();

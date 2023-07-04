@@ -1,3 +1,4 @@
+import Config from "../../utils/Config.js";
 import Module from "./Module.js";
 import Semester from "./Semester.js";
 import Subject from "./Subject.js";
@@ -44,8 +45,10 @@ class Studies {
     }
 
     initSubjects(subjects) {
+        let i = 0;
         for (let subject of subjects) {
-            let sub = new Subject(subject.title, subject.ects);
+            let sub = new Subject(subject.title, subject.ects, i);
+            i++;
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {
                     let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength, mod.posY);

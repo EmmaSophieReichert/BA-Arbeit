@@ -3,6 +3,7 @@ import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
 import {Observable, Event} from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
+import Config from '../utils/Config.js';
 
 
 class ScheduleView extends Observable {
@@ -11,7 +12,7 @@ class ScheduleView extends Observable {
         super();
         this.modalView = new ModalView();
         this.modalView.addEventListener("onModuleAdded", e => { 
-            this.addModule(e.data);
+            this.addModule(e.data.module, Config.COLOUR_CODES[e.data.subject]);
             this.notifyAll(e);
          });
 
@@ -47,7 +48,7 @@ class ScheduleView extends Observable {
         this.initSemesters(semesters);
         for(let subject of study.subjects){
             for(let module of subject.modules){
-                this.addModule(module);
+                this.addModule(module, subject.colourCode);
             }
         }
     }
@@ -130,28 +131,28 @@ class ScheduleView extends Observable {
         }
     }
 
-    addModule(module) {
-        let div = document.createElement("div");
-        div.className = "module";
+    addModule(module, colourCode) {
         let moduleWidget = {
             x: module.selectedSemester[0] - 1,
             y: module.posY,
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: this.getModuleDiv(module),
+            content: this.getModuleDiv(module, colourCode),
         }
         this.grid.addWidget(moduleWidget);
         this.grid.save();
     }
 
-    getModuleDiv(module) {
+    getModuleDiv(module, colourCode) {
         let moduleDiv = document.createElement('div');
         moduleDiv.classList.add('module-div');
+        moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
 
         let ectsBox = document.createElement('div');
         ectsBox.classList.add('ects-box');
         ectsBox.textContent = module.ECTS + " ECTS";
+        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');

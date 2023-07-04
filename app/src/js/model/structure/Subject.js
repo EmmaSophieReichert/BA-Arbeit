@@ -1,11 +1,18 @@
+import Config from "../../utils/Config";
+
 class Subject {
-    constructor(title, ECTS) {
+    constructor(title, ECTS, colourCode = 0) {
         this.title = title;
         this.ects = ECTS;
 
         this.modules = [];
         //this.grade = null;
         this.currentECTS = 0;
+        this.colourCode = colourCode;
+    }
+
+    setColourCode(i){
+        this.colourCode = i;
     }
 
     addModule(module) {
