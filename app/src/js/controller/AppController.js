@@ -30,9 +30,6 @@ class AppController {
         });
     }
 
-    //649e8e47d2815c045ea9
-    //649af88432a0fae5627b
-
     setHash(hash) {
         console.log(hash);
         window.location.hash = hash;
@@ -40,12 +37,13 @@ class AppController {
 
     // When the user routes through the application, he has to be authenticated to use some pages
     // Thats why u have to look for current sessions before giving access
-    onHashChanged(event) {
-        getAuth().then(res => {
+    async onHashChanged(event) {
+        await getAuth().then(res => {
             // The case we have a good result
             // Now we have to test if a user is logged in or not
             let logged = res.login;
             console.log("LOGGED: ", logged);
+            console.log("USER: ", res.user);
             // if (logged) {
             //     this.navView.setCurrentlyLoggedInUser(res.user.name);
             // }
@@ -56,6 +54,7 @@ class AppController {
 
     computeCurrentPage(event, loggedIn) {
         let currentHash = window.location.hash;
+        console.log("HASH: ", currentHash);
         // If a user is logged in, he should not be able to view login and register page
         // If a user starts the app
         if (currentHash === "") {

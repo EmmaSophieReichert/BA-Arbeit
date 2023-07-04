@@ -41,6 +41,7 @@ class LoginController {
             console.log("LogIn Success Session Created");
             //this.navView.showNavView(); show again?
         } else {
+            console.log("Login failed");
             this.loginView.clearInputs();
             this.loginView.setServerAnswer(event.data.answer.message);
         }

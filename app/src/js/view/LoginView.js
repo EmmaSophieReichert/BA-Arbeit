@@ -17,7 +17,6 @@ class LoginView extends Observable {
         event.preventDefault();
         let email = this.viewEmail.value,
             password = this.viewPassword.value;
-
         this.onSubmit(email, password);
     }
 

@@ -1,7 +1,7 @@
 import { GridStack } from 'gridstack';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
-import Observable from '../utils/Observable.js';
+import {Observable, Event} from '../utils/Observable.js';
 
 class ScheduleView extends Observable {
 
@@ -14,6 +14,7 @@ class ScheduleView extends Observable {
          });
 
         this.grid = null;
+        this.timerId = null;
         // var items = [
         //     {
         //         x: 0, y: 1,
@@ -58,6 +59,7 @@ class ScheduleView extends Observable {
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
+        this.grid.on('change', this.handleWidgetChange.bind(this));
     }
 
     initSemesters(semesters) {
@@ -129,7 +131,7 @@ class ScheduleView extends Observable {
         let div = document.createElement("div");
         div.className = "module";
         let moduleWidget = {
-            x: module.selectedSemester[0],
+            x: module.selectedSemester[0] - 1,
             id: module.ID,
             w: module.minSemLength,
             noResize: true,

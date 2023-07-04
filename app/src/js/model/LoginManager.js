@@ -16,6 +16,7 @@ class LoginManager extends Observable {
             res = await computePromise(promise),
             // res is either true or false and is passed to the controller
             event = new Event("login-result", res);
+        console.log(res);
         this.notifyAll(event);
     }
 

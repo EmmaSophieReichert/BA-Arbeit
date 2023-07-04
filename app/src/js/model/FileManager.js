@@ -6,12 +6,12 @@ import Config from "../utils/Config.js";
 import { Observable, Event } from "../utils/Observable.js";
 import { deleteFile } from "../api/Storage/deleteFile.js";
 import { createFile } from "../api/Storage/createFile.js";
+import { studies, setStudyInstance } from "./studiesInstance.js";
 
 class FileManager extends Observable {
 
     constructor() {
         super();
-        this.study = null;
         this.fileID = null;
     }
 
@@ -50,20 +50,26 @@ class FileManager extends Observable {
     }
 
     translateObject(obj) {
-        this.study = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization);
-        let e = new Event("on-study-loaded", this.study);
+        setStudyInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization));
+        let e = new Event("on-study-loaded", studies);
         this.notifyAll(e);
     }
 
     addModule(module){
-        this.study.subjects[0].addModule(module);
+        let stud = studies;
+        stud.subjects[0].addModule(module);
+        setStudyInstance(stud);
         this.updateFile();
     }
 
     async updateFile() {
-        let deletePromise = deleteFile(this.fileID);
+        let promise = listFiles(),
+            res = await computePromise(promise),
+            id = res.files[0].$id,
+            deletePromise = deleteFile(id);
         await computePromise(deletePromise);
-        let studyJSON = JSON.stringify(this.study),
+
+        let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
             file = new File([blob], "Study-ID-2");
         await createFile(file)
