@@ -68,12 +68,13 @@ class ScheduleView extends Observable {
         for (let semester of semesters) {
             let period = semester.period,
                 count = semester.count,
-                semesterWidget = this.getSemesterWidget(period, count);
+                ects = semester.ECTS,
+                semesterWidget = this.getSemesterWidget(period, count, ects);
             this.grid.addWidget(semesterWidget);
         }
     }
 
-    getSemesterWidget(period, count) {
+    getSemesterWidget(period, count, ects) {
         let div = document.createElement("div");
 
         // let pPeriod = document.createElement("p");
@@ -85,7 +86,7 @@ class ScheduleView extends Observable {
 
         let p = document.createElement("p");
         p.id = "sem" + count + "ects";
-        p.innerHTML = "0 ECTS";
+        p.innerHTML = ects + " ECTS";
 
         //div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
         div.innerHTML = h3.outerHTML + p.outerHTML;
@@ -132,7 +133,6 @@ class ScheduleView extends Observable {
     addModule(module) {
         let div = document.createElement("div");
         div.className = "module";
-        console.log(module.selectedSemester[0] - 1,);
         let moduleWidget = {
             x: module.selectedSemester[0] - 1,
             y: module.posY,
@@ -172,8 +172,12 @@ class ScheduleView extends Observable {
         items.forEach(item => {
             let stud = studies;
             stud.changeModulePosition(item.id, item.x, item.y);
+            stud.calculateSemesterECTS();
             setStudyInstance(stud);
         });
+        for(let i = 1; i<= studies.semesters.length; i++){
+            this.updateSemesterECTS(i);
+        }
         if (this.timerId === null) {
             this.timerId = setTimeout(() => {
                 console.log("Timer finished");
@@ -183,8 +187,12 @@ class ScheduleView extends Observable {
                 this.notifyAll(e);
             }, 5000);
         }
+    }
 
-
+    updateSemesterECTS(semesterCount){
+        let semP = document.getElementById("sem" + semesterCount + "ects"),
+            semester = studies.getSemester(semesterCount);
+        semP.innerHTML = semester.ECTS+ " ECTS";
     }
 }
 

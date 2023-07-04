@@ -13,6 +13,7 @@ class Studies {
         this.semesters = [];
         this.initSemesters(semesters);
         this.initSubjects(subjects);
+        this.calculateSemesterECTS();
         //this.grade = null;
     }
 
@@ -48,7 +49,7 @@ class Studies {
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {
                     let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength, mod.posY);
-                    for(let s of mod.selectedSemester){
+                    for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
                     sub.addModule(m);
@@ -58,10 +59,10 @@ class Studies {
         }
     }
 
-    getModuleByID(id){
-        for(let subject of this.subjects){
-            for(let module of subject.modules){
-                if(module.ID === id){
+    getModuleByID(id) {
+        for (let subject of this.subjects) {
+            for (let module of subject.modules) {
+                if (module.ID === id) {
                     return module;
                 }
             }
@@ -69,14 +70,37 @@ class Studies {
         return null;
     }
 
-    changeModulePosition(id, x, y){
-        for(let subject of this.subjects){
-            for(let module of subject.modules){
-                if(module.ID === id){
+    changeModulePosition(id, x, y) {
+        for (let subject of this.subjects) {
+            for (let module of subject.modules) {
+                if (module.ID === id) {
                     module.setPosition(x, y);
                 }
             }
         }
+    }
+
+    calculateSemesterECTS() {
+        this.semesters.forEach((semester) => {
+            let semesterECTS = 0;
+            this.subjects.forEach((subject) => {
+                subject.modules.forEach((module) => {
+                    if (module.selectedSemester[module.selectedSemester.length - 1] === semester.count) {
+                        semesterECTS += module.ECTS;
+                    }
+                });
+            });
+            semester.ECTS = semesterECTS;
+        });
+    }
+
+    getSemester(count){
+        for(let semester of this.semesters){
+            if(semester.count === count){
+                return semester;
+            }
+        }
+        return null;
     }
 
     toJSON() {

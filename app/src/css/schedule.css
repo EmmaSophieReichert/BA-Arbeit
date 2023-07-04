@@ -108,7 +108,16 @@
     flex-direction: column;
     width: 20vw;
     border-left: 1px solid var(--elephant-grey);
+    justify-content: space-between;
+}
+
+.main-right-up {
     padding: 2vw;
+}
+
+.main-right-bottom {
+    padding: 2vw;
+    border-top: 1px solid var(--elephant-grey);
 }
 
 .subject-box {
