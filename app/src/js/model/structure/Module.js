@@ -5,7 +5,7 @@ class Module {
         this.ECTS = ECTS;
 
         this.recommendedSemester = recommendedSemester;
-        //this.period = period;
+        this.period = "Wintersemester";
         this.minSemLength = minSemLength;
 
         //this.moduleComponents = [];

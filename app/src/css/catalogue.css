@@ -5,7 +5,7 @@
 .filter-group label{
     text-align: left;
     hyphens: auto;
-    width: 100%;
+    width: fit-content;
 }
 
 .filter-group h4{

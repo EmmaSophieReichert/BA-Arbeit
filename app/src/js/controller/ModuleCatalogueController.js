@@ -14,7 +14,7 @@ class ModuleCatalogueController{
 
         if(studies !== null){
             console.log("klein");
-            this.catalogueViewRight.showStudy(studies);
+            this.catalogueViewRight.show(studies);
             this.catalogueView.show(studies);
         }
         else{
@@ -22,10 +22,16 @@ class ModuleCatalogueController{
             this.fileManager.addEventListener("on-study-loaded", e => {
                 let study = e.data;
                 this.catalogueView.show(study);
-                this.catalogueViewRight.showStudy(study);
+                this.catalogueViewRight.show(study);
             });
             this.fileManager.getStudy();
         }
+
+        this.catalogueViewRight.addEventListener("onFilterValues", (e) => {
+            let study = this.catalogueManager.filterStudies(e.data);
+            console.log(study);
+            this.catalogueView.show(study);
+        })
     }
 }
 

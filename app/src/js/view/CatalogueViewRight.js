@@ -14,12 +14,20 @@ class CatalogueViewRight extends Observable {
         this.checkboxes = null;
     }
 
-    showStudy(study) {
+    show(study) {
         this.fillFilters();
         this.checkboxes = this.filterContainer.querySelectorAll('input[type="checkbox"]');
         this.checkboxes.forEach((checkbox) => {
-            checkbox.addEventListener('change', () => { this.getFilteredValues(); });
+            checkbox.addEventListener('change', () => {
+                let e = new Event("onFilterValues", this.getFilteredValues());
+                console.log(this.getFilteredValues());
+                this.notifyAll(e);
+            });
         });
+        this.showStudy(study);
+    }
+
+    showStudy(study) {
         for (let subject of study.subjects) {
             this.showSubject(subject);
         }
@@ -120,21 +128,18 @@ class CatalogueViewRight extends Observable {
             subjects: Array.from(this.filterContainer.querySelectorAll('input[name="subject"]:checked')).map(function (checkbox) {
                 return checkbox.value;
             }),
-            turnusWinter: this.filterContainer.querySelector('input[name="turnus"][value="winter"]').checked,
-            turnusSommer: this.filterContainer.querySelector('input[name="turnus"][value="sommer"]').checked,
-            turnusBoth: this.filterContainer.querySelector('input[name="turnus"][value="beide"]').checked,
+            turnus: Array.from(this.filterContainer.querySelectorAll('input[name="turnus"]:checked')).map(function (checkbox) {
+                return checkbox.value;
+            }),
             recommendedSemester: Array.from(this.filterContainer.querySelectorAll('input[name="recommended-semester"]:checked')).map(function (checkbox) {
-               return parseInt(checkbox.value);
+                return parseInt(checkbox.value);
             }),
             selectedSemester: Array.from(this.filterContainer.querySelectorAll('input[name="selected-semester"]:checked')).map(function (checkbox) {
                 return parseInt(checkbox.value);
             })
         };
 
-        console.log(filterValues);
-
-        //return filterValues;
-
+        return filterValues;
     }
 
     fillFilters() {
@@ -142,21 +147,23 @@ class CatalogueViewRight extends Observable {
         let recommendedSemesterContainer = document.getElementById('recommended-semester-container');
         let selectedSemesterContainer = document.getElementById('selected-semester-container');
 
+        if (studies.subjects.length > 1) {
+            studies.subjects.forEach(function (subject) {
+                let label = document.createElement('label');
 
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'subject';
+                checkbox.value = subject.title;
+                checkbox.id = 'subject-' + subject.title;
+
+                label.innerHTML = checkbox.outerHTML + " " + subject.title;
+                subjectsContainer.appendChild(label);
+            });
+            subjectsContainer.removeAttribute("hidden"); 
+        }
         // subjects
-        studies.subjects.forEach(function (subject) {  
-            let label = document.createElement('label');         
 
-            let checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.name = 'subject';
-            checkbox.value = subject.title;
-            checkbox.id = 'subject-' + subject.title;
-
-            label.innerHTML = checkbox.outerHTML + " "  + subject.title;
-            console.log(label);
-            subjectsContainer.appendChild(label);
-        });
 
         // semesters
         studies.semesters.forEach(function (semester) {
@@ -168,7 +175,7 @@ class CatalogueViewRight extends Observable {
             checkbox.value = semester.count;
             checkbox.id = 'recommended-semester-' + semester.count;
 
-            label.innerHTML = checkbox.outerHTML + " "  + semester.count;
+            label.innerHTML = checkbox.outerHTML + " " + semester.count;
             recommendedSemesterContainer.appendChild(label);
 
             label = document.createElement('label');
@@ -176,7 +183,7 @@ class CatalogueViewRight extends Observable {
             checkbox.name = 'selected-semester';
             checkbox.id = 'selected-semester-' + semester;
 
-            label.innerHTML = checkbox.outerHTML + " "  + semester.count;
+            label.innerHTML = checkbox.outerHTML + " " + semester.count;
             selectedSemesterContainer.appendChild(label);
         });
 

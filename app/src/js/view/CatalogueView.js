@@ -20,6 +20,9 @@ class CatalogueView extends Observable{
     }
 
     show(study) {
+        if(this.grid !== null){
+            this.grid.removeAll();
+        }
         this.initGrid(1);
         for(let subject of study.subjects){
             for(let module of subject.modules){

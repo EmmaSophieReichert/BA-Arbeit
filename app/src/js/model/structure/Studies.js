@@ -47,7 +47,7 @@ class Studies {
     initSubjects(subjects) {
         let i = 0;
         for (let subject of subjects) {
-            let sub = new Subject(subject.title, subject.ects, i);
+            let sub = new Subject(subject.title, subject.ects, subject.colourCode ? subject.colourCode : i);
             i++;
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {

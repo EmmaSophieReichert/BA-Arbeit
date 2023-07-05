@@ -12,7 +12,8 @@ class ScheduleView extends Observable {
         super();
         this.modalView = new ModalView();
         this.modalView.addEventListener("onModuleAdded", e => { 
-            this.addModule(e.data.module, Config.COLOUR_CODES[e.data.subject]);
+            console.log("Module added");
+            this.addModule(e.data.module, e.data.subject);
             this.notifyAll(e);
          });
 
