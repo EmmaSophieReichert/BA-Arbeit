@@ -1,0 +1,13 @@
+#filter-container{
+    padding: 2vw;
+}
+
+.filter-group label{
+    text-align: left;
+    hyphens: auto;
+    width: 100%;
+}
+
+.filter-group h4{
+    margin-bottom: 0.5em
+}

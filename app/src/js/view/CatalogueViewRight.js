@@ -3,16 +3,23 @@ import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
+import { studies } from '../model/studiesInstance.js';
 
-class ScheduleViewRight extends Observable {
+class CatalogueViewRight extends Observable {
 
     constructor() {
         super();
         this.studyBoxesContainer = document.getElementById("study-boxes-container");
         this.filterContainer = document.getElementById('filter-container');
+        this.checkboxes = null;
     }
 
     showStudy(study) {
+        this.fillFilters();
+        this.checkboxes = this.filterContainer.querySelectorAll('input[type="checkbox"]');
+        this.checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => { this.getFilteredValues(); });
+        });
         for (let subject of study.subjects) {
             this.showSubject(subject);
         }
@@ -105,6 +112,75 @@ class ScheduleViewRight extends Observable {
             this.grid.addWidget(semester);
         }
     }
+
+    getFilteredValues() {
+        let filterValues = {
+            inPlan: this.filterContainer.querySelector('input[name="plan"][value="inPlan"]').checked,
+            notInPlan: this.filterContainer.querySelector('input[name="plan"][value="notInPlan"]').checked,
+            subjects: Array.from(this.filterContainer.querySelectorAll('input[name="subject"]:checked')).map(function (checkbox) {
+                return checkbox.value;
+            }),
+            turnusWinter: this.filterContainer.querySelector('input[name="turnus"][value="winter"]').checked,
+            turnusSommer: this.filterContainer.querySelector('input[name="turnus"][value="sommer"]').checked,
+            turnusBoth: this.filterContainer.querySelector('input[name="turnus"][value="beide"]').checked,
+            recommendedSemester: Array.from(this.filterContainer.querySelectorAll('input[name="recommended-semester"]:checked')).map(function (checkbox) {
+               return parseInt(checkbox.value);
+            }),
+            selectedSemester: Array.from(this.filterContainer.querySelectorAll('input[name="selected-semester"]:checked')).map(function (checkbox) {
+                return parseInt(checkbox.value);
+            })
+        };
+
+        console.log(filterValues);
+
+        //return filterValues;
+
+    }
+
+    fillFilters() {
+        let subjectsContainer = document.getElementById('subjects-container');
+        let recommendedSemesterContainer = document.getElementById('recommended-semester-container');
+        let selectedSemesterContainer = document.getElementById('selected-semester-container');
+
+
+        // subjects
+        studies.subjects.forEach(function (subject) {  
+            let label = document.createElement('label');         
+
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'subject';
+            checkbox.value = subject.title;
+            checkbox.id = 'subject-' + subject.title;
+
+            label.innerHTML = checkbox.outerHTML + " "  + subject.title;
+            console.log(label);
+            subjectsContainer.appendChild(label);
+        });
+
+        // semesters
+        studies.semesters.forEach(function (semester) {
+            let label = document.createElement('label');
+
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'recommended-semester';
+            checkbox.value = semester.count;
+            checkbox.id = 'recommended-semester-' + semester.count;
+
+            label.innerHTML = checkbox.outerHTML + " "  + semester.count;
+            recommendedSemesterContainer.appendChild(label);
+
+            label = document.createElement('label');
+
+            checkbox.name = 'selected-semester';
+            checkbox.id = 'selected-semester-' + semester;
+
+            label.innerHTML = checkbox.outerHTML + " "  + semester.count;
+            selectedSemesterContainer.appendChild(label);
+        });
+
+    }
 }
 
-export default ScheduleViewRight;
+export default CatalogueViewRight;

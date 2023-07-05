@@ -18,27 +18,10 @@ class ScheduleView extends Observable {
 
         this.grid = null;
         this.timerId = null;
-        // var items = [
-        //     {
-        //         x: 0, y: 1,
-        //         content: 'my first widget',
-        //         //locked: true
-        //     }, // will default to location (0,0) and 1x1
-        //     {
-        //         x: 2, y: 1,
-        //         w: 2, content: 'another longer widget!',
-        //         //locked: true
-        //     } // will be placed next at (1,0) and 2x1
-        // ];
-        // var options = {
-        //     column: 6, 
-        //     cellHeight: "100px",
-        //     disableOneColumnMode: true,
-        //     float: false
-        // }
-        // this.grid = GridStack.init(options);
-        // this.grid.load(items);
-        // this.setSemesters(6);
+    }
+
+    showModal(subjectTitle){
+        this.modalView.show(subjectTitle);
     }
 
     show(study) {

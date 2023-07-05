@@ -106,6 +106,14 @@ class Studies {
         return null;
     }
 
+    getSubjectIndex(subjectTitle){
+        for(let subject of this.subjects){
+            if(subject.title === subjectTitle){
+                return subject.colourCode;
+            }
+        }
+    }
+
     toJSON() {
 
         return {

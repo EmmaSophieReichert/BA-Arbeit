@@ -55,9 +55,9 @@ class FileManager extends Observable {
         this.notifyAll(e);
     }
 
-    addModule(module){
+    addModule(module, subjectIndex){
         let stud = studies;
-        stud.subjects[0].addModule(module);
+        stud.subjects[subjectIndex].addModule(module);
         setStudyInstance(stud);
         this.updateFile();
     }

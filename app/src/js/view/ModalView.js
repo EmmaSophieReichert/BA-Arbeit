@@ -1,18 +1,15 @@
 import Module from '../model/structure/Module.js';
+import { studies } from '../model/studiesInstance.js';
 import {Event, Observable} from '../utils/Observable.js';
 
 class ModalView extends Observable{
 
     constructor() {
         super();
-        this.openModalButton = document.getElementById('open-modal-btn');
         this.modal = document.getElementById('modal');
         this.closeModalButton = document.querySelector('.close');
         this.moduleForm = document.getElementById('module-form');
-        
-        this.openModalButton.addEventListener('click', () => {
-            this.modal.showModal();
-        });
+        this.subject = 1;
 
         this.closeModalButton.addEventListener('click', () => {
             this.moduleForm.reset();
@@ -32,16 +29,24 @@ class ModalView extends Observable{
 
             let module = new Module(title, shortname, ects, semester, length),
                 ev;
-            module.addSelectedSemester(semester ? semester : 1);
+            for(let i = 0; i < length; i++){
+                module.addSelectedSemester(semester ? semester + i : 1 + i);
+            }
             let data = {
                 module: module,
-                subject: 1,
+                subject: this.subject,
             }
             ev = new Event("onModuleAdded", data);
             this.notifyAll(ev);
 
             this.modal.close();
         });
+    }
+
+    show(subjectTitle){
+        this.modal.showModal();
+        console.log(studies.getSubjectIndex(subjectTitle));
+        this.subject = studies.getSubjectIndex(subjectTitle);
     }
 }
 
