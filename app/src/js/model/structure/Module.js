@@ -1,11 +1,11 @@
 class Module {
-    constructor(title, ID, ECTS, recommendedSemester = 1, minSemLength = 1, posY = 0) {
+    constructor(title, ID, ECTS, period = "beide", recommendedSemester = 1, minSemLength = 1, posY = 0) {
         this.title = title;
         this.ID = ID;
         this.ECTS = ECTS;
 
         this.recommendedSemester = recommendedSemester;
-        this.period = "Wintersemester";
+        this.period = period;
         this.minSemLength = minSemLength;
 
         //this.moduleComponents = [];

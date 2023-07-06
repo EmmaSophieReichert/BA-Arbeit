@@ -13,7 +13,6 @@ class ModuleCatalogueController{
         this.catalogueViewRight = new CatalogueViewRight();
 
         if(studies !== null){
-            console.log("klein");
             this.catalogueViewRight.show(studies);
             this.catalogueView.show(studies);
         }
@@ -29,7 +28,6 @@ class ModuleCatalogueController{
 
         this.catalogueViewRight.addEventListener("onFilterValues", (e) => {
             let study = this.catalogueManager.filterStudies(e.data);
-            console.log(study);
             this.catalogueView.show(study);
         })
     }
