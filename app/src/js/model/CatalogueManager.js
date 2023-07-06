@@ -1,5 +1,5 @@
-import Studies from "./structure/Studies";
-import { studies } from "./studiesInstance";
+import Studies from "./structure/Studies.js";
+import { studies } from "./studiesInstance.js";
 
 class CatalogueManager {
 

@@ -6,6 +6,7 @@ const HTTP_PORT = 8080;
 var app;
 
 function init() {
+    console.log("INIT");
     app = express();
     app.use("/", express.static("app"));
     app.listen(HTTP_PORT, function() {
