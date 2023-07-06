@@ -12,12 +12,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/MME-Aufgaben-im-Winter-2021/MME-WS2122-Countdown-Starter"
+        "url": "https://github.com/EmmaSophieReichert/BA-Arbeit"
     },
     "author": "Emma Sophie Reichert",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/MME-Aufgaben-im-Winter-2021/MME-WS2122-Countdown-Starter/issues"
+        "url": "https://github.com/EmmaSophieReichert/BA-Arbeit/issues"
     },
     "homepage": "",
     "dependencies": {
