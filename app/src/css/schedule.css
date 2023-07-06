@@ -24,7 +24,7 @@
 } */
 
 .grid-stack-item-content {
-    /* background-color: var(--mint-green); */ 
+    /* background-color: var(--mint-green); */
     border-radius: 0.5em;
     text-align: center;
 }
@@ -105,7 +105,7 @@
 .module-abbreviation {
     font-size: small;
     margin-right: 60px;
-    margin-left: 50px;
+    /* margin-left: 50px; */
 }
 
 .module-title {
@@ -125,11 +125,40 @@
     width: 20vw;
     border-left: 1px solid var(--elephant-grey);
     justify-content: space-between;
-    overflow: auto;
+}
+
+.main-right h2 {
+    hyphens: auto;
 }
 
 .main-right-up {
     padding: 2vw;
+    overflow-y: auto;
+
+    /* Quelle: https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/ */
+
+    background:
+        /* Shadow Cover TOP */
+        linear-gradient(var(--light-grey) 30%,
+            rgba(255, 255, 255, 0)) center top,
+
+        /* Shadow Cover BOTTOM */
+        linear-gradient(rgba(255, 255, 255, 0),
+        var(--light-grey) 70%) center bottom,
+
+        /* Shadow TOP */
+        radial-gradient(farthest-side at 50% 0,
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0)) center top,
+
+        /* Shadow BOTTOM */
+        radial-gradient(farthest-side at 50% 100%,
+            rgba(0, 0, 0, 0.2),
+            rgba(0, 0, 0, 0)) center bottom;
+
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    background-attachment: local, local, scroll, scroll;
 }
 
 .main-right-bottom {

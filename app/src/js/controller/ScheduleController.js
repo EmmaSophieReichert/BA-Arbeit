@@ -21,6 +21,7 @@ class ScheduleController{
         this.scheduleViewRight.addEventListener("onAddModuleButtonClicked", e => {
             this.scheduleView.showModal(e.data);
         });
+        this.scheduleView.addEventListener("onModuleChanged", () => {this.fileManager.updateFile()});
 
         this.fileManager.getStudy();
         
