@@ -1,8 +1,8 @@
-import CatalogueManager from "../model/CatalogueManager";
-import FileManager from "../model/FileManager";
-import { studies } from "../model/studiesInstance";
-import CatalogueView from "../view/CatalogueView";
-import CatalogueViewRight from "../view/CatalogueViewRight";
+import CatalogueManager from "../model/CatalogueManager.js";
+import FileManager from "../model/FileManager.js";
+import { studies } from "../model/studiesInstance.js";
+import CatalogueView from "../view/CatalogueView.js";
+import CatalogueViewRight from "../view/CatalogueViewRight.js";
 
 
 class ModuleCatalogueController{
