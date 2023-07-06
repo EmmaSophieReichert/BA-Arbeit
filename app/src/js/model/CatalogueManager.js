@@ -8,8 +8,6 @@ class CatalogueManager {
     }
 
     filterStudies(filterValues) {
-        console.log(filterValues);
-        console.log(studies);
         let study = structuredClone(studies) ;
         // Filtern der Subjects
         var filteredSubjects = study.subjects.filter(function (subject) {
@@ -33,7 +31,7 @@ class CatalogueManager {
                 }
                 // Filtern nach Turnus (wenn ausgewählt)
                 if (filterValues.turnus.length !== 0) {
-                    return filterValues.turnus === module.period; //||  filterValues.turnus === "beide" ;
+                    return filterValues.turnus.includes(module.period); //||  filterValues.turnus === "beide" ;
                 }
                 // Filtern nach empfohlenem Semester (wenn ausgewählt)
                 if (filterValues.recommendedSemester.length !== 0) {

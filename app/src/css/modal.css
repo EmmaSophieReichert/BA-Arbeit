@@ -78,3 +78,7 @@ button[type="submit"]:hover {
 .row-space {
     margin-top: 35px;
 }
+
+.form-row .radio-div{
+    width: auto;
+}

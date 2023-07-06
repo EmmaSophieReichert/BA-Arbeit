@@ -21,11 +21,16 @@ class ScheduleView extends Observable {
         this.grid = null;
         this.timerId = null;
 
-        // var gridContainer = document.querySelector('.grid-stack');
-        // gridContainer.on('click', '.grid-stack-item', function (event) {
-        //     var widget = event.target;
-        //     console.log('Widget geklickt:', widget);
-        // });
+        this.gridContainer = document.querySelector('.grid-stack');
+        this.gridContainer.addEventListener('click', function (event) {
+            var widget = event.target.closest('.grid-stack-item');
+            if (widget !== null) {
+                if(widget.getAttribute("gs-y") !== "0"){
+                    let id = widget.getAttribute("gs-id")
+                    console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
+                }
+            }
+        });
     }
 
     showModal(subjectTitle) {
@@ -145,6 +150,17 @@ class ScheduleView extends Observable {
         ectsBox.textContent = module.ECTS + " ECTS";
         ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
 
+        // let turnusBox = document.createElement('div'); TODO: ADD sth here
+        // turnusBox.classList.add('turnus-box');
+        // let symbol;
+        // switch(module.period){
+        //     case "Wintersemester": symbol = "❄️"; break;
+        //     case "Sommersemester": symbol = "☀️"; break;
+        //     case "beide": symbol = "❄️☀️"; break;
+        //     default: symbol = "❄️☀️"; break;
+        // }
+        // turnusBox.textContent = symbol;
+
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');
         moduleAbbreviation.textContent = module.ID;
@@ -154,6 +170,7 @@ class ScheduleView extends Observable {
         moduleTitle.textContent = module.title;
 
         moduleDiv.appendChild(ectsBox);
+        //moduleDiv.appendChild(turnusBox);
         moduleDiv.appendChild(moduleAbbreviation);
         moduleDiv.appendChild(moduleTitle);
 
@@ -173,11 +190,11 @@ class ScheduleView extends Observable {
         if (this.timerId === null) {
             this.timerId = setTimeout(() => {
                 console.log("Timer finished");
-                this.timerId = null;
                 console.log(studies);
                 let e = new Event("positionsChanged", "positionsChanged");
                 this.notifyAll(e);
-            }, 5000);
+                this.timerId = null;
+            }, 1000);
         }
     }
 

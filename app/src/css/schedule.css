@@ -87,9 +87,25 @@
     border-radius: 0.5em;
 }
 
+.turnus-box {
+    position: absolute;
+    top: 3px;
+    left: 6px;
+    /* width: 50px;
+    height: 50px; */
+    /* background-color: var(--elephant-grey); */
+    color: black;
+    background-color: transparent;
+    font-size: 120%;
+    text-align: center;
+    border-radius: 0.5em;
+    text-shadow: 4px 0 0 #fff, -4px 0 0 #fff, 0 4px 0 #fff, 0 -4px 0 #fff, 2px 2px #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff;
+}
+
 .module-abbreviation {
     font-size: small;
     margin-right: 60px;
+    margin-left: 50px;
 }
 
 .module-title {

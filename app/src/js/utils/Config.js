@@ -32,7 +32,7 @@ const Config = {
         "#87cfffff",//"#0e9effff", //blue
         "#aaeedbff", //green
         "#ffc5abff", //"#ff8d58ff", //orange
-        "#e259b2ff", //pink
+        "#f0add9ff", //"#e259b2ff", //pink
         "#ffe482ff", //yellow
     ],
 };

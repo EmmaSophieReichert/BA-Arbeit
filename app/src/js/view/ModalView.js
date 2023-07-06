@@ -22,12 +22,13 @@ class ModalView extends Observable{
                 shortname = document.getElementById('shortname').value,
                 ects = parseInt(document.getElementById('ects').value),
                 semester = document.getElementById('semester').value,
-                length = parseInt(document.getElementById('length').value);
+                length = parseInt(document.getElementById('length').value),
+                period = document.querySelector('input[name="start"]:checked').value;
             semester = semester === "" ? null : parseInt(semester);
 
             this.moduleForm.reset();
 
-            let module = new Module(title, shortname, ects, semester, length),
+            let module = new Module(title, shortname, ects, period, semester, length),
                 ev;
             for(let i = 0; i < length; i++){
                 module.addSelectedSemester(semester ? semester + i : 1 + i);
@@ -45,7 +46,6 @@ class ModalView extends Observable{
 
     show(subjectTitle){
         this.modal.showModal();
-        console.log(studies.getSubjectIndex(subjectTitle));
         this.subject = studies.getSubjectIndex(subjectTitle);
     }
 }

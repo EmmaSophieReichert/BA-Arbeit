@@ -51,7 +51,7 @@ class Studies {
             i++;
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {
-                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.recommendedSemester, mod.minSemLength, mod.posY);
+                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.period, mod.recommendedSemester, mod.minSemLength, mod.posY);
                     for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
