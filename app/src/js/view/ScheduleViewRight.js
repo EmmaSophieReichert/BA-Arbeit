@@ -1,4 +1,5 @@
-import { GridStack } from 'gridstack';
+//import { GridStack } from 'gridstack';
+import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
 import Config from '../utils/Config.js';

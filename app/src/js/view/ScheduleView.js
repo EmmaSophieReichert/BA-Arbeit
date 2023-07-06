@@ -1,7 +1,8 @@
-import { GridStack } from 'gridstack';
+// import { GridStack } from 'gridstack';
+import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
 import ModalView from './ModalView.js';
-import {Observable, Event} from '../utils/Observable.js';
+import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 
@@ -11,17 +12,23 @@ class ScheduleView extends Observable {
     constructor() {
         super();
         this.modalView = new ModalView();
-        this.modalView.addEventListener("onModuleAdded", e => { 
+        this.modalView.addEventListener("onModuleAdded", e => {
             console.log("Module added");
             this.addModule(e.data.module, e.data.subject);
             this.notifyAll(e);
-         });
+        });
 
         this.grid = null;
         this.timerId = null;
+
+        // var gridContainer = document.querySelector('.grid-stack');
+        // gridContainer.on('click', '.grid-stack-item', function (event) {
+        //     var widget = event.target;
+        //     console.log('Widget geklickt:', widget);
+        // });
     }
 
-    showModal(subjectTitle){
+    showModal(subjectTitle) {
         this.modalView.show(subjectTitle);
     }
 
@@ -30,8 +37,8 @@ class ScheduleView extends Observable {
         let semesters = study.semesters;
         this.initGrid(semesters.length);
         this.initSemesters(semesters);
-        for(let subject of study.subjects){
-            for(let module of subject.modules){
+        for (let subject of study.subjects) {
+            for (let module of subject.modules) {
                 this.addModule(module, subject.colourCode);
             }
         }
@@ -160,7 +167,7 @@ class ScheduleView extends Observable {
             stud.calculateSemesterECTS();
             setStudyInstance(stud);
         });
-        for(let i = 1; i<= studies.semesters.length; i++){
+        for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }
         if (this.timerId === null) {
@@ -174,10 +181,10 @@ class ScheduleView extends Observable {
         }
     }
 
-    updateSemesterECTS(semesterCount){
+    updateSemesterECTS(semesterCount) {
         let semP = document.getElementById("sem" + semesterCount + "ects"),
             semester = studies.getSemester(semesterCount);
-        semP.innerHTML = semester.ECTS+ " ECTS";
+        semP.innerHTML = semester.ECTS + " ECTS";
     }
 }
 
