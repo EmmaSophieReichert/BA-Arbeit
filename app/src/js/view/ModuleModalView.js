@@ -19,19 +19,22 @@ class ModuleModalView extends Observable {
 
         this.editModalButton = document.getElementById("edit-module-button");
         this.editModalButton.addEventListener("click", () => {
-            let modalView = new ModalView();
-            modalView.showModule(this.module, this.subject);
+            let e = new Event("onModuleEdited", "onModuleEdited");
+            this.notifyAll(e);
             this.modal.close();
-            modalView.addEventListener("onModuleEdited", (e) => {
-                let stud = studies;
-                stud.deleteModule(this.module.ID);
-                console.log(stud);
-                // let subjectIndex = studies.getSubjectIndex(e.data.subject.title);
-                // stud.subjects[subjectIndex].addModule(e.data.module);
-                // setStudyInstance(stud);
-                // console.log("DIRECT", studies);
-                // this.onModuleChanged();
-            });
+            // let modalView = new ModalView();
+            // modalView.showModule(this.module, this.subject);
+            // this.modal.close();
+            // modalView.addEventListener("onModuleEdited", (e) => {
+            //     let stud = studies;
+            //     stud.deleteModule(this.module.ID);
+            //     console.log(stud);
+            //     // let subjectIndex = studies.getSubjectIndex(e.data.subject.title);
+            //     // stud.subjects[subjectIndex].addModule(e.data.module);
+            //     // setStudyInstance(stud);
+            //     // console.log("DIRECT", studies);
+            //     // this.onModuleChanged();
+            // });
         });
 
         this.deleteModalButton = document.getElementById("delete-module-button");
