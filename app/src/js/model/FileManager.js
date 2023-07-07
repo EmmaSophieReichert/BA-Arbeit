@@ -15,9 +15,14 @@ class FileManager extends Observable {
         this.fileID = null;
     }
 
-    async getStudy() {
+    async getList(){
         let promise = listFiles(),
             res = await computePromise(promise);
+        return res;
+    }
+
+    async getStudy() {
+        let res = await this.getList();
         if (res.total === 0) {
             window.location.hash = "study";
             return;

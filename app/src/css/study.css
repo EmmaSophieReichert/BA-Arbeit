@@ -43,7 +43,7 @@
 }
 
 .submit-subject-section button {
-    width: 15ch;
+    margin-left: 30px;
 }
 
 @media (max-width: 824px) {
@@ -98,6 +98,10 @@ input[type='text'] {
 }
 
 .submit-subject-button{
+    width: 15ch;
+}
+
+.study-buttons {
     margin-left: auto;
     margin-top: 10px;
 }

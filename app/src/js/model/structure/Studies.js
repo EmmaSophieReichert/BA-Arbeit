@@ -21,7 +21,7 @@ class Studies {
     static initFirstSemesters(semester, period) {
         let periodCount = 0,
             semesters = [];
-        if (period === "summer") {
+        if (period === "Sommersemester") {
             periodCount = 1;
         }
         for (let i = 1; i <= semester; i++) {

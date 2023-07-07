@@ -2,6 +2,7 @@
 
 import StudyView from "../view/StudyView.js";
 import StudyManager from "../model/StudyManager.js";
+import { studies } from "../model/studiesInstance.js";
 
 class StudyController {
 
