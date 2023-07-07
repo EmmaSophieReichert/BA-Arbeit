@@ -11,13 +11,13 @@ class ModuleCatalogueController{
         this.catalogueManager = new CatalogueManager();
         this.catalogueView = new CatalogueView();
         this.catalogueViewRight = new CatalogueViewRight();
+        this.fileManager = new FileManager();
 
         if(studies !== null){
             this.catalogueViewRight.show(studies);
             this.catalogueView.show(studies);
         }
         else{
-            this.fileManager = new FileManager();
             this.fileManager.addEventListener("on-study-loaded", e => {
                 let study = e.data;
                 this.catalogueView.show(study);
@@ -25,6 +25,10 @@ class ModuleCatalogueController{
             });
             this.fileManager.getStudy();
         }
+
+        this.catalogueView.addEventListener("onModuleChanged", () =>{
+            this.fileManager.updateFile()
+        })
 
         this.catalogueViewRight.addEventListener("onFilterValues", (e) => {
             let study = this.catalogueManager.filterStudies(e.data);

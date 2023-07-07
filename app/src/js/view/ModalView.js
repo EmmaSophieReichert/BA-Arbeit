@@ -85,6 +85,7 @@ class ModalView extends Observable {
         this.root = "add";
         this.modal.close();
         this.modal.showModal();
+        console.log("hohoho");
         this.subject = studies.getSubjectIndex(subjectTitle);
         let subject = studies.getSubject(subjectTitle);
         console.log(subject);
@@ -95,12 +96,15 @@ class ModalView extends Observable {
     fill(module) {
         this.root = "edit";
         this.module = module;
+        console.log("FILL", module, document.getElementById('module-title'));
         document.getElementById('module-title').value = module.title;
         document.getElementById('shortname').value = module.ID;
         document.getElementById('ects').value = module.ECTS;
         //document.getElementById('start').value = module.period;
         document.getElementById('semester').value = module.recommendedSemester;
         document.getElementById('length').value = module.minSemLength;
+
+        console.log("FILL", module, document.getElementById('module-title').value);
 
         let radioButtons = document.getElementsByName('start');
         for (var i = 0; i < radioButtons.length; i++) {
@@ -115,4 +119,6 @@ class ModalView extends Observable {
     }
 }
 
-export default ModalView;
+var modalView = new ModalView();
+
+export default modalView;

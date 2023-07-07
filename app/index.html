@@ -69,6 +69,54 @@
         </footer>
     </div>
 
+    <dialog id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="edit-module-h2">Modul erstellen</h2>
+            <form id="module-form">
+                <div class="form-row row-space">
+                    <label for="module-title">Titel:</label>
+                    <input type="text" id="module-title" required>
+                </div>
+                <div class="form-row">
+                    <label for="shortname">Kurzform/Bezeichnung:</label>
+                    <input type="text" id="shortname" required>
+                </div>
+                <div class="form-row">
+                    <label for="ects">ECTS-Punkte:</label>
+                    <input type="number" id="ects" min="0" value="6">
+                </div>
+                <div class="form-row row-space">
+                    <label >Start angeboten im:</label>
+                    <div class="radio-div">
+                        <div>
+                            <input type="radio" id="Wintersemester" name="start" value="Wintersemester" checked>
+                            <label for="Wintersemester">❄️ Wintersemester</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Sommersemester" name="start" value="Sommersemester">
+                            <label for="Sommersemester">☀️ Sommersemester</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="beide" name="start" value="beide" checked>
+                            <label for="beide">beide</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="semester">Empfohlenes Semester:</label>
+                    <input type="number" id="semester" min="1">
+                </div>
+                <div class="form-row">
+                    <label for="length">Länge in Semestern:</label>
+                    <input type="number" id="length" min="1" value="1">
+                </div>
+                <p class="server-answer answer" id="module-error-message"></p>
+                <button class="row-space" type="submit">Modul speichern</button>
+            </form>
+        </div>
+    </dialog>
+
 
     <dialog id="show-modal" class="modal">
         <div class="modal-content">
@@ -76,11 +124,11 @@
             <h2 id="module-title-module-show">Modul</h2>
             <div id="module-details">
                 <div class="form-row row-space">
-                    <label for="shortname">Kurzform/Bezeichnung:</label>
+                    <label>Kurzform/Bezeichnung:</label>
                     <div id="shortname-module-show"></div>
                 </div>
                 <div class="form-row">
-                    <label for="ects">ECTS-Punkte:</label>
+                    <label>ECTS-Punkte:</label>
                     <div id="ects-module-show"></div>
                 </div>
                 <div class="form-row row-space">
@@ -88,11 +136,11 @@
                     <div id="start-module-show"></div>
                 </div>
                 <div class="form-row">
-                    <label for="semester">Empfohlenes Semester:</label>
+                    <label>Empfohlenes Semester:</label>
                     <div id="semester-module-show"></div>
                 </div>
                 <div class="form-row">
-                    <label for="length">Länge in Semestern:</label>
+                    <label>Länge in Semestern:</label>
                     <div id="length-module-show"></div>
                 </div>
             </div>

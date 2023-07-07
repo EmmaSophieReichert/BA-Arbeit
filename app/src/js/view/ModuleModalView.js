@@ -2,7 +2,7 @@ import Module from '../model/structure/Module.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import { Event, Observable } from '../utils/Observable.js';
-import ModalView from './ModalView.js';
+import modalView from './ModalView.js';
 
 class ModuleModalView extends Observable {
 
@@ -22,6 +22,10 @@ class ModuleModalView extends Observable {
             let e = new Event("onModuleEdited", "onModuleEdited");
             this.notifyAll(e);
             this.modal.close();
+            console.log("kuh", this.subject, this.module);
+            modalView.show(this.subject.title);
+            modalView.fill(this.module);
+        
             // let modalView = new ModalView();
             // modalView.showModule(this.module, this.subject);
             // this.modal.close();
@@ -64,7 +68,9 @@ class ModuleModalView extends Observable {
         document.getElementById('start-module-show').textContent = module.period;
         document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         document.getElementById('length-module-show').textContent = module.minSemLength;
+        this.modal.close();
         this.modal.showModal();
+        console.log("heheheheheh");
     }
 
     // show(subjectTitle) {
@@ -76,4 +82,6 @@ class ModuleModalView extends Observable {
     // }
 }
 
-export default ModuleModalView;
+var moduleModalView = new ModuleModalView()
+
+export default moduleModalView;

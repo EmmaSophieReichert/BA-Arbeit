@@ -1,10 +1,11 @@
 //import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import ModalView from './ModalView.js';
+import modalView from './ModalView.js';
 import {Observable, Event} from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
+import moduleModalView from './ModuleModalView.js';
 
 class CatalogueView extends Observable{
 
@@ -18,6 +19,29 @@ class CatalogueView extends Observable{
 
         this.grid = null;
         this.timerId = null;
+
+        this.gridContainer = document.querySelector('.grid-stack');
+        this.gridContainer.addEventListener('click', (event) => {
+            var widget = event.target.closest('.grid-stack-item');
+            console.log(widget);
+            if (widget !== null) {
+                let id = widget.getAttribute("gs-id"),
+                    data = studies.getModuleAndSubjectByID(id);
+                moduleModalView.show(data.module, data.subject);
+                moduleModalView.addEventListener("onModuleChanged", (e) => {
+                    this.show(studies);
+                    this.notifyAll(e);
+                });
+                moduleModalView.addEventListener("onModuleEdited", () => {
+                    //modalView.show(data.subject.title);
+                    //modalView.fill(data.module);
+                })
+                // e = new Event("onModuleViewOpened", id);
+                // this.notifyAll(e);
+
+                console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
+            }
+        });
     }
 
     show(study) {
