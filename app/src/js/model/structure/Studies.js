@@ -21,7 +21,7 @@ class Studies {
     static initFirstSemesters(semester, period) {
         let periodCount = 0,
             semesters = [];
-        if (period === "summer") {
+        if (period === "Sommersemester") {
             periodCount = 1;
         }
         for (let i = 1; i <= semester; i++) {
@@ -62,15 +62,26 @@ class Studies {
         }
     }
 
-    getModuleByID(id) {
+    getModuleAndSubjectByID(id) {
         for (let subject of this.subjects) {
             for (let module of subject.modules) {
                 if (module.ID === id) {
-                    return module;
+                    return {
+                      module: module,
+                      subject: subject, 
+                    };
                 }
             }
         }
         return null;
+    }
+
+    deleteModule(id){
+        for (let subject of this.subjects) {
+            subject.modules = subject.modules.filter(function(module) {
+                return module.ID !== id;
+            });
+        }
     }
 
     changeModulePosition(id, x, y) {
@@ -106,10 +117,18 @@ class Studies {
         return null;
     }
 
-    getSubjectIndex(subjectTitle){
+    getSubject(subjectTitle){
         for(let subject of this.subjects){
             if(subject.title === subjectTitle){
-                return subject.colourCode;
+                return subject;
+            }
+        }
+    }
+
+    getSubjectIndex(subjectTitle){
+        for(let i = 0; i <  this.subjects.length; i++){
+            if(this.subjects[i].title === subjectTitle){
+                return i;
             }
         }
     }

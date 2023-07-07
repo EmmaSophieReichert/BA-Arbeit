@@ -7,13 +7,13 @@ const Config = {
     DATABASE_ID: "649afbb84bb08d4663e1",
     COLLECTION_ID: "649b037f907ae057e75a",
     BUCKET_ID: "649d550640f146162c94",
-    // COLOUR_CODES: [
-    //     "#c7e8ffff",
-    //     "#ebfbf7ff",
-    //     "#fff8e1ff",
-    //     "#ffe5d9ff",
-    //     "#f8d9edff"
-    // ],
+    COLOUR_CODES_LIGHT: [
+        "#c7e8ffff", //blue
+        "#ebfbf7ff", //green
+        "#ffe5d9ff",
+        "#f8d9edff",
+        "#fff8e1ff",
+    ],
     COLOUR_CODES: [
         "#b0deffff", //blue
         "#d5f7eeff", //green

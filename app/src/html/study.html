@@ -44,11 +44,11 @@
                 <label>Start im</label>
                 <div class="radio-div grid-right">
                     <div>
-                        <input type="radio" id="winter" name="start" value="winter" checked>
+                        <input type="radio" id="winter" name="start" value="Wintersemester" checked>
                         <label for="winter">❄️ Wintersemester</label>
                     </div>
                     <div>
-                        <input type="radio" id="summer" name="start" value="summer">
+                        <input type="radio" id="summer" name="start" value="Sommersemester">
                         <label for="summer">☀️ Sommersemester</label>
                     </div>
                 </div>
@@ -56,20 +56,27 @@
 
             </div>
 
-            <h2>Studiengang hinzufügen</h2>
+            <div id="add-subjects-div">
+                <h2>Studiengang hinzufügen</h2>
 
-            <div id="additional-study-boxes">
-                <div class="study-input-box">
-                    <input class="study-title" type="text" id="title" name="title" placeholder="Titel">
+                <div id="additional-study-boxes">
+                    <div class="study-input-box">
+                        <input class="study-title" type="text" id="title" name="title" placeholder="Titel">
+                    </div>
+                </div>
+
+                <div class="section" id="add-study-div">
+                    <button type="button" class="underline-button" id="add-study">Weiterer Studiengang?</button>
                 </div>
             </div>
 
-            <div class="section" id="add-study-div">
-                <button type="button" class="underline-button" id="add-study">Weiterer Studiengang?</button>
-            </div>
 
             <div class="section submit-subject-section">
-                <button class="submit-subject-button" type="submit">Weiter</button>
+                <div class="study-buttons">
+                    <button id="decline-study-button" class="register-button" type="button" hidden> Änderungen verwerfen
+                    </button>
+                    <button class="submit-subject-button" type="submit">Weiter</button>
+                </div>
                 <p class="server-answer answer" id="error-message"></p>
             </div>
         </form>

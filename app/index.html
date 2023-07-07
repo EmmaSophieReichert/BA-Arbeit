@@ -8,6 +8,7 @@
     <meta name="description" content="Organize your studies">
     <meta name="keywords" content="studies, planning, scheduling">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <link rel="stylesheet" href="src/css/index.css">
     <link rel="stylesheet" href="src/css/impressum.css">
     <link rel="stylesheet" href="src/css/nav-bar.css">
@@ -67,6 +68,42 @@
             </div>
         </footer>
     </div>
+
+
+    <dialog id="show-modal" class="modal">
+        <div class="modal-content">
+            <span class="close close-module-show">&times;</span>
+            <h2 id="module-title-module-show">Modul</h2>
+            <div id="module-details">
+                <div class="form-row row-space">
+                    <label for="shortname">Kurzform/Bezeichnung:</label>
+                    <div id="shortname-module-show"></div>
+                </div>
+                <div class="form-row">
+                    <label for="ects">ECTS-Punkte:</label>
+                    <div id="ects-module-show"></div>
+                </div>
+                <div class="form-row row-space">
+                    <label>Start angeboten im:</label>
+                    <div id="start-module-show"></div>
+                </div>
+                <div class="form-row">
+                    <label for="semester">Empfohlenes Semester:</label>
+                    <div id="semester-module-show"></div>
+                </div>
+                <div class="form-row">
+                    <label for="length">Länge in Semestern:</label>
+                    <div id="length-module-show"></div>
+                </div>
+            </div>
+            <div class="button-container row-space">
+                <button id="delete-module-button"type="submit"s>Modul löschen</button>
+                <button class="register-button" id="edit-module-button">Modul bearbeiten</button>
+            </div>
+        </div>
+    </dialog>
+
+
     <script type="module" src="src/js/index.js"></script>
     <!-- <link rel="stylesheet" type="css" href="../node_modules/gridstack/dist/gridstack.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>

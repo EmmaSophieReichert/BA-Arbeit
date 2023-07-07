@@ -12,56 +12,59 @@
             <div id="study-boxes-container">
 
             </div>
+
+            <div id="filter-container">
+                <h3>Filter</h3>
+    
+                <div class="filter-group">
+                    <h4>Im Plan/Nicht im Plan</h4>
+                    <label>
+                        <input type="checkbox" name="plan" value="inPlan">
+                        Im Plan
+                    </label>
+                    <label>
+                        <input type="checkbox" name="plan" value="notInPlan">
+                        Nicht im Plan
+                    </label>
+                </div>
+    
+                <div class="filter-group" id="subjects-container" hidden>
+                    <h4>Fach</h4>
+                </div>
+    
+                <div class="filter-group">
+                    <h4>Turnus</h4>
+                    <label>
+                        <input type="checkbox" name="turnus" value="Wintersemester">
+                        Wintersemester
+                    </label>
+                    <label>
+                        <input type="checkbox" name="turnus" value="Sommersemester">
+                        Sommersemester
+                    </label>
+                    <label>
+                        <input type="checkbox" name="turnus" value="beide">
+                        Beide
+                    </label>
+                </div>
+    
+                <div class="filter-group" id="recommended-semester-container">
+                    <h4>Empfohlenes Semester</h4>
+                </div>
+    
+                <div class="filter-group"  id="selected-semester-container">
+                    <h4>Ausgewähltes Semester</h4>
+                </div>
+            </div>
         </div>
-
-        <div id="filter-container">
-            <h3>Filter</h3>
-
-            <div class="filter-group">
-                <h4>Im Plan/Nicht im Plan</h4>
-                <label>
-                    <input type="checkbox" name="plan" value="inPlan">
-                    Im Plan
-                </label>
-                <label>
-                    <input type="checkbox" name="plan" value="notInPlan">
-                    Nicht im Plan
-                </label>
-            </div>
-
-            <div class="filter-group" id="subjects-container" hidden>
-                <h4>Fach</h4>
-            </div>
-
-            <div class="filter-group">
-                <h4>Turnus</h4>
-                <label>
-                    <input type="checkbox" name="turnus" value="Wintersemester">
-                    Wintersemester
-                </label>
-                <label>
-                    <input type="checkbox" name="turnus" value="Sommersemester">
-                    Sommersemester
-                </label>
-                <label>
-                    <input type="checkbox" name="turnus" value="beide">
-                    Beide
-                </label>
-            </div>
-
-            <div class="filter-group" id="recommended-semester-container">
-                <h4>Empfohlenes Semester</h4>
-            </div>
-
-            <div class="filter-group"  id="selected-semester-container">
-                <h4>Ausgewähltes Semester</h4>
-            </div>
-        </div>
-
 
         <div class="main-right-bottom">
-            <button class="right-schedule-menu underline-button" id="open-module-catalogue-btn">Modulkatalog
-                öffnen</button>
+            <a href="#study" class="right-schedule-menu underline-button">
+                <p>Studium bearbeiten</p>
+            </a>
+            <a href="#schedule" class="right-schedule-menu underline-button">
+                <p>Studienverlaufsplan</p>
+            </a>
         </div>
 
 

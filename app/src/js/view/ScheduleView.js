@@ -5,6 +5,7 @@ import ModalView from './ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
+import ModuleModalView from './ModuleModalView.js';
 
 
 class ScheduleView extends Observable {
@@ -14,6 +15,13 @@ class ScheduleView extends Observable {
         this.modalView = new ModalView();
         this.modalView.addEventListener("onModuleAdded", e => {
             console.log("Module added");
+            if(e.data.root === "edit"){
+                console.log("EDIT");
+                let stud = studies;
+                stud.deleteModule(e.data.id);
+                setStudyInstance(stud);
+                this.updateStudy();
+            }
             this.addModule(e.data.module, e.data.subject);
             this.notifyAll(e);
         });
@@ -22,11 +30,25 @@ class ScheduleView extends Observable {
         this.timerId = null;
 
         this.gridContainer = document.querySelector('.grid-stack');
-        this.gridContainer.addEventListener('click', function (event) {
+        this.gridContainer.addEventListener('click', (event) => {
             var widget = event.target.closest('.grid-stack-item');
             if (widget !== null) {
                 if(widget.getAttribute("gs-y") !== "0"){
-                    let id = widget.getAttribute("gs-id")
+                    let id = widget.getAttribute("gs-id"),
+                        moduleModalView = new ModuleModalView(),
+                        data = studies.getModuleAndSubjectByID(id);
+                    moduleModalView.show(data.module, data.subject);
+                    moduleModalView.addEventListener("onModuleChanged", (e) => {
+                        this.updateStudy();
+                        this.notifyAll(e);
+                    });
+                    moduleModalView.addEventListener("onModuleEdited", () => {
+                        this.modalView.show(data.subject.title);
+                        this.modalView.fill(data.module);
+                    })
+                    // e = new Event("onModuleViewOpened", id);
+                    // this.notifyAll(e);
+
                     console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
                 }
             }
@@ -35,6 +57,11 @@ class ScheduleView extends Observable {
 
     showModal(subjectTitle) {
         this.modalView.show(subjectTitle);
+    }
+
+    updateStudy(){
+        this.grid.removeAll();
+        this.show(studies);
     }
 
     show(study) {
