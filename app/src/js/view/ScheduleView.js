@@ -12,17 +12,14 @@ class ScheduleView extends Observable {
 
     constructor() {
         super();
-        modalView.addEventListener("onModuleAdded", e => {
+        modalView.addEventListener("onModuleChanged", e => {
             console.log("Module added");
-            if(e.data.root === "edit"){
-                console.log("EDIT");
-                let stud = studies;
-                stud.deleteModule(e.data.id);
-                setStudyInstance(stud);
-                this.updateStudy();
-            }
-            this.addModule(e.data.module, e.data.subject);
-            this.notifyAll(e);
+            // if(e.data.root === "edit"){
+            //     this.updateStudy();
+            // }
+            // this.addModule(e.data.module, e.data.subject);
+            this.updateStudy();
+            //this.notifyAll(e);
         });
 
         this.grid = null;
@@ -41,15 +38,6 @@ class ScheduleView extends Observable {
                         this.updateStudy();
                         this.notifyAll(e);
                     });
-                    moduleModalView.addEventListener("onModuleEdited", () => {
-                        console.log("Weihnachten");
-                        //modalView.show(data.subject.title);
-                        //modalView.fill(data.module);
-                    })
-                    // e = new Event("onModuleViewOpened", id);
-                    // this.notifyAll(e);
-
-                    console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
                 }
             }
         });

@@ -11,11 +11,16 @@ class CatalogueView extends Observable{
 
     constructor() {
         super();
-        // this.modalView = new ModalView();
-        // this.modalView.addEventListener("onModuleAdded", e => { 
-        //     this.addModule(e.data.module, Config.COLOUR_CODES[e.data.subject]);
-        //     this.notifyAll(e);
-        //  });
+
+        modalView.addEventListener("onModuleChanged", e => {
+            console.log("Module added");
+            // if(e.data.root === "edit"){
+            //     this.show(studies);
+            // }
+            // this.addModule(e.data.module, e.data.subject);
+            this.show(studies);
+            //this.notifyAll(e);
+        });
 
         this.grid = null;
         this.timerId = null;
@@ -32,16 +37,12 @@ class CatalogueView extends Observable{
                     this.show(studies);
                     this.notifyAll(e);
                 });
-                moduleModalView.addEventListener("onModuleEdited", () => {
-                    //modalView.show(data.subject.title);
-                    //modalView.fill(data.module);
-                })
-                // e = new Event("onModuleViewOpened", id);
-                // this.notifyAll(e);
-
-                console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
             }
         });
+    }
+
+    showModal(subjectTitle) {
+        modalView.show(subjectTitle);
     }
 
     show(study) {

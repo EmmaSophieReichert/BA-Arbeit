@@ -76,7 +76,7 @@ class FileManager extends Observable {
 
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
-            file = new File([blob], "Study-ID-2");
+            file = new File([blob], studies.subjects[0].title);
         await createFile(file)
             .then(() => { 
                 console.log("Change gas been successfully saved.")
@@ -94,4 +94,6 @@ async function computePromise(promise) {
     return res;
 }
 
-export default FileManager;
+var fileManager = new FileManager()
+
+export default fileManager;

@@ -1,4 +1,4 @@
-import FileManager from "../model/FileManager.js";
+import fileManager from "../model/FileManager.js";
 import Studies from "../model/structure/Studies.js";
 import { setStudyInstance, studies } from "../model/studiesInstance.js";
 import { Observable, Event } from "../utils/Observable.js";
@@ -47,8 +47,7 @@ class StudyView extends Observable {
 
         this.editMode = false;
 
-        this.fileManager = new FileManager();
-        this.fileManager.addEventListener("on-study-loaded", e => {
+        fileManager.addEventListener("on-study-loaded", e => {
             let study = e.data;
             this.fill(study);
         });
@@ -80,9 +79,9 @@ class StudyView extends Observable {
     }
 
     async handleNoStudies() {
-        let res = this.fileManager.getList();
+        let res = fileManager.getList();
         if (res.total !== 0) {
-            await this.fileManager.getStudy();
+            await fileManager.getStudy();
         }
     }
 
@@ -287,7 +286,7 @@ class StudyView extends Observable {
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
             console.log(stud);
             setStudyInstance(stud);
-            this.fileManager.updateFile();
+            fileManager.updateFile();
             window.location.hash = "#schedule";
         }
         else {

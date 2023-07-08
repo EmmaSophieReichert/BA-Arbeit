@@ -1,5 +1,6 @@
+import fileManager from '../model/FileManager.js';
 import Module from '../model/structure/Module.js';
-import { studies } from '../model/studiesInstance.js';
+import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import { Event, Observable } from '../utils/Observable.js';
 
@@ -68,7 +69,16 @@ class ModalView extends Observable {
             root: this.root,
             id: id,
         }
-        ev = new Event("onModuleAdded", data);
+
+        let stud = studies;
+        if(this.root === "edit"){
+            console.log("EDIT");
+            stud.deleteModule(id);
+        }
+        stud.subjects[this.subject].addModule(module);
+        setStudyInstance(stud);
+        fileManager.updateFile(); 
+        ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);
 
         this.close();
