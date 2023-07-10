@@ -25,6 +25,7 @@ class FileManager extends Observable {
     async getStudy() {
         let res = await this.getList();
         if (res.total === 0) {
+            console.log("NO STUDY FOUND");
             window.location.hash = "study";
             return;
         }
@@ -70,15 +71,15 @@ class FileManager extends Observable {
 
     async updateFile() {
         if (this.inProcess) {
-            setTimeout(() => {
-                this.updateFile();
+            setTimeout(async() => {
+                await this.updateFile();
             }, 100)
             setTimeout(() => {
                 this.inProcess = false;
             }, 30000)
         }
         else {
-            this.update();
+            await this.update();
         }
     }
 

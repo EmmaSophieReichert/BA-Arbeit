@@ -42,12 +42,17 @@ class ModuleModalView extends Observable {
         });
 
         this.deleteModalButton = document.getElementById("delete-module-button");
-        this.deleteModalButton.addEventListener("click", () => {
-            let stud = studies;
-            stud.deleteModule(this.module.ID);
-            setStudyInstance(stud);
-            fileManager.updateFile();
-            this.onModuleChanged();
+        this.deleteModalButton.addEventListener("mousedown", (event) => {
+            console.log(event.button);
+            if (event.button === 0) {
+                let stud = studies;
+                stud.deleteModule(this.module.ID);
+                setStudyInstance(stud);
+                fileManager.updateFile();
+                this.onModuleChanged();
+            } else {
+                event.preventDefault();
+            }
         });
     }
 

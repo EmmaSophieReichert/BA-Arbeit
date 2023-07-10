@@ -59,7 +59,7 @@ input[type="number"] {
     width: 10ch;
 }
 
-button[type="submit"] {
+button[type="submit"], .red-button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;

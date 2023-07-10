@@ -48,8 +48,10 @@ class StudyView extends Observable {
         this.editMode = false;
 
         fileManager.addEventListener("on-study-loaded", e => {
-            let study = e.data;
+            if(window.location.hash === "#study"){
+                let study = e.data;
             this.fill(study);
+            }
         });
 
         this.specializationOptions = document.getElementById('specialization-options');
@@ -86,6 +88,7 @@ class StudyView extends Observable {
     }
 
     fill(data) {
+        console.log("FILL");
         this.editMode = true;
         this.declineButton.removeAttribute("hidden");
         this.declineButton.addEventListener("click", () => { window.location.hash = "schedule" });
@@ -145,7 +148,6 @@ class StudyView extends Observable {
         //     additionalStudyTitleInput.value = data.subjects[i].title;
         // }
     }
-
 
     onDegreeChanged() {
         let selectedDegree = document.querySelector('input[name="degree"]:checked');
@@ -242,7 +244,7 @@ class StudyView extends Observable {
         return true;
     }
 
-    saveData() {
+    async saveData() {
         let selectedDegree = document.querySelector('input[name="degree"]:checked'),
             selectedSpecializations = document.querySelectorAll('input[name="specialization"]:checked'),
             ectsValue = parseInt(this.ectsInput.value),
@@ -281,8 +283,7 @@ class StudyView extends Observable {
             stud.totalECTS = ectsValue;
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
             setStudyInstance(stud);
-            fileManager.updateFile();
-            ;
+            await fileManager.updateFile();
             window.location.hash = "#schedule";
         }
         else {

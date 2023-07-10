@@ -192,12 +192,12 @@ class ScheduleView extends Observable {
     }
 
     handleWidgetChange(event, items) {
+        let stud = studies;
         items.forEach(item => {
-            let stud = studies;
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
-            setStudyInstance(stud);
         });
+        setStudyInstance(stud);
         for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }
