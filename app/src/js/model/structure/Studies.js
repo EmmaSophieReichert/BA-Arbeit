@@ -15,6 +15,7 @@ class Studies {
         this.initSemesters(semesters);
         this.initSubjects(subjects);
         this.calculateSemesterECTS();
+        this.calculateSubjectECTS();
         //this.grade = null;
     }
 
@@ -102,6 +103,17 @@ class Studies {
                 }
             }
         }
+        this.calculateSubjectECTS();
+    }
+
+    setModuleGrade(id, grade) {
+        for (let subject of this.subjects) {
+            for (let module of subject.modules) {
+                if (module.ID === id) {
+                    module.grade = grade;
+                }
+            }
+        }
     }
 
     calculateSemesterECTS() {
@@ -115,6 +127,18 @@ class Studies {
                 });
             });
             semester.ECTS = semesterECTS;
+        });
+    }
+
+    calculateSubjectECTS() {
+        this.subjects.forEach((subject) => {
+            let subjectECTS = 0;
+            subject.modules.forEach((module) => {
+                if(module.passed){
+                    subjectECTS += module.ECTS;
+                }
+            });
+            subject.currentECTS = subjectECTS;
         });
     }
 

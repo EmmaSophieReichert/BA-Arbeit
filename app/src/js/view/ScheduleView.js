@@ -19,7 +19,7 @@ class ScheduleView extends Observable {
             // }
             // this.addModule(e.data.module, e.data.subject);
             this.updateStudy();
-            //this.notifyAll(e);
+            this.notifyAll(e);
         });
 
         this.grid = null;
@@ -35,7 +35,7 @@ class ScheduleView extends Observable {
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
                         this.updateStudy();
-                        //this.notifyAll(e);
+                        this.notifyAll(e);
                     });
                 }
             }

@@ -1,5 +1,6 @@
 import fileManager from "../model/FileManager.js";
 import ScheduleModel from "../model/ScheduleModel.js";
+import { studies } from "../model/studiesInstance.js";
 import ScheduleView from "../view/ScheduleView.js";
 import ScheduleViewRight from "../view/ScheduleViewRight.js";
 
@@ -23,7 +24,10 @@ class ScheduleController{
         this.scheduleViewRight.addEventListener("onAddModuleButtonClicked", e => {
             this.scheduleView.showModal(e.data);
         });
-        this.scheduleView.addEventListener("onModuleChanged", () => {fileManager.updateFile()});
+        this.scheduleView.addEventListener("onModuleChanged", () => {
+            console.log("STUDIES", studies);
+            this.scheduleViewRight.showStudy(studies);
+        });
 
         fileManager.getStudy();
         
