@@ -40,7 +40,7 @@ class LoginController {
             setTimeout(() => { //TODO: FIX this, error when log out and log in
                 window.location.hash = "schedule";
                 console.log("LogIn Success Session Created");
-            }, 5000);
+            }, 300);
             //this.navView.showNavView(); show again?
         } else {
             console.log("Login failed");

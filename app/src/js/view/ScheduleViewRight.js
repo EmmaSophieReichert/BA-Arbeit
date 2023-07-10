@@ -1,7 +1,6 @@
 //import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import ModalView from './ModalView.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
 
@@ -19,7 +18,7 @@ class ScheduleViewRight extends Observable {
         }
     }
 
-    showSubject(subject) {
+    async showSubject(subject) {
         let div = document.createElement("div");
         div.className = "subject-box";
         div.style.backgroundColor = Config.COLOUR_CODES[subject.colourCode];
@@ -35,14 +34,12 @@ class ScheduleViewRight extends Observable {
         addModuleButton.style.backgroundColor = Config.COLOUR_CODES_DARK[subject.colourCode];
         addModuleButton.textContent = "Modul hinzufügen";
 
-
         // div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML; TODO: enable
         div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
-        this.studyBoxesContainer.appendChild(div);
+        await this.studyBoxesContainer.appendChild(div);
 
         addModuleButton = document.getElementById(subject.title + "-button");
         addModuleButton.addEventListener('click', () => {
-            console.log("Clickes");
             let e = new Event("onAddModuleButtonClicked", subject.title);
             this.notifyAll(e);
         });

@@ -1,29 +1,25 @@
 // import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import ModalView from './ModalView.js';
+import modalView from './ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
-import ModuleModalView from './ModuleModalView.js';
+import moduleModalView from './ModuleModalView.js';
 
 
 class ScheduleView extends Observable {
 
     constructor() {
         super();
-        this.modalView = new ModalView();
-        this.modalView.addEventListener("onModuleAdded", e => {
+        modalView.addEventListener("onModuleChanged", e => {
             console.log("Module added");
-            if(e.data.root === "edit"){
-                console.log("EDIT");
-                let stud = studies;
-                stud.deleteModule(e.data.id);
-                setStudyInstance(stud);
-                this.updateStudy();
-            }
-            this.addModule(e.data.module, e.data.subject);
-            this.notifyAll(e);
+            // if(e.data.root === "edit"){
+            //     this.updateStudy();
+            // }
+            // this.addModule(e.data.module, e.data.subject);
+            this.updateStudy();
+            //this.notifyAll(e);
         });
 
         this.grid = null;
@@ -35,28 +31,19 @@ class ScheduleView extends Observable {
             if (widget !== null) {
                 if(widget.getAttribute("gs-y") !== "0"){
                     let id = widget.getAttribute("gs-id"),
-                        moduleModalView = new ModuleModalView(),
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
                         this.updateStudy();
-                        this.notifyAll(e);
+                        //this.notifyAll(e);
                     });
-                    moduleModalView.addEventListener("onModuleEdited", () => {
-                        this.modalView.show(data.subject.title);
-                        this.modalView.fill(data.module);
-                    })
-                    // e = new Event("onModuleViewOpened", id);
-                    // this.notifyAll(e);
-
-                    console.log('Widget oder umschließendes grid-stack-item geklickt:', id);
                 }
             }
         });
     }
 
     showModal(subjectTitle) {
-        this.modalView.show(subjectTitle);
+        modalView.show(subjectTitle);
     }
 
     updateStudy(){
@@ -205,12 +192,12 @@ class ScheduleView extends Observable {
     }
 
     handleWidgetChange(event, items) {
+        let stud = studies;
         items.forEach(item => {
-            let stud = studies;
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
-            setStudyInstance(stud);
         });
+        setStudyInstance(stud);
         for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }
@@ -228,7 +215,9 @@ class ScheduleView extends Observable {
     updateSemesterECTS(semesterCount) {
         let semP = document.getElementById("sem" + semesterCount + "ects"),
             semester = studies.getSemester(semesterCount);
-        semP.innerHTML = semester.ECTS + " ECTS";
+        if(semP){
+            semP.innerHTML = semester.ECTS + " ECTS";
+        }
     }
 }
 

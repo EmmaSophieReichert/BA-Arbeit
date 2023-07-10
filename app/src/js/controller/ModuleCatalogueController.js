@@ -1,5 +1,5 @@
 import CatalogueManager from "../model/CatalogueManager.js";
-import FileManager from "../model/FileManager.js";
+import fileManager from "../model/FileManager.js";
 import { studies } from "../model/studiesInstance.js";
 import CatalogueView from "../view/CatalogueView.js";
 import CatalogueViewRight from "../view/CatalogueViewRight.js";
@@ -17,19 +17,29 @@ class ModuleCatalogueController{
             this.catalogueView.show(studies);
         }
         else{
-            this.fileManager = new FileManager();
-            this.fileManager.addEventListener("on-study-loaded", e => {
+            fileManager.addEventListener("on-study-loaded", e => {
                 let study = e.data;
                 this.catalogueView.show(study);
                 this.catalogueViewRight.show(study);
             });
-            this.fileManager.getStudy();
+            fileManager.getStudy();
         }
+
+        this.catalogueView.addEventListener("onModuleChanged", () =>{
+            fileManager.updateFile();
+            ;
+        });
 
         this.catalogueViewRight.addEventListener("onFilterValues", (e) => {
             let study = this.catalogueManager.filterStudies(e.data);
             this.catalogueView.show(study);
-        })
+        });
+
+        this.catalogueViewRight.addEventListener("onAddModuleButtonClicked", e => {
+            this.catalogueView.showModal(e.data);
+        });
+
+        this.catalogueView.addEventListener("onModuleAdded", e => { fileManager.addModule(e.data.module, e.data.subject) });
     }
 }
 

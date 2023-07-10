@@ -1,23 +1,47 @@
 //import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import ModalView from './ModalView.js';
+import modalView from './ModalView.js';
 import {Observable, Event} from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
+import moduleModalView from './ModuleModalView.js';
 
 class CatalogueView extends Observable{
 
     constructor() {
         super();
-        // this.modalView = new ModalView();
-        // this.modalView.addEventListener("onModuleAdded", e => { 
-        //     this.addModule(e.data.module, Config.COLOUR_CODES[e.data.subject]);
-        //     this.notifyAll(e);
-        //  });
+
+        modalView.addEventListener("onModuleChanged", e => {
+            console.log("Module added");
+            // if(e.data.root === "edit"){
+            //     this.show(studies);
+            // }
+            // this.addModule(e.data.module, e.data.subject);
+            this.show(studies);
+            //this.notifyAll(e);
+        });
 
         this.grid = null;
         this.timerId = null;
+
+        this.gridContainer = document.querySelector('.grid-stack');
+        this.gridContainer.addEventListener('click', (event) => {
+            var widget = event.target.closest('.grid-stack-item');
+            if (widget !== null) {
+                let id = widget.getAttribute("gs-id"),
+                    data = studies.getModuleAndSubjectByID(id);
+                moduleModalView.show(data.module, data.subject);
+                moduleModalView.addEventListener("onModuleChanged", (e) => {
+                    this.show(studies);
+                    //this.notifyAll(e);
+                });
+            }
+        });
+    }
+
+    showModal(subjectTitle) {
+        modalView.show(subjectTitle);
     }
 
     show(study) {
@@ -94,9 +118,7 @@ class CatalogueView extends Observable{
         // }
         // if (this.timerId === null) {
         //     this.timerId = setTimeout(() => {
-        //         console.log("Timer finished");
         //         this.timerId = null;
-        //         console.log(studies);
         //         let e = new Event("positionsChanged", "positionsChanged");
         //         this.notifyAll(e);
         //     }, 5000);

@@ -1,4 +1,4 @@
-import FileManager from "../model/FileManager.js";
+import fileManager from "../model/FileManager.js";
 import Studies from "../model/structure/Studies.js";
 import { setStudyInstance, studies } from "../model/studiesInstance.js";
 import { Observable, Event } from "../utils/Observable.js";
@@ -47,10 +47,11 @@ class StudyView extends Observable {
 
         this.editMode = false;
 
-        this.fileManager = new FileManager();
-        this.fileManager.addEventListener("on-study-loaded", e => {
-            let study = e.data;
+        fileManager.addEventListener("on-study-loaded", e => {
+            if(window.location.hash === "#study"){
+                let study = e.data;
             this.fill(study);
+            }
         });
 
         this.specializationOptions = document.getElementById('specialization-options');
@@ -80,15 +81,15 @@ class StudyView extends Observable {
     }
 
     async handleNoStudies() {
-        let res = this.fileManager.getList();
+        let res = fileManager.getList();
         if (res.total !== 0) {
-            await this.fileManager.getStudy();
+            await fileManager.getStudy();
         }
     }
 
     fill(data) {
-        this.editMode = true;
         console.log("FILL");
+        this.editMode = true;
         this.declineButton.removeAttribute("hidden");
         this.declineButton.addEventListener("click", () => { window.location.hash = "schedule" });
 
@@ -125,9 +126,7 @@ class StudyView extends Observable {
                 firstSemester = sem;
             }
         }
-        console.log(firstSemester);
         startRadios.forEach(radio => {
-            console.log(radio.value);
             if (radio.value === firstSemester.period) {
                 radio.checked = true;
             }
@@ -150,7 +149,6 @@ class StudyView extends Observable {
         // }
     }
 
-
     onDegreeChanged() {
         let selectedDegree = document.querySelector('input[name="degree"]:checked');
         this.updateSpecializationOptions(selectedDegree);
@@ -159,7 +157,6 @@ class StudyView extends Observable {
 
     updateSpecializationOptions(selectedDegree) {
         this.specializationOptions.innerHTML = '';
-        console.log("hi");
         if (selectedDegree && subjectOptions.hasOwnProperty(selectedDegree.value)) {
             var selectedOptions = subjectOptions[selectedDegree.value];
             this.specializationLabel.style.display = "grid";
@@ -247,7 +244,7 @@ class StudyView extends Observable {
         return true;
     }
 
-    saveData() {
+    async saveData() {
         let selectedDegree = document.querySelector('input[name="degree"]:checked'),
             selectedSpecializations = document.querySelectorAll('input[name="specialization"]:checked'),
             ectsValue = parseInt(this.ectsInput.value),
@@ -285,9 +282,8 @@ class StudyView extends Observable {
             stud.specialization = specializations;
             stud.totalECTS = ectsValue;
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
-            console.log(stud);
             setStudyInstance(stud);
-            this.fileManager.updateFile();
+            await fileManager.updateFile();
             window.location.hash = "#schedule";
         }
         else {

@@ -1,7 +1,7 @@
 //import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import ModalView from './ModalView.js';
+import modalView from './ModalView.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies } from '../model/studiesInstance.js';
@@ -56,7 +56,6 @@ class CatalogueViewRight extends Observable {
 
         addModuleButton = document.getElementById(subject.title + "-button");
         addModuleButton.addEventListener('click', () => {
-            console.log("Clickes");
             let e = new Event("onAddModuleButtonClicked", subject.title);
             this.notifyAll(e);
         });
@@ -137,7 +136,7 @@ class CatalogueViewRight extends Observable {
             label = document.createElement('label');
 
             checkbox.name = 'selected-semester';
-            checkbox.id = 'selected-semester-' + semester;
+            checkbox.id = 'selected-semester-' + semester.count;
 
             label.innerHTML = checkbox.outerHTML + " " + semester.count;
             selectedSemesterContainer.appendChild(label);

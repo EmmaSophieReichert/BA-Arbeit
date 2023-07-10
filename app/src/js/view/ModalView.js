@@ -1,5 +1,6 @@
+import fileManager from '../model/FileManager.js';
 import Module from '../model/structure/Module.js';
-import { studies } from '../model/studiesInstance.js';
+import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import { Event, Observable } from '../utils/Observable.js';
 
@@ -68,7 +69,17 @@ class ModalView extends Observable {
             root: this.root,
             id: id,
         }
-        ev = new Event("onModuleAdded", data);
+
+        let stud = studies;
+        if(this.root === "edit"){
+            console.log("EDIT");
+            stud.deleteModule(id);
+        }
+        stud.subjects[this.subject].addModule(module);
+        setStudyInstance(stud);
+        fileManager.updateFile(); 
+        ;
+        ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);
 
         this.close();
@@ -87,7 +98,6 @@ class ModalView extends Observable {
         this.modal.showModal();
         this.subject = studies.getSubjectIndex(subjectTitle);
         let subject = studies.getSubject(subjectTitle);
-        console.log(subject);
         //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
         this.modal.style.border = "5px solid " + Config.COLOUR_CODES[subject.colourCode];
     }
@@ -115,4 +125,6 @@ class ModalView extends Observable {
     }
 }
 
-export default ModalView;
+var modalView = new ModalView();
+
+export default modalView;
