@@ -29,6 +29,9 @@ class CatalogueManager {
                 if (filterValues.notInPlan) {
                     return module.selectedSemester.length === 0;
                 }
+                if (filterValues.passed.length !== 0) {
+                    return filterValues.passed.includes(module.passed.toString());
+                }
                 // Filtern nach Turnus (wenn ausgewählt)
                 if (filterValues.turnus.length !== 0) {
                     return filterValues.turnus.includes(module.period); //||  filterValues.turnus === "beide" ;

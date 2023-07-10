@@ -84,12 +84,23 @@ class CatalogueView extends Observable{
     getModuleDiv(module, colourCode) {
         let moduleDiv = document.createElement('div');
         moduleDiv.classList.add('module-div');
-        moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        if(module.passed){
+            moduleDiv.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+            //moduleDiv.style.border = "5px solid " + Config.COLOUR_CODES_DARK[colourCode];
+        }
+        else{
+            moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
 
         let ectsBox = document.createElement('div');
         ectsBox.classList.add('ects-box');
         ectsBox.textContent = module.ECTS + " ECTS";
-        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+        if(module.passed){
+            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARKEST[colourCode];
+        }
+        else{
+            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+        }
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');

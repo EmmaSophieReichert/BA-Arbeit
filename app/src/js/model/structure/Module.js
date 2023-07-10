@@ -1,5 +1,5 @@
 class Module {
-    constructor(title, ID, ECTS, period = "beide", recommendedSemester = 1, minSemLength = 1, posY = 0) {
+    constructor(title, ID, ECTS, period = "beide", recommendedSemester = 1, minSemLength = 1, posY = 0, passed = false, grade = null) {
         this.title = title;
         this.ID = ID;
         this.ECTS = ECTS;
@@ -11,9 +11,11 @@ class Module {
         //this.moduleComponents = [];
 
         this.selectedSemester = [];
-        //this.grade = null;
-        //this.passed = null;
+
         this.posY = posY;
+
+        this.passed = passed;
+        this.grade = grade;
     }
 
     setPosition(x, y) {
@@ -27,6 +29,10 @@ class Module {
 
     addSelectedSemester(sem) {
         this.selectedSemester.push(sem);
+    }
+
+    setPassed(passed){
+        this.passed = passed;
     }
 
     // setGrade(grade) {

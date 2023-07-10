@@ -80,6 +80,9 @@ class CatalogueViewRight extends Observable {
         let filterValues = {
             inPlan: this.filterContainer.querySelector('input[name="plan"][value="inPlan"]').checked,
             notInPlan: this.filterContainer.querySelector('input[name="plan"][value="notInPlan"]').checked,
+            passed: Array.from(this.filterContainer.querySelectorAll('input[name="passed"]:checked')).map(function (checkbox) {
+                return checkbox.value;
+            }),
             subjects: Array.from(this.filterContainer.querySelectorAll('input[name="subject"]:checked')).map(function (checkbox) {
                 return checkbox.value;
             }),

@@ -51,7 +51,7 @@ class Studies {
             i++;
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {
-                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.period, mod.recommendedSemester, mod.minSemLength, mod.posY);
+                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.period, mod.recommendedSemester, mod.minSemLength, mod.posY, mod.passed, mod.grade);
                     for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
@@ -89,6 +89,16 @@ class Studies {
             for (let module of subject.modules) {
                 if (module.ID === id) {
                     module.setPosition(x, y);
+                }
+            }
+        }
+    }
+
+    setModulePassed(id, passed) {
+        for (let subject of this.subjects) {
+            for (let module of subject.modules) {
+                if (module.ID === id) {
+                    module.setPassed(passed);
                 }
             }
         }

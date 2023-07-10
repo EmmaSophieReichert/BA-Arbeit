@@ -43,7 +43,6 @@ class ModuleModalView extends Observable {
 
         this.deleteModalButton = document.getElementById("delete-module-button");
         this.deleteModalButton.addEventListener("mousedown", (event) => {
-            console.log(event.button);
             if (event.button === 0) {
                 let stud = studies;
                 stud.deleteModule(this.module.ID);
@@ -53,6 +52,15 @@ class ModuleModalView extends Observable {
             } else {
                 event.preventDefault();
             }
+        });
+
+        this.passedModalButton = document.getElementById("passed-module-button");
+        this.passedModalButton.addEventListener("click", (event) => {
+            let stud = studies;
+            stud.setModulePassed(this.module.ID, true);
+            setStudyInstance(stud);
+            fileManager.updateFile();
+            this.onModuleChanged();
         });
     }
 
