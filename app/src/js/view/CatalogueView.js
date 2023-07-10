@@ -28,14 +28,13 @@ class CatalogueView extends Observable{
         this.gridContainer = document.querySelector('.grid-stack');
         this.gridContainer.addEventListener('click', (event) => {
             var widget = event.target.closest('.grid-stack-item');
-            console.log(widget);
             if (widget !== null) {
                 let id = widget.getAttribute("gs-id"),
                     data = studies.getModuleAndSubjectByID(id);
                 moduleModalView.show(data.module, data.subject);
                 moduleModalView.addEventListener("onModuleChanged", (e) => {
                     this.show(studies);
-                    this.notifyAll(e);
+                    //this.notifyAll(e);
                 });
             }
         });
@@ -119,9 +118,7 @@ class CatalogueView extends Observable{
         // }
         // if (this.timerId === null) {
         //     this.timerId = setTimeout(() => {
-        //         console.log("Timer finished");
         //         this.timerId = null;
-        //         console.log(studies);
         //         let e = new Event("positionsChanged", "positionsChanged");
         //         this.notifyAll(e);
         //     }, 5000);

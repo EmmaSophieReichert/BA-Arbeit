@@ -1,7 +1,7 @@
 class ScheduleModel{
     
     constructor(fileManager){
-        this.fileManager = fileManager;
+        //this.fileManager = fileManager;
         
     }
 }

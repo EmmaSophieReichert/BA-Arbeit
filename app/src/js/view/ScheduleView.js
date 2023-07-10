@@ -34,9 +34,8 @@ class ScheduleView extends Observable {
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
-                        console.log("DELETE module");
                         this.updateStudy();
-                        this.notifyAll(e);
+                        //this.notifyAll(e);
                     });
                 }
             }
@@ -216,7 +215,9 @@ class ScheduleView extends Observable {
     updateSemesterECTS(semesterCount) {
         let semP = document.getElementById("sem" + semesterCount + "ects"),
             semester = studies.getSemester(semesterCount);
-        semP.innerHTML = semester.ECTS + " ECTS";
+        if(semP){
+            semP.innerHTML = semester.ECTS + " ECTS";
+        }
     }
 }
 

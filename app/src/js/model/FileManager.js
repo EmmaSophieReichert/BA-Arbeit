@@ -13,9 +13,10 @@ class FileManager extends Observable {
     constructor() {
         super();
         this.fileID = null;
+        this.inProcess = false;
     }
 
-    async getList(){
+    async getList() {
         let promise = listFiles(),
             res = await computePromise(promise);
         return res;
@@ -38,7 +39,7 @@ class FileManager extends Observable {
             let headers = new Headers();
             headers.append('X-Appwrite-JWT', response.jwt);
             data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-            return fetch(data.href, {headers: headers});
+            return fetch(data.href, { headers: headers });
         }, function (error) {
             console.log(error);
         }).then(data => data.blob()).then(blob => {
@@ -60,7 +61,7 @@ class FileManager extends Observable {
         this.notifyAll(e);
     }
 
-    addModule(module, subjectIndex){
+    addModule(module, subjectIndex) {
         let stud = studies;
         stud.subjects[subjectIndex].addModule(module);
         setStudyInstance(stud);
@@ -68,19 +69,44 @@ class FileManager extends Observable {
     }
 
     async updateFile() {
+        if (this.inProcess) {
+            setTimeout(() => {
+                this.updateFile();
+            }, 100)
+            setTimeout(() => {
+                this.inProcess = false;
+            }, 30000)
+        }
+        else {
+            this.update();
+        }
+    }
+
+    async update() {
+        this.inProcess = true;
         let promise = listFiles(),
-            res = await computePromise(promise),
-            id = res.files[0].$id,
-            deletePromise = deleteFile(id);
-        await computePromise(deletePromise);
+            res = await computePromise(promise);
+        //id = res.files[0].$id,
+        //deletePromise = deleteFile(id);
+        if (res.files !== undefined && res.files !== null && res.files !== []) {
+            for (let file of res.files) {
+                let id = file.$id,
+                    deletePromise = deleteFile(id);
+                await computePromise(deletePromise).then(() => {
+                    
+                }, (error) => { console.log(error) });
+            }
+        }
+
+
 
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
             file = new File([blob], studies.subjects[0].title);
-        await createFile(file)
-            .then(() => { 
-                console.log("Change gas been successfully saved.")
-            });
+        await createFile(file).then(() => {
+            this.inProcess = false;
+            console.log("Change gas been successfully saved.")
+        });
     }
 
 }

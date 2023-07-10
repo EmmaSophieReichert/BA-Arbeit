@@ -26,7 +26,8 @@ class ModuleCatalogueController{
         }
 
         this.catalogueView.addEventListener("onModuleChanged", () =>{
-            fileManager.updateFile()
+            fileManager.updateFile();
+            ;
         });
 
         this.catalogueViewRight.addEventListener("onFilterValues", (e) => {

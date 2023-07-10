@@ -1,3 +1,4 @@
+import fileManager from '../model/FileManager.js';
 import Module from '../model/structure/Module.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
@@ -22,7 +23,6 @@ class ModuleModalView extends Observable {
             let e = new Event("onModuleEdited", "onModuleEdited");
             this.notifyAll(e);
             this.modal.close();
-            console.log("kuh", this.subject, this.module);
             modalView.show(this.subject.title);
             modalView.fill(this.module);
         
@@ -45,8 +45,8 @@ class ModuleModalView extends Observable {
         this.deleteModalButton.addEventListener("click", () => {
             let stud = studies;
             stud.deleteModule(this.module.ID);
-            console.log(stud);
             setStudyInstance(stud);
+            fileManager.updateFile();
             this.onModuleChanged();
         });
     }
@@ -70,7 +70,6 @@ class ModuleModalView extends Observable {
         document.getElementById('length-module-show').textContent = module.minSemLength;
         this.modal.close();
         this.modal.showModal();
-        console.log("heheheheheh");
     }
 
     // show(subjectTitle) {

@@ -56,7 +56,6 @@ class CatalogueViewRight extends Observable {
 
         addModuleButton = document.getElementById(subject.title + "-button");
         addModuleButton.addEventListener('click', () => {
-            console.log("Clickes");
             let e = new Event("onAddModuleButtonClicked", subject.title);
             this.notifyAll(e);
         });
