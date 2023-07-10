@@ -88,5 +88,21 @@ button[type="submit"]:hover {
 }
 
 .button-container button{
-    margin: 0 1vw;
+    margin: 2vh 1vw;
+}
+
+.passed-button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5em;
+    background: linear-gradient(120deg, var(--vanilla), var(--mint-green));
+    color: black;
+    font-weight: bold;
+}
+
+.passed-button:hover {
+    background: linear-gradient(120deg, var(--tiffany-blue), var(--celestial-blue));
+    color: black;
+    font-weight: bold;
 }

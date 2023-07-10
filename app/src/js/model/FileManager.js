@@ -14,6 +14,7 @@ class FileManager extends Observable {
         super();
         this.fileID = null;
         this.inProcess = false;
+        this.timerID = null;
     }
 
     async getList() {
@@ -34,6 +35,10 @@ class FileManager extends Observable {
             reader = new FileReader(),
             data;
         this.fileID = id;
+        this.timerID = setTimeout(() => {
+            this.timerID = null;
+            location.reload();
+        }, 800000);
 
         jwtPromise.then(function (response) {
             appwrite.client.setJWT(response.jwt);
@@ -70,6 +75,14 @@ class FileManager extends Observable {
     }
 
     async updateFile() {
+        if(this.timerID === null){
+            // location.reload();
+            // let jwtPromise = getFile();
+            // await jwtPromise.then((res) => {
+            //     console.log(res);
+            //     appwrite.client.setJWT(res.jwt);
+            // })
+        }
         if (this.inProcess) {
             setTimeout(async() => {
                 await this.updateFile();

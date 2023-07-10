@@ -35,8 +35,40 @@ const Config = {
         "#f0add9ff", //"#e259b2ff", //pink
         "#ffe482ff", //yellow
     ],
+    COLOUR_CODES_DARKER: [
+        "#87cfffff",//"#0e9effff", //blue
+        "#aaeedbff", //green
+        "#ffc5abff", //"#ff8d58ff", //orange
+        "#f0add9ff", //"#e259b2ff", //pink
+        "#ffe482ff", //yellow
+    ],
+    COLOUR_CODES_DARKEST: [
+        "#0e9effff",//"#0079ccff", //blue
+        "#97ead2ff", //green
+        "#ff712fff", //orange
+        "#da2f9eff", //pink
+        "#ffdd63ff", //yellow
+    ],
 };
 
+/* 
+--celestial-blue: #0e9effff;
+--tiffany-blue: #aaeedbff;
+--jasmine: #ffe482ff;
+--atomic-tangerine: #ff8d58ff;
+--brilliant-rose: #e259b2ff;
+
+--light-sky-blue: #87cfffff;
+--mint-green: #d4f7edff;
+--vanilla: #fff1bfff;
+--apricot: #ffc5abff;
+--lavender-pink: #f0add9ff;
+
+--columbia-blue: #c7e8ffff;
+--azure-web: #ebfbf7ff;
+--cornsilk: #fff8e1ff;
+--champagne-pink: #ffe5d9ff;
+--mimi-pink: #f8d9edff; */
 
 Object.freeze(Config);
 
