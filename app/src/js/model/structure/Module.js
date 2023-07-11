@@ -15,7 +15,8 @@ class Module {
         this.posY = posY;
 
         this.passed = passed;
-        this.grade = grade;
+        this.grade = grade ? parseFloat(grade) : grade;
+        this.weight = 1;
     }
 
     setPosition(x, y) {

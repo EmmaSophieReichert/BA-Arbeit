@@ -60,50 +60,6 @@ class ScheduleViewRight extends Observable {
         progressBar.innerHTML = progress.outerHTML + progressText.outerHTML;
         return progressBar;
     }
-
-    getSemesterWidget(period, count) {
-
-
-        let pPeriod = document.createElement("p");
-        pPeriod.id = "sem" + count + "period";
-        pPeriod.innerHTML = period;
-
-        let h3 = document.createElement("h3");
-        h3.innerHTML = "<b>" + "Semester " + count + "</b>";
-
-        let p = document.createElement("p");
-        p.id = "sem" + count + "ects";
-        p.innerHTML = "0 ECTS";
-
-        div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
-        div.className = "semester";
-        div.classList.add(period);
-    }
-
-
-    setSemesters(number) {
-        this.grid.column(number);
-        for (let i = 1; i <= number; i++) {
-            let div = document.createElement("div");
-            let h3 = document.createElement("h3");
-            h3.innerHTML = "<b>" + "Semester " + i + "</b>";
-            let p = document.createElement("p");
-            p.id = "sem" + i + "ects";
-            p.innerHTML = "0 ECTS";
-            div.innerHTML = h3.outerHTML + p.outerHTML;
-            div.className = "semester";
-            let semester = {
-                x: i - 1,
-                y: 0,
-                id: "sem" + i,
-                locked: true,
-                noResize: true,
-                noMove: true,
-                content: div.outerHTML
-            }
-            this.grid.addWidget(semester);
-        }
-    }
 }
 
 export default ScheduleViewRight;

@@ -5,7 +5,7 @@ import Subject from "./Subject.js";
 
 class Studies {
 
-    constructor(degree, totalECTS, semesters, subjects, specialization = null) {
+    constructor(degree, totalECTS, semesters, subjects, specialization = null, children = null) {
         this.degree = degree;
         this.specialization = specialization;
         this.totalECTS = totalECTS;
@@ -16,7 +16,38 @@ class Studies {
         this.initSubjects(subjects);
         this.calculateSemesterECTS();
         this.calculateSubjectECTS();
-        //this.grade = null;
+        this.children = [];
+        if (children === null) {
+            this.addAllModulesToChildren();
+        }
+        console.log("WORLD");
+        console.log(this.toTreeData());
+        this.grade = null;
+        this.calculateGrade();
+    }
+
+    calculateGrade(){
+        let weightSum = 0,
+            gradeSum = 0;
+        for(let child of this.children){
+            console.log(child.grade);
+            if(child.grade !== null){
+                weightSum += child.weight;
+                gradeSum += child.grade;
+            }
+        }
+        console.log(weightSum, gradeSum);
+        if(weightSum !== 0 || gradeSum !== 0){
+            this.grade= gradeSum / weightSum;
+        }
+    }
+
+    addAllModulesToChildren() {
+        for (let subject of this.subjects) {
+            for (let module of subject.modules) {
+                this.children.push(module);
+            }
+        }
     }
 
     static initFirstSemesters(semester, period) {
@@ -68,8 +99,8 @@ class Studies {
             for (let module of subject.modules) {
                 if (module.ID === id) {
                     return {
-                      module: module,
-                      subject: subject, 
+                        module: module,
+                        subject: subject,
                     };
                 }
             }
@@ -77,9 +108,9 @@ class Studies {
         return null;
     }
 
-    deleteModule(id){
+    deleteModule(id) {
         for (let subject of this.subjects) {
-            subject.modules = subject.modules.filter(function(module) {
+            subject.modules = subject.modules.filter(function (module) {
                 return module.ID !== id;
             });
         }
@@ -134,7 +165,7 @@ class Studies {
         this.subjects.forEach((subject) => {
             let subjectECTS = 0;
             subject.modules.forEach((module) => {
-                if(module.passed){
+                if (module.passed) {
                     subjectECTS += module.ECTS;
                 }
             });
@@ -142,26 +173,26 @@ class Studies {
         });
     }
 
-    getSemester(count){
-        for(let semester of this.semesters){
-            if(semester.count === count){
+    getSemester(count) {
+        for (let semester of this.semesters) {
+            if (semester.count === count) {
                 return semester;
             }
         }
         return null;
     }
 
-    getSubject(subjectTitle){
-        for(let subject of this.subjects){
-            if(subject.title === subjectTitle){
+    getSubject(subjectTitle) {
+        for (let subject of this.subjects) {
+            if (subject.title === subjectTitle) {
                 return subject;
             }
         }
     }
 
-    getSubjectIndex(subjectTitle){
-        for(let i = 0; i <  this.subjects.length; i++){
-            if(this.subjects[i].title === subjectTitle){
+    getSubjectIndex(subjectTitle) {
+        for (let i = 0; i < this.subjects.length; i++) {
+            if (this.subjects[i].title === subjectTitle) {
                 return i;
             }
         }
@@ -178,25 +209,86 @@ class Studies {
         }
     }
 
-    /* get degree() {
-        return this.degree;
+    toTreeData() {
+        var treeData = {
+            chart: {
+                container: "#grade-tree",
+                rootOrientation: "EAST",
+                levelSeparation:    200,
+                siblingSeparation:  5,
+                subTeeSeparation:   15,
+            },
+            node: {
+                HTMLclass: "grade-view-element",
+                drawLineThrough: true
+            },
+            nodeStructure: {
+                text: {
+                    name: "Gesamtergebnis " + this.grade,
+                },
+                children: [],
+            },
+        };
+
+        // Iterate over children of studies
+        for (const child of this.children) {
+            if (child instanceof Module) {
+                let data = this.getModuleAndSubjectByID(child.ID)
+                const moduleNode = {
+                    // text: {
+                    //     name:  child.title,
+                    // },
+                    HTMLclass: "grade-module subject-" + data.subject.colourCode,
+                    innerHTML: "<p>" + child.title + "</p>",
+                    data: {
+                        id: child.ID
+                    }
+                };
+                treeData.nodeStructure.children.push(moduleNode);
+            } else if (child instanceof IntermediateResult) {
+                const intermediateResultNode = this.buildIntermediateResultNode(child);
+                treeData.nodeStructure.children.push(intermediateResultNode);
+            }
+        }
+        return treeData;
     }
 
-    get specialization() {
-        return this.specialization;
+    buildIntermediateResultNode(intermediateResult) {
+        var intermediateResultNode = {
+            text: intermediateResult.name,
+            data: {
+                id: intermediateResult.id
+            },
+            children: []
+        };
+
+        for (const childId of intermediateResult.children) {
+            const childModule = this.getModuleAndSubjectByID(childId).module;
+            const childIntermediateResult = this.findIntermediateResultById(childId);
+
+            if (childModule) {
+                const moduleNode = {
+                    text: childModule.title,
+                    data: {
+                        id: childModule.ID
+                    }
+                };
+                intermediateResultNode.children.push(moduleNode);
+            } else if (childIntermediateResult) {
+                const childIntermediateResultNode = this.buildIntermediateResultNode(childIntermediateResult);
+                intermediateResultNode.children.push(childIntermediateResultNode);
+            }
+        }
+        return intermediateResultNode;
     }
 
-    get totalECTS() {
-        return this.totalECTS;
+    findIntermediateResultById(intermediateResultId) {
+        return this.children.find((intermediateResult) => {
+            if (intermediateResult instanceof IntermediateResult) {
+                return intermediateResult.id === intermediateResultId;
+            }
+        });
     }
-
-    get subjects() {
-        return this.subjects;
-    }
-
-    get semesters() {
-        return this.semesters;
-    } */
 }
 
 export default Studies;
