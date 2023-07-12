@@ -36,6 +36,17 @@ class Module {
         this.passed = passed;
     }
 
+    containsID(childID){
+        if(this.ID === childID){
+            return true;
+        }
+        return false;
+    }
+
+    isParent(childID){
+        return null;
+    }
+
     // setGrade(grade) {
     //     this.grade = grade;
     // }

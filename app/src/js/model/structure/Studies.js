@@ -2,10 +2,11 @@ import Config from "../../utils/Config.js";
 import Module from "./Module.js";
 import Semester from "./Semester.js";
 import Subject from "./Subject.js";
+import IntermediateResult from "./IntermediateResult.js";
 
 class Studies {
 
-    constructor(degree, totalECTS, semesters, subjects, specialization = null, children = null) {
+    constructor(degree, totalECTS, semesters, subjects, specialization = null, intermediateResults = [], children = null, id = "study-ID") {
         this.degree = degree;
         this.specialization = specialization;
         this.totalECTS = totalECTS;
@@ -16,36 +17,59 @@ class Studies {
         this.initSubjects(subjects);
         this.calculateSemesterECTS();
         this.calculateSubjectECTS();
-        this.children = [];
+        this.intermediateResults = [];
+        this.initIntermediateResults(intermediateResults);
+        this.children = children;
         if (children === null) {
+            this.children = [];
             this.addAllModulesToChildren();
         }
-        console.log("WORLD");
+        console.log("WORLD", this.children);
         console.log(this.toTreeData());
         this.grade = null;
         this.calculateGrade();
+
+        this.ID = id;
+        //this.addIntermediateResult([this.children[0], this.children[1]]);
     }
 
-    calculateGrade(){
+    getID() {
+        return this.ID;
+    }
+
+    getChild(id){
+        let data = this.getModuleAndSubjectByID(id);
+        if(data !== null){
+            return data.module;
+        }
+        data = this.findIntermediateResultById(id)
+        if(data !== null){
+            return data;
+        }
+        return null;
+    }
+
+    calculateGrade() {
         let weightSum = 0,
             gradeSum = 0;
-        for(let child of this.children){
-            console.log(child.grade);
-            if(child.grade !== null){
+        for (let childID of this.children) {
+            let child = this.getChild(childID);
+            console.log(child);
+            if (child.grade !== null) {
                 weightSum += child.weight;
                 gradeSum += child.grade;
             }
         }
         console.log(weightSum, gradeSum);
-        if(weightSum !== 0 || gradeSum !== 0){
-            this.grade= gradeSum / weightSum;
+        if (weightSum !== 0 || gradeSum !== 0) {
+            this.grade = gradeSum / weightSum;
         }
     }
 
     addAllModulesToChildren() {
         for (let subject of this.subjects) {
             for (let module of subject.modules) {
-                this.children.push(module);
+                this.children.push(module.ID);
             }
         }
     }
@@ -94,6 +118,15 @@ class Studies {
         }
     }
 
+    initIntermediateResults(intermediateResults){
+        console.log("Inter");
+        for(let intermediateResult of intermediateResults){
+            console.log("INTER", intermediateResult);
+            let intRes = new IntermediateResult(intermediateResult.children, intermediateResult.name, intermediateResult.weight, intermediateResult.grade, intermediateResult.ID)
+            this.intermediateResults.push(intRes);
+        }
+    }
+
     getModuleAndSubjectByID(id) {
         for (let subject of this.subjects) {
             for (let module of subject.modules) {
@@ -113,6 +146,15 @@ class Studies {
             subject.modules = subject.modules.filter(function (module) {
                 return module.ID !== id;
             });
+        }
+        this.children = this.children.filter(function (child) {
+            return child !== id;
+        });
+        for(let childID of this.children){
+            let child = this.getChild(childID);
+            if(child instanceof IntermediateResult){
+                child.removeChild(id);
+            }
         }
     }
 
@@ -199,13 +241,14 @@ class Studies {
     }
 
     toJSON() {
-
         return {
             degree: this.degree,
             specialization: this.specialization,
             totalECTS: this.totalECTS,
             subjects: this.subjects,
             semesters: this.semesters,
+            children: this.children,
+            intermediateResults: this.intermediateResults,
         }
     }
 
@@ -214,10 +257,18 @@ class Studies {
             chart: {
                 container: "#grade-tree",
                 rootOrientation: "EAST",
-                levelSeparation:    200,
-                siblingSeparation:  5,
-                subTeeSeparation:   15,
+                levelSeparation: 200,
+                siblingSeparation: 5,
+                subTeeSeparation: 15,
+                padding: 20,
+                connectors: {
+                    style: {
+                        'stroke-width': 1.5,
+                        'stroke': "rgb(192, 192, 192)",
+                    }
+                },
             },
+            
             node: {
                 HTMLclass: "grade-view-element",
                 drawLineThrough: true
@@ -226,68 +277,169 @@ class Studies {
                 text: {
                     name: "Gesamtergebnis " + this.grade,
                 },
+                HTMLclass: "root-grade-view-element",
                 children: [],
             },
+            
         };
 
         // Iterate over children of studies
-        for (const child of this.children) {
+        for (let childID of this.children) {
+            let child = this.getChild(childID);
             if (child instanceof Module) {
                 let data = this.getModuleAndSubjectByID(child.ID)
-                const moduleNode = {
-                    // text: {
-                    //     name:  child.title,
-                    // },
-                    HTMLclass: "grade-module subject-" + data.subject.colourCode,
-                    innerHTML: "<p>" + child.title + "</p>",
-                    data: {
-                        id: child.ID
-                    }
-                };
+                var moduleNode = this.getModuleNode(data);
                 treeData.nodeStructure.children.push(moduleNode);
             } else if (child instanceof IntermediateResult) {
-                const intermediateResultNode = this.buildIntermediateResultNode(child);
+                var intermediateResultNode = this.buildIntermediateResultNode(child);
                 treeData.nodeStructure.children.push(intermediateResultNode);
             }
         }
+        console.log(treeData);
         return treeData;
     }
 
-    buildIntermediateResultNode(intermediateResult) {
-        var intermediateResultNode = {
-            text: intermediateResult.name,
-            data: {
-                id: intermediateResult.id
+    getModuleNode(data) {
+        let gradeAddition = "";
+        if(data.module.grade !== null){
+            gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>"
+        }
+
+        return {
+            // text: {
+            //     name:  data.module.title,
+            // },
+            "parentConnector": {
+                style: {
+                    "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0,7),
+                    "stroke-width": 1.5,
+                },
             },
+            HTMLclass: "grade-module subject-" + data.subject.colourCode,
+            innerHTML: "<div class='grade-module-wrap'><div class='grade-module-text'><p>" + data.module.title + "</p></div>" + gradeAddition + "</div>",
+            data: {
+                id: data.module.ID
+            },
+        };
+    }
+
+    buildIntermediateResultNode(intermediateResult) {
+        let gradeAddition = "";
+        if(intermediateResult.grade !== null){
+            gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>"
+        }
+        var intermediateResultNode = {
+            // text: {
+            //     name: "Zwischenergebnis " + gradeAddition,//intermediateResult.name,
+            // },
+            data: {
+                id: intermediateResult.ID
+            },
+            innerHTML: "<div class='grade-module-wrap'><div class='grade-module-text'><p>" + "Zwischenergebnis" + "</p></div>" + gradeAddition + "</div>",
             children: []
         };
-
-        for (const childId of intermediateResult.children) {
-            const childModule = this.getModuleAndSubjectByID(childId).module;
-            const childIntermediateResult = this.findIntermediateResultById(childId);
+        let subjects = [];
+        for (var child of intermediateResult.children) {
+            var childModule = this.getModuleAndSubjectByID(child).module;
+            var childIntermediateResult = this.findIntermediateResultById(child);
 
             if (childModule) {
-                const moduleNode = {
-                    text: childModule.title,
-                    data: {
-                        id: childModule.ID
-                    }
-                };
+                let data = this.getModuleAndSubjectByID(childModule.ID);
+                var moduleNode = this.getModuleNode(data);
+                subjects.push(data.subject);
                 intermediateResultNode.children.push(moduleNode);
             } else if (childIntermediateResult) {
-                const childIntermediateResultNode = this.buildIntermediateResultNode(childIntermediateResult);
+                var childIntermediateResultNode = this.buildIntermediateResultNode(childIntermediateResult);
                 intermediateResultNode.children.push(childIntermediateResultNode);
             }
+        }
+        if(subjects.every((sub) => sub === subjects[0])){
+            let sub = subjects[0];
+            intermediateResultNode.HTMLclass = "grade-module subject-" + sub.colourCode;
+            //intermediateResultNode.parentConnector.style.stroke = Config.COLOUR_CODES_DARK[sub.colourCode].substring(0,7);
+            //intermediateResultNode.parentConnector.style.strokeWidth = 1.5; //TODO: Does not work
         }
         return intermediateResultNode;
     }
 
     findIntermediateResultById(intermediateResultId) {
-        return this.children.find((intermediateResult) => {
-            if (intermediateResult instanceof IntermediateResult) {
-                return intermediateResult.id === intermediateResultId;
+        for(let intRes of this.intermediateResults){
+            if(intRes.ID = intermediateResultId){
+                return intRes;
             }
+        }
+        return null;
+    }
+
+    addIntermediateResult(childrenIDs) {
+        // Check if children have the same parent
+        var parentIDs = [],
+            parent;
+        for (let childID of childrenIDs) {
+            parent = this.getParent(childID);
+            var parentID = parent.ID;
+            if (!parentID) {
+                console.log(`Parent not found for child with ID: ${childID}`);
+                return;
+            }
+            parentIDs.push(parentID);
+        }
+
+        if (!this.checkSameParent(parentIDs)) {
+            console.log('Children do not have the same parent');
+            return;
+        }
+
+        let childs = [];
+        for (let childID of this.children) {
+            if (childrenIDs.includes(childID)) {
+                //let child = this.getChild(childID);
+                childs.push(childID);
+            }
+        }
+
+        // Remove children from parent
+        //var parent = this.getParent(parentIDs[0]);
+        for (var childID of childrenIDs) {
+            parent.removeChild(childID);
+        }
+
+        // Create new IntermediateResult
+        var intermediateResult = new IntermediateResult(childs);
+        this.intermediateResults.push(intermediateResult);
+        parent.addChild(intermediateResult.ID);
+        console.log(this.children);
+    }
+
+    removeChild(childID) {
+        this.children = this.children.filter(function (child) {
+            return child !== childID;
         });
+    }
+
+    addChild(child) {
+        this.children.push(child);
+    }
+
+    // Helper method to check if all parent IDs are the same
+    checkSameParent(parentIDs) {
+        return parentIDs.every((parentID) => parentID === parentIDs[0]);
+    }
+
+    // Helper method to get the parent object of a child ID
+    getParent(childID) {
+        for (let childid of this.children) {
+            let child = this.getChild(childid);
+            if (child.ID === childID) {
+                return this;
+            }
+            if (child instanceof IntermediateResult && child.children !== null) {
+                if (child.containsID(childID)) {
+                    return child.isParent(childID);
+                }
+            }
+        }
+        return null;
     }
 }
 

@@ -62,7 +62,8 @@ class FileManager extends Observable {
     }
 
     translateObject(obj) {
-        setStudyInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization));
+        console.log("OBJECT", obj);
+        setStudyInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization, obj.intermediateResults, obj.children));
         let e = new Event("on-study-loaded", studies);
         this.notifyAll(e);
     }

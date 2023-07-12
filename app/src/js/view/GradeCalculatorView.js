@@ -16,6 +16,7 @@ class GradeCalculatorView extends Observable {
     }
 
     show(){
+        console.log(studies);
         let config = studies.toTreeData();
         this.chart = new Treant(config);
     }

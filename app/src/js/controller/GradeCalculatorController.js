@@ -1,6 +1,6 @@
 import fileManager from "../model/FileManager.js";
 //import GradeCalculatorModel from "../model/GradeCalculatorModel.js";
-import { studies } from "../model/studiesInstance.js";
+import { studies, setStudyInstance } from "../model/studiesInstance.js";
 import GradeCalculatorView from "../view/GradeCalculatorView.js";
 import GradeCalculatorViewRight from "../view/GradeCalculatorViewRight.js";
 
@@ -12,17 +12,27 @@ class GradeCalculatorController{
         this.gradeCalculatorViewRight = new GradeCalculatorViewRight();
 
         if(studies !== null){
+            console.log("Study there");
             this.gradeCalculatorViewRight.showStudy(studies);
             this.gradeCalculatorView.show();
         }
         else{
             fileManager.addEventListener("on-study-loaded", e => {
-                let study = e.data;
-                this.gradeCalculatorView.show();
-                this.gradeCalculatorViewRight.showStudy(study);
+                if(window.location.hash === "#grade-calculator"){
+                    let study = e.data;
+                    this.gradeCalculatorView.show();
+                    this.gradeCalculatorViewRight.showStudy(study);
+                    
+                    // let stud = studies;
+                    // stud.addIntermediateResult([stud.children[0], stud.children[1]]);
+                    // setStudyInstance(stud);
+                    // this.gradeCalculatorView.show();
+                }
             });
             fileManager.getStudy();
         }
+
+        
 
         // fileManager.addEventListener("on-study-loaded", e => {
         //     let study = e.data;

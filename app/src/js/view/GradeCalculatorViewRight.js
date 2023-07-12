@@ -4,7 +4,7 @@ import Module from '../model/structure/Module.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
 
-class ScheduleViewRight extends Observable {
+class GradeCalculatorViewRight extends Observable {
 
     constructor() {
         super();
@@ -49,4 +49,4 @@ class ScheduleViewRight extends Observable {
     }
 }
 
-export default ScheduleViewRight;
+export default GradeCalculatorViewRight;

@@ -907,7 +907,16 @@
                     delete parent.connStyle.style['arrow-start'];
                 }
 
-                connLine.attr( parent.connStyle.style );
+                //EDITED BY ME, MINE, MY
+                //Source: https://github.com/fperucic/treant-js/issues/103
+                if (treeNode.parentConnector) {
+                    //console.log('has ParentConnector', treeNode);
+                    connLine.attr(treeNode.parentConnector.style)
+                } else {
+
+                    connLine.attr(parent.connStyle.style); //This was the original line, now used as fallback
+                }
+                //connLine.attr( parent.connStyle.style );
 
                 if ( treeNode.drawLineThrough || treeNode.pseudo ) {
                     treeNode.drawLineThroughMe( hidePoint );
@@ -1352,6 +1361,9 @@
             this.nodeHTMLid = nodeStructure.HTMLid;
 
             this.children = [];
+
+            //EDITED BY ME, MY, MINE
+            this.parentConnector = (nodeStructure.parentConnector)? nodeStructure.parentConnector:null;
 
             return this;
         },
