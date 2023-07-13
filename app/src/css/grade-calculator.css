@@ -108,6 +108,10 @@
     right: 20px;
 }
 
+#add-int-res-button-container button{
+    margin-left: 20px;
+}
+
 .intermediate-result{
     /* background-color: var(--middle-grey); */
     background-color: white;

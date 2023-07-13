@@ -35,13 +35,13 @@ class Studies {
         return this.ID;
     }
 
-    getChild(id){
+    getChild(id) {
         let data = this.getModuleAndSubjectByID(id);
-        if(data !== null){
+        if (data !== null) {
             return data.module;
         }
         data = this.findIntermediateResultById(id)
-        if(data !== null){
+        if (data !== null) {
             return data;
         }
         return null;
@@ -114,10 +114,10 @@ class Studies {
         }
     }
 
-    initIntermediateResults(intermediateResults){
-        for(let intermediateResult of intermediateResults){
+    initIntermediateResults(intermediateResults) {
+        for (let intermediateResult of intermediateResults) {
             let intRes = new IntermediateResult(intermediateResult.name, intermediateResult.weight, intermediateResult.grade, intermediateResult.ID)
-            for(let child of intermediateResult.kids){
+            for (let child of intermediateResult.kids) {
                 intRes.addChild(child);
             }
             this.intermediateResults.push(intRes);
@@ -147,9 +147,9 @@ class Studies {
         this.kids = this.kids.filter(function (child) {
             return child !== id;
         });
-        for(let childID of this.kids){
+        for (let childID of this.kids) {
             let child = this.getChild(childID);
-            if(child instanceof IntermediateResult){
+            if (child instanceof IntermediateResult) {
                 child.removeChild(id);
             }
         }
@@ -265,7 +265,7 @@ class Studies {
                     }
                 },
             },
-            
+
             node: {
                 HTMLclass: "grade-view-element",
                 drawLineThrough: true
@@ -275,9 +275,9 @@ class Studies {
                     name: "Gesamtergebnis " + this.grade,
                 },
                 HTMLclass: "root-grade-view-element",
-            children: [],
+                children: [],
             },
-            
+
         };
 
         // Iterate over kids of studies
@@ -298,7 +298,7 @@ class Studies {
 
     getModuleNode(data) {
         let gradeAddition = "";
-        if(data.module.grade !== null){
+        if (data.module.grade !== null) {
             gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>"
         }
 
@@ -308,7 +308,7 @@ class Studies {
             // },
             "parentConnector": {
                 style: {
-                    "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0,7),
+                    "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0, 7),
                     "stroke-width": 1.5,
                 },
             },
@@ -323,7 +323,7 @@ class Studies {
 
     buildIntermediateResultNode(intermediateResult) {
         let gradeAddition = "";
-        if(intermediateResult.grade !== null){
+        if (intermediateResult.grade !== null) {
             gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>"
         }
         let intermediateResultNode = {
@@ -362,8 +362,8 @@ class Studies {
     }
 
     findIntermediateResultById(intermediateResultId) {
-        for(let intRes of this.intermediateResults){
-            if(intRes.ID === intermediateResultId){
+        for (let intRes of this.intermediateResults) {
+            if (intRes.ID === intermediateResultId) {
                 return intRes;
             }
         }
@@ -404,11 +404,41 @@ class Studies {
 
         // Create new IntermediateResult
         let intermediateResult = new IntermediateResult();
-        for(let ch of kidsIDs){
+        for (let ch of kidsIDs) {
             intermediateResult.addChild(ch);
         }
         this.intermediateResults.push(intermediateResult);
         parent.addChild(intermediateResult.ID);
+    }
+
+    deleteIntermediateResult(intermediateResultID) {
+        // Find the intermediateResult object with the given ID
+        let intermediateResult = this.findIntermediateResultById(intermediateResultID);
+        if (!intermediateResult) {
+            console.log(`IntermediateResult with ID ${intermediateResultID} not found`);
+            return;
+        }
+
+        // Get the parent of the intermediateResult
+        let parent = this.getParent(intermediateResultID);
+        if (!parent) {
+            console.log(`Parent not found for IntermediateResult with ID: ${intermediateResultID}`);
+            return;
+        }
+
+        // Move children of the intermediateResult to the parent
+        for (let child of intermediateResult.kids) {
+            parent.addChild(child);
+        }
+
+        // Remove the intermediateResult from the parent's children
+        parent.removeChild(intermediateResultID);
+
+        // Remove the intermediateResult from the intermediateResults list
+        let index = this.intermediateResults.findIndex((result) => result.ID === intermediateResultID);
+        if (index !== -1) {
+            this.intermediateResults.splice(index, 1);
+        }
     }
 
     removeChild(childID) {
@@ -417,7 +447,7 @@ class Studies {
         });
     }
 
-    addChild(child) { 
+    addChild(child) {
         this.kids.push(child);
     }
 

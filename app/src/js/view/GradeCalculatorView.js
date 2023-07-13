@@ -6,6 +6,7 @@ import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
+import IntermediateResult from '../model/structure/IntermediateResult.js';
 
 
 class GradeCalculatorView extends Observable {
@@ -30,9 +31,9 @@ class GradeCalculatorView extends Observable {
         this.nodes = document.querySelectorAll(".grade-module");
         this.nodes.forEach((element) => {
             element.addEventListener("click", () => {
-                var nodeId = element.getAttribute("id");
+                let nodeId = element.getAttribute("id");
                 this.handleClick(nodeId);
-                //var node = this.chart.tree.getNodeById(nodeId);
+                //let node = this.chart.tree.getNodeById(nodeId);
                 //console.log("CLICK ON " + node);
                 // if (node) {
                 //     handleClick(node);
@@ -63,22 +64,24 @@ class GradeCalculatorView extends Observable {
             return;
         }
 
-        var button = document.createElement("button");
+        let button = document.createElement("button");
         button.textContent = "Zwischenergebnis hinzufügen";
         button.classList.add("register-button");
+        button.id = "add-int-res-button";
         button.addEventListener("click", () => {
             studies.addIntermediateResult(this.currentClickedIDs);
             this.show()
             //this.show();
             this.currentClickedIDs = [];
             this.removeButton();
+            this.removeDeleteButton();
         });
 
         this.buttonContainer.appendChild(button);
     }
 
     removeButton() {
-        var button = this.buttonContainer.querySelector("button");
+        let button = this.buttonContainer.querySelector("#add-int-res-button");
 
         // Überprüfen, ob der Button vorhanden ist
         if (button) {
@@ -87,13 +90,61 @@ class GradeCalculatorView extends Observable {
     }
 
     updateButton() {
+        console.log(this.currentClickedIDs);
         if (this.currentClickedIDs.length > 0) {
             this.createButton();
+            if (this.isIntermediateResultSelected()) {
+                this.createDeleteButton();
+            } else {
+                this.removeDeleteButton();
+            }
         } else {
             this.removeButton();
+            this.removeDeleteButton();
         }
     }
 
+    isIntermediateResultSelected() {
+        if(this.currentClickedIDs.length !== 1){
+            return false;
+        }
+        let node = this.currentClickedIDs[0],
+        child = studies.getChild(node);
+        console.log(child instanceof IntermediateResult);
+        return child instanceof IntermediateResult;
+    }
+
+    createDeleteButton() {
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Zwischenergebnis löschen";
+        deleteButton.classList.add("red-button");
+        deleteButton.id = "delete-int-res-button";
+
+        deleteButton.addEventListener("click", () => {
+            console.log("DELETE BUTTON CLICKT");
+            studies.deleteIntermediateResult(this.currentClickedIDs[0]);
+            this.currentClickedIDs = [];
+            this.removeButton();
+            this.removeDeleteButton();
+            this.show();
+            // Hier können Sie den Code für die Aktion des zweiten Buttons einfügen
+        });
+        let addButton = this.buttonContainer.querySelector("#add-int-res-button");
+        if(addButton){
+            this.buttonContainer.insertBefore(deleteButton, addButton);
+        }
+        else{
+            this.buttonContainer.appendChild(deleteButton);
+        }
+    }
+
+    removeDeleteButton() {
+        let deleteButton = this.buttonContainer.querySelector("#delete-int-res-button");
+
+        if (deleteButton) {
+            this.buttonContainer.removeChild(deleteButton);
+        }
+    }
 }
 
 export default GradeCalculatorView;
