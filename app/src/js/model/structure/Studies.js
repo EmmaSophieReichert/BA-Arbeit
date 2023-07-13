@@ -52,10 +52,10 @@ class Studies {
             gradeSum = 0;
         for (let childID of this.kids) {
             let child = this.getChild(childID);
-            if(child){
+            if (child) {
                 if (child.grade !== null) {
-                weightSum += child.weight;
-                gradeSum += child.grade * child.weight;
+                    weightSum += child.weight;
+                    gradeSum += child.grade * child.weight;
                 }
             }
         }
@@ -303,7 +303,8 @@ class Studies {
     getModuleNode(data) {
         let gradeAddition = "";
         if (data.module.grade !== null) {
-            gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>"
+            gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>" + 
+            "<div class='grade-module-weight'><p> x " + data.module.weight + "</p></div>";
         }
 
         return {
@@ -328,7 +329,8 @@ class Studies {
     buildIntermediateResultNode(intermediateResult) {
         let gradeAddition = "";
         if (intermediateResult.grade !== null) {
-            gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>"
+            gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>"+ 
+            "<div class='grade-module-weight'><p> x " + intermediateResult.weight + "</p></div>";
         }
         let intermediateResultNode = {
             // text: {
@@ -464,12 +466,14 @@ class Studies {
     getParent(childID) {
         for (let childid of this.kids) {
             let child = this.getChild(childid);
-            if (child.ID === childID) {
-                return this;
-            }
-            if (child instanceof IntermediateResult && child.kids !== null) {
-                if (child.containsID(childID)) {
-                    return child.isParent(childID);
+            if (child) {
+                if (child.ID === childID) {
+                    return this;
+                }
+                if (child instanceof IntermediateResult && child.kids !== null) {
+                    if (child.containsID(childID)) {
+                        return child.isParent(childID);
+                    }
                 }
             }
         }

@@ -56,9 +56,30 @@
     position:relative;
     display: flex;
     align-items: center;
-    border-top-right-radius: 0.5em;
-    border-bottom-right-radius: 0.5em;
+    border-radius: 0.5em;
     justify-content: center;
+}
+
+.grade-module-weight{
+    padding: 5px;
+    width: 20%;
+    text-align: center;
+    position:relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.grade-module-weight p{
+    color: white;
+    text-shadow: 0 0 5px var(--elephant-grey);
+    font-size: 75%;
+    font-weight: bold;
+}
+
+.intermediate-result .grade-module-weight p{
+    color: var(--elephant-grey);
+    text-shadow: none;
 }
 
 .subject-0 .grade-module-number{

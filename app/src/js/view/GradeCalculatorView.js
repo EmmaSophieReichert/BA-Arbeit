@@ -48,7 +48,7 @@ class GradeCalculatorView extends Observable {
         // Prove if nodeID is in Array
         let index = this.currentClickedIDs.indexOf(nodeID);
         if (index === -1) {
-            nodeElement.style.border = "2px solid pink";
+            nodeElement.style.border = "2px solid rgb(171, 89, 226)";
             this.currentClickedIDs.push(nodeID);
             this.updateButton();
         } else {
