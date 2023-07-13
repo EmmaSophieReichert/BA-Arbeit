@@ -52,13 +52,15 @@ class Studies {
             gradeSum = 0;
         for (let childID of this.kids) {
             let child = this.getChild(childID);
-            if (child.grade !== null) {
+            if(child){
+                if (child.grade !== null) {
                 weightSum += child.weight;
                 gradeSum += child.grade;
+                }
             }
         }
         if (weightSum !== 0 || gradeSum !== 0) {
-            this.grade = gradeSum / weightSum;
+            this.grade = Number((gradeSum / weightSum).toFixed(3));
         }
     }
 
@@ -256,8 +258,9 @@ class Studies {
                 rootOrientation: "EAST",
                 levelSeparation: 50,
                 siblingSeparation: 8,
-                subTeeSeparation: 50,
-                padding: 20,
+                subTeeSeparation: 25,
+                padding: 50,
+                // scrollbar: "fancy",
                 connectors: {
                     style: {
                         'stroke-width': 1.5,

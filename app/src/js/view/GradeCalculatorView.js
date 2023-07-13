@@ -7,6 +7,7 @@ import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
 import IntermediateResult from '../model/structure/IntermediateResult.js';
+import fileManager from '../model/FileManager.js';
 
 
 class GradeCalculatorView extends Observable {
@@ -34,7 +35,6 @@ class GradeCalculatorView extends Observable {
                 let nodeId = element.getAttribute("id");
                 this.handleClick(nodeId);
                 //let node = this.chart.tree.getNodeById(nodeId);
-                //console.log("CLICK ON " + node);
                 // if (node) {
                 //     handleClick(node);
                 // }
@@ -70,6 +70,7 @@ class GradeCalculatorView extends Observable {
         button.id = "add-int-res-button";
         button.addEventListener("click", () => {
             studies.addIntermediateResult(this.currentClickedIDs);
+            fileManager.updateFile();
             this.show()
             //this.show();
             this.currentClickedIDs = [];
@@ -90,7 +91,6 @@ class GradeCalculatorView extends Observable {
     }
 
     updateButton() {
-        console.log(this.currentClickedIDs);
         if (this.currentClickedIDs.length > 0) {
             this.createButton();
             if (this.isIntermediateResultSelected()) {
@@ -110,7 +110,6 @@ class GradeCalculatorView extends Observable {
         }
         let node = this.currentClickedIDs[0],
         child = studies.getChild(node);
-        console.log(child instanceof IntermediateResult);
         return child instanceof IntermediateResult;
     }
 
@@ -121,8 +120,8 @@ class GradeCalculatorView extends Observable {
         deleteButton.id = "delete-int-res-button";
 
         deleteButton.addEventListener("click", () => {
-            console.log("DELETE BUTTON CLICKT");
             studies.deleteIntermediateResult(this.currentClickedIDs[0]);
+            fileManager.updateFile();
             this.currentClickedIDs = [];
             this.removeButton();
             this.removeDeleteButton();

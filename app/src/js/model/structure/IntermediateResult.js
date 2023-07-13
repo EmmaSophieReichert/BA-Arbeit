@@ -1,17 +1,17 @@
 import { studies } from "../studiesInstance";
 
 class IntermediateResult {
-    
+
     constructor(name = "int", weight = 1, grade = null, id = null) {
         console.log("THIS", this);
         this.name = name;
 
         this.weight = weight;
-        
+
         // console.log(this.kids);
         // //this.kids = kids;// ? kids : [];
         this.grade = grade;
-        
+
         this.ID = null;
         if (id === null) {
             this.ID = uuidv4().toString();
@@ -48,6 +48,9 @@ class IntermediateResult {
             }
         }
         this.calculateGrade();
+        if (this.kids.length === 0) {
+            studies.deleteIntermediateResult(this.ID);
+        }
     }
 
     calculateGrade() {
@@ -56,14 +59,16 @@ class IntermediateResult {
         for (let childID of this.kids) {
             if (studies !== undefined && studies !== null) {
                 let child = studies.getChild(childID);
-                if (child.grade !== null) {
-                    weightSum += child.weight;
-                    gradeSum += child.grade;
+                if (child) {
+                    if (child.grade !== null) {
+                        weightSum += child.weight;
+                        gradeSum += child.grade;
+                    }
                 }
             }
         }
         if (weightSum !== 0 || gradeSum !== 0) {
-            this.grade = gradeSum / weightSum;
+            this.grade = Number((gradeSum / weightSum).toFixed(2));
         }
     }
 
@@ -73,9 +78,12 @@ class IntermediateResult {
         }
         for (let childid of this.kids) {
             let child = studies.getChild(childid);
-            if (child.containsID(childID)) {
-                return true;
+            if (child) {
+                if (child.containsID(childID)) {
+                    return true;
+                }
             }
+
         }
         return false;
     }
@@ -84,12 +92,14 @@ class IntermediateResult {
         for (let childid of this.kids) {
             if (studies !== undefined && studies !== null) {
                 let child = studies.getChild(childid);
-                if (child.ID === childID) {
-                    return this;
-                }
-                else if(child instanceof IntermediateResult) {
-                    if (child.containsID(childID)) {
-                        return child.isParent(childID);
+                if (child) {
+                    if (child.ID === childID) {
+                        return this;
+                    }
+                    else if (child instanceof IntermediateResult) {
+                        if (child.containsID(childID)) {
+                            return child.isParent(childID);
+                        }
                     }
                 }
             }
@@ -100,11 +110,11 @@ class IntermediateResult {
 
 //Quelle: https://stackoverflow.com/a/2117523
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         let r = Math.random() * 16 | 0,
             v = c === 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
-      });
+    });
 }
 
 export default IntermediateResult;
