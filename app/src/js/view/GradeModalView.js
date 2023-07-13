@@ -16,6 +16,7 @@ class GradeModalView extends Observable {
         this.subject = null;
 
         this.closeModalButton.addEventListener('click', () => {
+            this.gradeForm.reset();
             this.modal.close();
         });
 
@@ -34,6 +35,7 @@ class GradeModalView extends Observable {
     onModuleChanged(){
         let e = new Event("onModuleChanged", "onModuleChanged");
         this.notifyAll(e);
+        this.gradeForm.reset();
         this.modal.close();
     }
 

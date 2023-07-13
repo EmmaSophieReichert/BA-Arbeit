@@ -76,7 +76,7 @@ class ModalView extends Observable {
             stud.deleteModule(id);
         }
         stud.subjects[this.subject].addModule(module);
-        stud.children.push(module.ID);
+        stud.kids.push(module.ID);
         setStudyInstance(stud);
         fileManager.updateFile(); 
         ;

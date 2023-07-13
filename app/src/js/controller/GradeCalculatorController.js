@@ -24,7 +24,7 @@ class GradeCalculatorController{
                     this.gradeCalculatorViewRight.showStudy(study);
                     
                     // let stud = studies;
-                    // stud.addIntermediateResult([stud.children[0], stud.children[1]]);
+                    // stud.addIntermediateResult([stud.kids[0], stud.kids[1]]);
                     // setStudyInstance(stud);
                     // this.gradeCalculatorView.show();
                 }
