@@ -57,10 +57,8 @@ class IntermediateResult {
         let weightSum = 0,
             gradeSum = 0;
         for (let childID of this.kids) {
-            console.log(studies);
             if (studies !== undefined && studies !== null) {
                 let child = studies.getChild(childID);
-                console.log(child);
                 if (child) {
                     if (child.grade !== null) {
                         weightSum += child.weight;
@@ -69,7 +67,6 @@ class IntermediateResult {
                 }
             }
         }
-        console.log(gradeSum, weightSum);
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
         }

@@ -14,6 +14,11 @@ class ModalView extends Observable {
         this.closeModalButton = document.querySelector('.close');
         this.moduleForm = document.getElementById('module-form');
         this.errorMessage = document.getElementById('module-error-message');
+        this.gradeInput = document.getElementById('grade');
+        this.weightInput = document.getElementById('weight');
+        this.gradeEl = document.getElementById('grade-el-div');
+        this.weightEl = document.getElementById('weight-el-div');
+        this.passedEl = document.getElementById('passed-el-div');
         this.subject = 1;
 
         this.closeModalButton.addEventListener('click', () => {
@@ -33,8 +38,12 @@ class ModalView extends Observable {
             ects = parseInt(document.getElementById('ects').value),
             semester = document.getElementById('semester').value,
             length = parseInt(document.getElementById('length').value),
-            period = document.querySelector('input[name="start"]:checked').value;
+            period = document.querySelector('input[name="start"]:checked').value,
+            passed = document.querySelector('input[name="module-passed-radio"]:checked').value === "true";
         semester = semester === "" ? null : parseInt(semester);
+
+        console.log("PASS", passed);
+        
 
         if(this.root !== "edit"){
             if(studies.getModuleAndSubjectByID(shortname) !== null){
@@ -54,7 +63,12 @@ class ModalView extends Observable {
             module.period = period;
             module.recommendedSemester = semester;
             module.minSemLength = length;
+            module.passed = passed;
             id = this.module.ID;
+            if(passed){
+                module.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
+                module.weight = this.weightInput.value === "" ? null : parseInt(this.weightInput.value);
+            }
         }
         else{
             module = new Module(title, shortname, ects, period, semester, length);
@@ -79,7 +93,6 @@ class ModalView extends Observable {
         stud.kids.push(module.ID);
         setStudyInstance(stud);
         fileManager.updateFile(); 
-        ;
         ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);
 
@@ -90,6 +103,9 @@ class ModalView extends Observable {
         this.moduleForm.reset();
         this.module = null;
         this.errorMessage.textContent = "";
+        this.gradeEl.classList.add("hidden");
+        this.weightEl.classList.add("hidden");
+        this.passedEl.classList.add("hidden");
         this.modal.close();
     }
 
@@ -125,6 +141,20 @@ class ModalView extends Observable {
         }
 
         document.getElementById('edit-module-h2').innerHTML = "Modul bearbeiten";
+
+        if(module.passed){
+            console.log("PASSED");
+            console.log(this.gradeEl);
+            this.gradeEl.classList.remove("hidden");
+            this.weightEl.classList.remove("hidden");
+            this.passedEl.classList.remove("hidden");
+            if(module.grade){
+                this.gradeInput.value = module.grade;
+            }
+            if(module.weight){
+                this.weightInput.value = module.weight;
+            }
+        }
     }
 }
 

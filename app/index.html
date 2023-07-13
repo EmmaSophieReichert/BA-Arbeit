@@ -92,7 +92,7 @@
                     <label >Start angeboten im:</label>
                     <div class="radio-div">
                         <div>
-                            <input type="radio" id="Wintersemester" name="start" value="Wintersemester" checked>
+                            <input type="radio" id="Wintersemester" name="start" value="Wintersemester">
                             <label for="Wintersemester">❄️ Wintersemester</label>
                         </div>
                         <div>
@@ -112,6 +112,27 @@
                 <div class="form-row">
                     <label for="length">Länge in Semestern:</label>
                     <input type="number" id="length" min="1" value="1">
+                </div>
+                <div id="passed-el-div" class="form-row row-space hidden">
+                    <label >Status:</label>
+                    <div class="radio-div">
+                        <div>
+                            <input type="radio" id="module-passed" name="module-passed-radio" value="true" checked>
+                            <label for="module-passed">bestanden</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="module-not-passed" name="module-passed-radio" value="false">
+                            <label for="module-not-passed">in Bearbeitung</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="grade-el-div" class="form-row hidden">
+                    <label for="grade">Note:</label>
+                    <input type="number" id="grade" min="1" max="20" step="0.01">
+                </div>
+                <div id="weight-el-div" class="form-row hidden">
+                    <label for="weight">Gewicht:</label>
+                    <input type="number" id="weight" min="0" max="1000" step="0.01">
                 </div>
                 <p class="server-answer answer" id="module-error-message"></p>
                 <button class="row-space" type="submit">Modul speichern</button>
