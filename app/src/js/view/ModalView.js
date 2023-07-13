@@ -76,6 +76,7 @@ class ModalView extends Observable {
             stud.deleteModule(id);
         }
         stud.subjects[this.subject].addModule(module);
+        stud.kids.push(module.ID);
         setStudyInstance(stud);
         fileManager.updateFile(); 
         ;
@@ -98,6 +99,8 @@ class ModalView extends Observable {
         this.modal.showModal();
         this.subject = studies.getSubjectIndex(subjectTitle);
         let subject = studies.getSubject(subjectTitle);
+        document.getElementById('ects').max = subject.ects;
+        document.getElementById('length').max = studies.semesters.length;
         //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
         this.modal.style.border = "5px solid " + Config.COLOUR_CODES[subject.colourCode];
     }

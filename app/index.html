@@ -9,6 +9,7 @@
     <meta name="keywords" content="studies, planning, scheduling">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <link rel="stylesheet" href="src/js/treant-js-master/Treant.css" type="text/css"/>
     <link rel="stylesheet" href="src/css/index.css">
     <link rel="stylesheet" href="src/css/impressum.css">
     <link rel="stylesheet" href="src/css/nav-bar.css">
@@ -18,6 +19,7 @@
     <link rel="stylesheet" href="src/css/login.css">
     <link rel="stylesheet" href="src/css/study.css">
     <link rel="stylesheet" href="src/css/catalogue.css">
+    <link rel="stylesheet" href="src/css/grade-calculator.css">
 
     <!-- <link rel="stylesheet" type="css" href="../node_modules/gridstack/dist/gridstack.min.css" /> -->
     <!-- <link type="css" href="node_modules/gridstack/dist/gridstack-extra.min.css" rel="stylesheet"/> -->
@@ -117,6 +119,23 @@
         </div>
     </dialog>
 
+    <dialog id="grade-modal" class="modal">
+        <div class="modal-content">
+            <span class="close close-module-grade">&times;</span>
+            <h2 id="edit-module-h2">🎊 Glückwunsch! 🎊</h2>
+            <p> Du hast das Modul bestanden! </p>
+            <p class="row-space"> War das Modul benotet? Dann kannst du hier deine Note eintragen: </p>
+            <form id="grade-form">
+                <div class="form-row">
+                    <label for="grade-input">Note:</label>
+                    <input type="number" id="grade-input" min="1" max="20" step="0.01">
+                </div>
+                <!-- <p class="server-answer answer" id="module-error-message"></p> -->
+                <button class="row-space" type="submit">Fertig!</button>
+            </form>
+        </div>
+    </dialog>
+
 
     <dialog id="show-modal" class="modal">
         <div class="modal-content">
@@ -135,13 +154,21 @@
                     <label>Start angeboten im:</label>
                     <div id="start-module-show"></div>
                 </div>
-                <div class="form-row">
+                <div class="form-row hidden" id="recommended-semester-show-div">
                     <label>Empfohlenes Semester:</label>
                     <div id="semester-module-show"></div>
                 </div>
                 <div class="form-row">
                     <label>Länge in Semestern:</label>
                     <div id="length-module-show"></div>
+                </div>
+                <div class="form-row row-space hidden" id="passed-show-div">
+                    <label>Status:</label>
+                    <div id="passed-module-show"></div>
+                </div>
+                <div class="form-row hidden" id="grade-show-div">
+                    <label>Note:</label>
+                    <div id="grade-module-show"></div>
                 </div>
             </div>
             <div class="button-container row-space">
@@ -157,6 +184,13 @@
     <script type="module" src="src/js/index.js"></script>
     <!-- <link rel="stylesheet" type="css" href="../node_modules/gridstack/dist/gridstack.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>
+    <script src="src/js/treant-js-master/vendor/raphael.js"></script>
+    <script src="src/js/treant-js-master/Treant.js"></script>
+    <!-- Scrollbar Treant.js : -->
+    <!-- <link href="src/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" type="text/css"/>
+    <script src="src/js/treant-js-master/vendor/jquery.min.js"></script>
+    <script src="src/js/treant-js-master/vendor/jquery.mousewheel.js"></script>
+    <script src="src/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.js"></script> -->
 </body>
 
 </html>

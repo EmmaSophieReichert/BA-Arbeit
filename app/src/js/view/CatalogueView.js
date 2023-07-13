@@ -85,8 +85,10 @@ class CatalogueView extends Observable{
         let moduleDiv = document.createElement('div');
         moduleDiv.classList.add('module-div');
         if(module.passed){
-            moduleDiv.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-            //moduleDiv.style.border = "5px solid " + Config.COLOUR_CODES_DARK[colourCode];
+            moduleDiv.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
+            //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
+            moduleDiv.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
+            // moduleDiv.style.backgroundColor = "white";
         }
         else{
             moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
@@ -96,11 +98,12 @@ class CatalogueView extends Observable{
         ectsBox.classList.add('ects-box');
         ectsBox.textContent = module.ECTS + " ECTS";
         if(module.passed){
-            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARKEST[colourCode];
+            ectsBox.style.borderRadius = "0.3em";
         }
         else{
-            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+            //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         }
+        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');

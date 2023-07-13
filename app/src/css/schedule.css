@@ -162,7 +162,7 @@
 }
 
 .main-right-bottom {
-    padding: 2vw;
+    padding: 1vh 2vw;
     border-top: 1px solid var(--elephant-grey);
 }
 

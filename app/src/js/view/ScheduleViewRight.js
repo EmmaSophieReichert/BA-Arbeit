@@ -13,6 +13,7 @@ class ScheduleViewRight extends Observable {
     }
 
     showStudy(study) {
+        this.studyBoxesContainer.innerHTML = "";
         for (let subject of study.subjects) {
             this.showSubject(subject);
         }
@@ -34,8 +35,8 @@ class ScheduleViewRight extends Observable {
         addModuleButton.style.backgroundColor = Config.COLOUR_CODES_DARK[subject.colourCode];
         addModuleButton.textContent = "Modul hinzufügen";
 
-        // div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML; TODO: enable
-        div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
+        div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML;
+        //div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
         await this.studyBoxesContainer.appendChild(div);
 
         addModuleButton = document.getElementById(subject.title + "-button");
@@ -53,55 +54,11 @@ class ScheduleViewRight extends Observable {
         progress.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         progressBar.className = "progress-bar";
         progressText.className = "progress-text";
-        //progress.style.width = (currentECTS / totalECTS) * 100 + '%';
-        progress.style.width = "50%"; //TODO: Remove this
+        progress.style.width = (currentECTS / totalECTS) * 100 + '%';
+        //progress.style.width = "50%"; //TODO: Remove this
         progressText.textContent = currentECTS + '/' + totalECTS + ' ECTS';
         progressBar.innerHTML = progress.outerHTML + progressText.outerHTML;
         return progressBar;
-    }
-
-    getSemesterWidget(period, count) {
-
-
-        let pPeriod = document.createElement("p");
-        pPeriod.id = "sem" + count + "period";
-        pPeriod.innerHTML = period;
-
-        let h3 = document.createElement("h3");
-        h3.innerHTML = "<b>" + "Semester " + count + "</b>";
-
-        let p = document.createElement("p");
-        p.id = "sem" + count + "ects";
-        p.innerHTML = "0 ECTS";
-
-        div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
-        div.className = "semester";
-        div.classList.add(period);
-    }
-
-
-    setSemesters(number) {
-        this.grid.column(number);
-        for (let i = 1; i <= number; i++) {
-            let div = document.createElement("div");
-            let h3 = document.createElement("h3");
-            h3.innerHTML = "<b>" + "Semester " + i + "</b>";
-            let p = document.createElement("p");
-            p.id = "sem" + i + "ects";
-            p.innerHTML = "0 ECTS";
-            div.innerHTML = h3.outerHTML + p.outerHTML;
-            div.className = "semester";
-            let semester = {
-                x: i - 1,
-                y: 0,
-                id: "sem" + i,
-                locked: true,
-                noResize: true,
-                noMove: true,
-                content: div.outerHTML
-            }
-            this.grid.addWidget(semester);
-        }
     }
 }
 

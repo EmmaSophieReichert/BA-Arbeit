@@ -5,9 +5,10 @@ import LoginController from "./LoginController.js";
 import ScheduleController from "./ScheduleController.js";
 import StudyController from "./StudyController.js";
 
-import {getAuth} from "../api/Auth/getAuth.js";
-import {deleteSession} from "../api/Session/deleteSession.js";
+import { getAuth } from "../api/Auth/getAuth.js";
+import { deleteSession } from "../api/Session/deleteSession.js";
 import ModuleCatalogueController from "./ModuleCatalogueController.js";
+import GradeCalculatorController from "./GradeCalculatorController.js";
 
 class AppController {
 
@@ -20,7 +21,7 @@ class AppController {
         this.container = document.querySelector(".content-container");
 
         this.logoutButton = document.getElementById("logout-button");
-        this.logoutButton.addEventListener("click", async function(){
+        this.logoutButton.addEventListener("click", async function () {
             let promise = deleteSession();
             await promise.then((res) => {
                 console.log("Logged out");
@@ -73,14 +74,14 @@ class AppController {
                 }
             }
         }
-        if(currentHash === "#schedule"){
-            setTimeout(() =>{
+        if (currentHash === "#schedule") {
+            setTimeout(() => {
                 console.log("TIMER");
                 this.router.onHashChanged(event);
                 return;
             }, 500);
         }
-        else{
+        else {
             this.router.onHashChanged(event);
         }
     }
@@ -121,6 +122,9 @@ class AppController {
                 break;
             case "#module-catalogue":
                 this.controller = new ModuleCatalogueController();
+                break;
+            case "#grade-calculator":
+                this.controller = new GradeCalculatorController();
                 break;
             case "#impressum":
                 console.log("IMPRESSUM");

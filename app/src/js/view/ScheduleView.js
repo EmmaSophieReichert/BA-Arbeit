@@ -19,7 +19,7 @@ class ScheduleView extends Observable {
             // }
             // this.addModule(e.data.module, e.data.subject);
             this.updateStudy();
-            //this.notifyAll(e);
+            this.notifyAll(e);
         });
 
         this.grid = null;
@@ -35,7 +35,7 @@ class ScheduleView extends Observable {
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
                         this.updateStudy();
-                        //this.notifyAll(e);
+                        this.notifyAll(e);
                     });
                 }
             }
@@ -158,8 +158,10 @@ class ScheduleView extends Observable {
         let moduleDiv = document.createElement('div');
         moduleDiv.classList.add('module-div');
         if(module.passed){
-            moduleDiv.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-            //moduleDiv.style.border = "5px solid " + Config.COLOUR_CODES_DARK[colourCode];
+            moduleDiv.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
+            //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
+            moduleDiv.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
+           // moduleDiv.style.backgroundColor = "white";
         }
         else{
             moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
@@ -169,11 +171,12 @@ class ScheduleView extends Observable {
         ectsBox.classList.add('ects-box');
         ectsBox.textContent = module.ECTS + " ECTS";
         if(module.passed){
-            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARKEST[colourCode];
+            ectsBox.style.borderRadius = "0.3em";
         }
         else{
-            ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+            //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         }
+        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         
 
         // let turnusBox = document.createElement('div'); TODO: ADD sth here

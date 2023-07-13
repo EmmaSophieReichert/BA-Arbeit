@@ -10,6 +10,7 @@ const ROUTES = {
     "#impressum": "../app/src/html/impressum.html",
     "#schedule": "../app/src/html/schedule.html",
     "#module-catalogue": "../app/src/html/module-catalogue.html",
+    "#grade-calculator": "../app/src/html/grade-calculator.html",
     "#home": "../app/src/html/schedule.html",
 };
 

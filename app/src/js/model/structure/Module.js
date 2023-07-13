@@ -15,7 +15,8 @@ class Module {
         this.posY = posY;
 
         this.passed = passed;
-        this.grade = grade;
+        this.grade = grade ? parseFloat(grade) : grade;
+        this.weight = 1;
     }
 
     setPosition(x, y) {
@@ -33,6 +34,17 @@ class Module {
 
     setPassed(passed){
         this.passed = passed;
+    }
+
+    containsID(childID){
+        if(this.ID === childID){
+            return true;
+        }
+        return false;
+    }
+
+    isParent(childID){
+        return null;
     }
 
     // setGrade(grade) {

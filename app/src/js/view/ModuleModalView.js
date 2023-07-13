@@ -3,6 +3,7 @@ import Module from '../model/structure/Module.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import { Event, Observable } from '../utils/Observable.js';
+import gradeModalView from './GradeModalView.js';
 import modalView from './ModalView.js';
 
 class ModuleModalView extends Observable {
@@ -14,15 +15,23 @@ class ModuleModalView extends Observable {
         this.module = null;
         this.subject = null;
 
+        this.recommendedSemester = document.getElementById('recommended-semester-show-div');
+        this.passed = document.getElementById('passed-show-div');
+        this.grade = document.getElementById('grade-show-div');
+
         this.closeModalButton.addEventListener('click', () => {
+            this.reset()
             this.modal.close();
+            this.passedModalButton.removeAttribute("hidden");
         });
 
         this.editModalButton = document.getElementById("edit-module-button");
         this.editModalButton.addEventListener("click", () => {
             let e = new Event("onModuleEdited", "onModuleEdited");
             this.notifyAll(e);
+            this.reset;
             this.modal.close();
+            this.passedModalButton.removeAttribute("hidden");
             modalView.show(this.subject.title);
             modalView.fill(this.module);
         
@@ -61,17 +70,20 @@ class ModuleModalView extends Observable {
             setStudyInstance(stud);
             fileManager.updateFile();
             this.onModuleChanged();
+            gradeModalView.show(this.module, this.subject);
+            gradeModalView.addEventListener("onModuleChanged", (e) => {this.notifyAll(e)});
         });
     }
 
     onModuleChanged(){
         let e = new Event("onModuleChanged", "onModuleChanged");
         this.notifyAll(e);
+        this.reset();
         this.modal.close();
+        this.passedModalButton.removeAttribute("hidden");
     }
 
     show(module, subject) {
-        console.log(module);
         this.module = module;
         this.subject = subject;
         //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
@@ -79,10 +91,36 @@ class ModuleModalView extends Observable {
         document.getElementById('shortname-module-show').textContent = module.ID;
         document.getElementById('ects-module-show').textContent = module.ECTS;
         document.getElementById('start-module-show').textContent = module.period;
-        document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         document.getElementById('length-module-show').textContent = module.minSemLength;
+
+        console.log(module);
+        if(module.recommendedSemester !== null){
+            console.log("hi");
+            this.recommendedSemester.classList.remove("hidden");
+            document.getElementById('semester-module-show').textContent = module.recommendedSemester;
+        }
+        if(module.passed){
+            console.log("ho");
+            this.passed.classList.remove("hidden");
+            document.getElementById('passed-module-show').textContent = "bestanden";
+        }
+        if(module.grade !== null){
+            console.log("hu");
+            this.grade.classList.remove("hidden");
+            document.getElementById('grade-module-show').textContent = module.grade;
+        }
+
         this.modal.close();
         this.modal.showModal();
+        if(module.passed){
+            this.passedModalButton.setAttribute("hidden", true);
+        }
+    }
+
+    reset(){
+        this.recommendedSemester.classList.add("hidden");
+        this.passed.classList.add("hidden");
+        this.grade.classList.add("hidden");
     }
 
     // show(subjectTitle) {
