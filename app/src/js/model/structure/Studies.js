@@ -254,9 +254,9 @@ class Studies {
             chart: {
                 container: "#grade-tree",
                 rootOrientation: "EAST",
-                levelSeparation: 80,
-                siblingSeparation: 5,
-                subTeeSeparation: 15,
+                levelSeparation: 50,
+                siblingSeparation: 8,
+                subTeeSeparation: 50,
                 padding: 20,
                 connectors: {
                     style: {
@@ -335,7 +335,7 @@ class Studies {
             },
             innerHTML: "<div class='grade-module-wrap'><div class='grade-module-text'><p>" + "Zwischenergebnis" + "</p></div>" + gradeAddition + "</div>",
             HTMLid: intermediateResult.ID,
-            HTMLclass: "grade-module",
+            HTMLclass: "grade-module intermediate-result",
             children: []
         };
         let subjects = [];
@@ -352,12 +352,12 @@ class Studies {
                 intermediateResultNode.children.push(childIntermediateResultNode);
             }
         }
-        if(subjects.every((sub) => sub === subjects[0]) && subjects.length !== 0){ //subjects the same?
-            let sub = subjects[0];
-            intermediateResultNode.HTMLclass = "grade-module subject-" + sub.colourCode;
-            //intermediateResultNode.parentConnector.style.stroke = Config.COLOUR_CODES_DARK[sub.colourCode].substring(0,7);
-            //intermediateResultNode.parentConnector.style.strokeWidth = 1.5; //TODO: Does not work
-        }
+        // if(subjects.every((sub) => sub === subjects[0]) && subjects.length !== 0){ //subjects the same?
+        //     let sub = subjects[0];
+        //     intermediateResultNode.HTMLclass = "grade-module subject-" + sub.colourCode;
+        //     //intermediateResultNode.parentConnector.style.stroke = Config.COLOUR_CODES_DARK[sub.colourCode].substring(0,7);
+        //     //intermediateResultNode.parentConnector.style.strokeWidth = 1.5; //TODO: Does not work
+        // }
         return intermediateResultNode;
     }
 

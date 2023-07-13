@@ -107,3 +107,13 @@
     bottom: 20px;
     right: 20px;
 }
+
+.intermediate-result{
+    /* background-color: var(--middle-grey); */
+    background-color: white;
+    border: 1.5px solid var(--elephant-grey);
+}
+
+.intermediate-result .grade-module-number{
+    background-color: var(--middle-grey);
+}

@@ -87,7 +87,6 @@ class GradeCalculatorView extends Observable {
     }
 
     updateButton() {
-        console.log(this.currentClickedIDs);
         if (this.currentClickedIDs.length > 0) {
             this.createButton();
         } else {
