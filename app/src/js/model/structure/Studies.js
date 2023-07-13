@@ -55,7 +55,7 @@ class Studies {
             if(child){
                 if (child.grade !== null) {
                 weightSum += child.weight;
-                gradeSum += child.grade;
+                gradeSum += child.grade * child.weight;
                 }
             }
         }
@@ -105,7 +105,7 @@ class Studies {
             i++;
             if (subject.modules !== null && subject.modules !== undefined) {
                 for (let mod of subject.modules) {
-                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.period, mod.recommendedSemester, mod.minSemLength, mod.posY, mod.passed, mod.grade);
+                    let m = new Module(mod.title, mod.ID, mod.ECTS, mod.period, mod.recommendedSemester, mod.minSemLength, mod.posY, mod.passed, mod.grade, mod.weight);
                     for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
@@ -178,11 +178,12 @@ class Studies {
         this.calculateSubjectECTS();
     }
 
-    setModuleGrade(id, grade) {
+    setModuleGrade(id, grade, weight) {
         for (let subject of this.subjects) {
             for (let module of subject.modules) {
                 if (module.ID === id) {
                     module.grade = grade;
+                    module.weight = weight;
                 }
             }
         }

@@ -22,10 +22,11 @@ class GradeModalView extends Observable {
 
         this.gradeForm.addEventListener("submit", () => {
             let grade = document.getElementById("grade-input").value,
+                weight = document.getElementById("weight-input").value,
                 stud = studies;
 
             console.log(this.module);
-            stud.setModuleGrade(this.module.ID, grade);
+            stud.setModuleGrade(this.module.ID, grade, weight);
             setStudyInstance(stud);
             this.onModuleChanged();
         })
