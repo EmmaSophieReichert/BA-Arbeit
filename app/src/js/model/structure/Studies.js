@@ -31,6 +31,11 @@ class Studies {
         //this.addIntermediateResult([this.kids[0], this.kids[1]]);
     }
 
+    // updateModule(id, mod){
+    //     let data =  this.getModuleAndSubjectByID(id);
+    //     let parent
+    // }
+
     getID() {
         return this.ID;
     }
@@ -471,6 +476,7 @@ class Studies {
 
     // Helper method to get the parent object of a child ID
     getParent(childID) {
+        console.log("GETPARENT", childID);
         for (let childid of this.kids) {
             let child = this.getChild(childid);
             if (child) {
@@ -478,7 +484,9 @@ class Studies {
                     return this;
                 }
                 if (child instanceof IntermediateResult && child.kids !== null) {
+                    console.log("KAKADU", child.name);
                     if (child.containsID(childID)) {
+                        console.log("KAKADU", child.name);
                         return child.isParent(childID);
                     }
                 }

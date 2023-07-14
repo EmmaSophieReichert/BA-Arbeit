@@ -3,7 +3,6 @@ import { studies } from "../studiesInstance.js";
 class IntermediateResult {
 
     constructor(name = "int", weight = 1, grade = null, id = null) {
-        console.log("THIS", this);
         this.name = name;
 
         this.weight = weight;

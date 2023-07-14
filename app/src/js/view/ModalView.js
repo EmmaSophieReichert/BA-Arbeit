@@ -40,10 +40,7 @@ class ModalView extends Observable {
             length = parseInt(document.getElementById('length').value),
             period = document.querySelector('input[name="start"]:checked').value,
             passed = document.querySelector('input[name="module-passed-radio"]:checked').value === "true";
-        semester = semester === "" ? null : parseInt(semester);
-
-        console.log("PASS", passed);
-        
+        semester = semester === "" ? null : parseInt(semester);    
 
         if(this.root !== "edit"){
             if(studies.getModuleAndSubjectByID(shortname) !== null){
@@ -51,46 +48,63 @@ class ModalView extends Observable {
                 return;
             }
         }
-
-        let module,
+        console.log("PASS", this.module);
+        var moduleN,
             ev,
             id = null;
         if(this.module !== null){
-            module = this.module;
-            module.title = title;
-            module.ID = shortname;
-            module.ECTS = ects;
-            module.period = period;
-            module.recommendedSemester = semester;
-            module.minSemLength = length;
-            module.passed = passed;
+            moduleN = new Module(title, shortname, ects, period, semester, length);//structuredClone(this.module);
+            // moduleN.title = title;
+            // moduleN.ID = shortname;
+            // moduleN.ECTS = ects;
+            // moduleN.period = period;
+            // moduleN.recommendedSemester = semester;
+            // moduleN.minSemLength = length;
+            moduleN.passed = passed;
             id = this.module.ID;
             if(passed){
-                module.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
-                module.weight = this.weightInput.value === "" ? null : parseFloat(this.weightInput.value);
+                moduleN.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
+                moduleN.weight = this.weightInput.value === "" ? null : parseFloat(this.weightInput.value);
             }
         }
         else{
-            module = new Module(title, shortname, ects, period, semester, length);
+            moduleN = new Module(title, shortname, ects, period, semester, length);
         }
+        console.log("PASS", this.module);
+        console.log("IDDID", id);
         
         for (let i = 0; i < length; i++) {
-            module.addSelectedSemester(semester ? semester + i : 1 + i);
+            moduleN.addSelectedSemester(semester ? semester + i : 1 + i);
         }
         let data = {
-            module: module,
+            module: moduleN,
             subject: this.subject,
             root: this.root,
             id: id,
         }
 
         let stud = studies;
+        // if(this.root === "edit"){
+        //     console.log("EDIT");
+        //     stud.deleteModule(id);
+        // }
+        // stud.subjects[this.subject].addModule(moduleN);
+        // stud.kids.push(moduleN.ID);
         if(this.root === "edit"){
             console.log("EDIT");
+            let parent = stud.getParent(id);
+            if(parent){
+                parent.removeChild(id);
+            }
             stud.deleteModule(id);
+            if(parent){
+                parent.addChild(moduleN.ID);
+            }
         }
-        stud.subjects[this.subject].addModule(module);
-        stud.kids.push(module.ID);
+        stud.subjects[this.subject].addModule(moduleN);
+        if(this.root !== "edit"){
+             stud.kids.push(moduleN.ID);
+        }
         setStudyInstance(stud);
         fileManager.updateFile(); 
         ev = new Event("onModuleChanged", data);
