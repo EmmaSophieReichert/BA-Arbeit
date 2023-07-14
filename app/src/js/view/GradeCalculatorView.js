@@ -8,6 +8,7 @@ import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
 import IntermediateResult from '../model/structure/IntermediateResult.js';
 import fileManager from '../model/FileManager.js';
+import intResModalView from './IntResModalView.js';
 
 
 class GradeCalculatorView extends Observable {
@@ -20,6 +21,10 @@ class GradeCalculatorView extends Observable {
 
         this.currentClickedIDs = [];
         this.buttonContainer = document.getElementById("add-int-res-button-container");
+
+        intResModalView.addEventListener("onIntResSubmit", () => {
+            this.show();
+        })
     }
 
     show() {
@@ -45,14 +50,19 @@ class GradeCalculatorView extends Observable {
     // different look, add to array
     handleClick(nodeID) {
         let nodeElement = document.getElementById(nodeID);
+        let wrap = nodeElement.querySelector(".grade-module-wrap");
         // Prove if nodeID is in Array
         let index = this.currentClickedIDs.indexOf(nodeID);
         if (index === -1) {
-            nodeElement.style.border = "2px solid rgb(171, 89, 226)";
+            if(wrap){
+                wrap.style.border = "2px solid rgb(171, 89, 226)";
+            }
             this.currentClickedIDs.push(nodeID);
             this.updateButton();
         } else {
-            nodeElement.style.border = "";
+            if(wrap){
+                wrap.style.border = "";
+            }
             this.currentClickedIDs.splice(index, 1);
             this.updateButton();
         }
@@ -69,9 +79,7 @@ class GradeCalculatorView extends Observable {
         button.classList.add("register-button");
         button.id = "add-int-res-button";
         button.addEventListener("click", () => {
-            studies.addIntermediateResult(this.currentClickedIDs);
-            fileManager.updateFile();
-            this.show()
+            intResModalView.show(this.currentClickedIDs);
             //this.show();
             this.currentClickedIDs = [];
             this.removeButton();

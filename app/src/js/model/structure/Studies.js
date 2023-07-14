@@ -257,7 +257,7 @@ class Studies {
             chart: {
                 container: "#grade-tree",
                 rootOrientation: "EAST",
-                levelSeparation: 50,
+                levelSeparation: 30,
                 siblingSeparation: 8,
                 subTeeSeparation: 25,
                 padding: 50,
@@ -268,11 +268,10 @@ class Studies {
                         'stroke': "rgb(192, 192, 192)",
                     }
                 },
-            },
-
-            node: {
-                HTMLclass: "grade-view-element",
-                drawLineThrough: true
+                node: {
+                    HTMLclass: "grade-view-element",
+                    drawLineThrough: true,
+                },
             },
             nodeStructure: {
                 text: {
@@ -301,10 +300,11 @@ class Studies {
     }
 
     getModuleNode(data) {
-        let gradeAddition = "";
+        let gradeAddition = "",
+            weightAddition = "";
         if (data.module.grade !== null) {
-            gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>" + 
-            "<div class='grade-module-weight'><p> x " + data.module.weight + "</p></div>";
+            gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>";
+            weightAddition =  "<div class='grade-module-weight text-subject-"+ data.subject.colourCode +"'><p> x" + data.module.weight + "</p></div>";
         }
 
         return {
@@ -317,9 +317,15 @@ class Studies {
                     "stroke-width": 1.5,
                 },
             },
-            HTMLclass: "grade-module subject-" + data.subject.colourCode,
+            connectors:{
+                style: {
+                    "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0, 7),
+                    "stroke-width": 1.5,
+                },
+            },
+            HTMLclass: "grade-module",
             HTMLid: data.module.ID,
-            innerHTML: "<div class='grade-module-wrap'><div class='grade-module-text'><p>" + data.module.title + "</p></div>" + gradeAddition + "</div>",
+            innerHTML: "<div class='grade-module-div'><div class='grade-module-wrap subject-"+ data.subject.colourCode +"'><div class='grade-module-text'><p>" + data.module.title + "</p></div>" + gradeAddition + "</div>" + weightAddition + "</div>",
             data: {
                 id: data.module.ID
             },
@@ -327,10 +333,11 @@ class Studies {
     }
 
     buildIntermediateResultNode(intermediateResult) {
-        let gradeAddition = "";
+        let gradeAddition = "",
+            weightAddition = "";
         if (intermediateResult.grade !== null) {
-            gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>"+ 
-            "<div class='grade-module-weight'><p> x " + intermediateResult.weight + "</p></div>";
+            gradeAddition = "<div class='grade-module-number'><p>" + intermediateResult.grade + "</p></div>";
+            weightAddition = "<div class='grade-module-weight'><p> x" + intermediateResult.weight + "</p></div>";
         }
         let intermediateResultNode = {
             // text: {
@@ -339,7 +346,7 @@ class Studies {
             data: {
                 id: intermediateResult.ID
             },
-            innerHTML: "<div class='grade-module-wrap'><div class='grade-module-text'><p>" + "Zwischenergebnis" + "</p></div>" + gradeAddition + "</div>",
+            innerHTML: "<div class='grade-module-div'><div class='grade-module-wrap'><div class='grade-module-text'><p>" + intermediateResult.name + "</p></div>" + gradeAddition + "</div>" + weightAddition + "</div>",
             HTMLid: intermediateResult.ID,
             HTMLclass: "grade-module intermediate-result",
             children: []
@@ -376,7 +383,7 @@ class Studies {
         return null;
     }
 
-    addIntermediateResult(kidsIDs) {
+    addIntermediateResult(kidsIDs, title, weight) {
         // Check if kids have the same parent
         let parentIDs = [],
             parent;
@@ -409,7 +416,7 @@ class Studies {
         }
 
         // Create new IntermediateResult
-        let intermediateResult = new IntermediateResult();
+        let intermediateResult = new IntermediateResult(title, weight);
         for (let ch of kidsIDs) {
             intermediateResult.addChild(ch);
         }
