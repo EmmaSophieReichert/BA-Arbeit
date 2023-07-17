@@ -160,6 +160,7 @@ class Studies {
                 child.removeChild(id);
             }
         }
+        this.calculateGrade();
     }
 
     changeModulePosition(id, x, y) {
@@ -187,11 +188,12 @@ class Studies {
         for (let subject of this.subjects) {
             for (let module of subject.modules) {
                 if (module.ID === id) {
-                    module.grade = grade;
-                    module.weight = weight;
+                    module.grade = grade ? parseFloat(grade) : grade;
+                    module.weight = weight ? parseFloat(weight) : weight;
                 }
             }
         }
+        this.calculateGrade();
     }
 
     calculateSemesterECTS() {
@@ -427,6 +429,8 @@ class Studies {
         }
         this.intermediateResults.push(intermediateResult);
         parent.addChild(intermediateResult.ID);
+
+        this.calculateGrade();
     }
 
     deleteIntermediateResult(intermediateResultID) {
@@ -457,6 +461,8 @@ class Studies {
         if (index !== -1) {
             this.intermediateResults.splice(index, 1);
         }
+
+        this.calculateGrade();
     }
 
     removeChild(childID) {
@@ -467,6 +473,7 @@ class Studies {
 
     addChild(child) {
         this.kids.push(child);
+        this.calculateGrade();
     }
 
     // Helper method to check if all parent IDs are the same
@@ -476,7 +483,6 @@ class Studies {
 
     // Helper method to get the parent object of a child ID
     getParent(childID) {
-        console.log("GETPARENT", childID);
         for (let childid of this.kids) {
             let child = this.getChild(childid);
             if (child) {
@@ -484,9 +490,7 @@ class Studies {
                     return this;
                 }
                 if (child instanceof IntermediateResult && child.kids !== null) {
-                    console.log("KAKADU", child.name);
                     if (child.containsID(childID)) {
-                        console.log("KAKADU", child.name);
                         return child.isParent(childID);
                     }
                 }

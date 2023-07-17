@@ -155,40 +155,55 @@ class ScheduleView extends Observable {
     }
 
     getModuleDiv(module, colourCode) {
-        let moduleDiv = document.createElement('div');
+        let moduleDiv = document.createElement('div'),
+            moduleDivLeft = document.createElement('div'),
+            moduleDivRight = document.createElement('div');
         moduleDiv.classList.add('module-div');
+        moduleDivLeft.classList.add('module-div-left');
+        moduleDivRight.classList.add('module-div-right');
+
+        moduleDivRight.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+
         if(module.passed){
-            moduleDiv.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
             //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
-            moduleDiv.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
            // moduleDiv.style.backgroundColor = "white";
         }
         else{
-            moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.backgroundColor = Config.COLOUR_CODES[colourCode];
         }
 
         let ectsBox = document.createElement('div');
+        let ectsCount = document.createElement('p');
+        let ectsDescription = document.createElement('p');
+        ectsCount.classList.add("ects-count");
+        ectsCount.textContent = module.ECTS;
+        ectsDescription.classList.add("ects-description");
+        ectsDescription.textContent = "ECTS";
+
         ectsBox.classList.add('ects-box');
-        ectsBox.textContent = module.ECTS + " ECTS";
+        ectsBox.innerHTML = ectsCount.outerHTML + ectsDescription.outerHTML;
         if(module.passed){
-            ectsBox.style.borderRadius = "0.3em";
+            // ectsBox.style.borderRadius = "0.3em";
         }
         else{
             //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         }
-        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+        // ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         
 
-        // let turnusBox = document.createElement('div'); TODO: ADD sth here
-        // turnusBox.classList.add('turnus-box');
-        // let symbol;
-        // switch(module.period){
-        //     case "Wintersemester": symbol = "❄️"; break;
-        //     case "Sommersemester": symbol = "☀️"; break;
-        //     case "beide": symbol = "❄️☀️"; break;
-        //     default: symbol = "❄️☀️"; break;
-        // }
-        // turnusBox.textContent = symbol;
+        let turnusBox = document.createElement('div'); //TODO: ADD sth here
+        turnusBox.classList.add('turnus-box');
+        let symbol;
+        switch(module.period){
+            case "Wintersemester": symbol = "❄️"; break;
+            case "Sommersemester": symbol = "☀️"; break;
+            case "beide": symbol = "❄️☀️"; break;
+            default: symbol = "❄️☀️"; break;
+        }
+        turnusBox.textContent = symbol;
+        // turnusBox.style.border = "0.3em solid " + Config.COLOUR_CODES[colourCode];
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');
@@ -198,10 +213,13 @@ class ScheduleView extends Observable {
         moduleTitle.classList.add('module-title');
         moduleTitle.textContent = module.title;
 
-        moduleDiv.appendChild(ectsBox);
-        //moduleDiv.appendChild(turnusBox);
-        moduleDiv.appendChild(moduleAbbreviation);
-        moduleDiv.appendChild(moduleTitle);
+        moduleDivRight.appendChild(ectsBox);
+        moduleDivRight.appendChild(turnusBox);
+        moduleDivLeft.appendChild(moduleAbbreviation);
+        moduleDivLeft.appendChild(moduleTitle);
+
+        moduleDiv.appendChild(moduleDivLeft);
+        moduleDiv.appendChild(moduleDivRight);
 
         return moduleDiv.outerHTML;
     }

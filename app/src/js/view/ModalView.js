@@ -32,7 +32,6 @@ class ModalView extends Observable {
 
     onSubmitButtonClicked(e) {
         e.preventDefault();
-        console.log(this.root);
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
             ects = parseInt(document.getElementById('ects').value),
@@ -48,18 +47,12 @@ class ModalView extends Observable {
                 return;
             }
         }
-        console.log("PASS", this.module);
+
         var moduleN,
             ev,
             id = null;
         if(this.module !== null){
-            moduleN = new Module(title, shortname, ects, period, semester, length);//structuredClone(this.module);
-            // moduleN.title = title;
-            // moduleN.ID = shortname;
-            // moduleN.ECTS = ects;
-            // moduleN.period = period;
-            // moduleN.recommendedSemester = semester;
-            // moduleN.minSemLength = length;
+            moduleN = new Module(title, shortname, ects, period, semester, length);
             moduleN.passed = passed;
             id = this.module.ID;
             if(passed){
@@ -70,8 +63,6 @@ class ModalView extends Observable {
         else{
             moduleN = new Module(title, shortname, ects, period, semester, length);
         }
-        console.log("PASS", this.module);
-        console.log("IDDID", id);
         
         for (let i = 0; i < length; i++) {
             moduleN.addSelectedSemester(semester ? semester + i : 1 + i);
@@ -85,13 +76,11 @@ class ModalView extends Observable {
 
         let stud = studies;
         // if(this.root === "edit"){
-        //     console.log("EDIT");
         //     stud.deleteModule(id);
         // }
         // stud.subjects[this.subject].addModule(moduleN);
         // stud.kids.push(moduleN.ID);
         if(this.root === "edit"){
-            console.log("EDIT");
             let parent = stud.getParent(id);
             if(parent){
                 parent.removeChild(id);
@@ -157,8 +146,6 @@ class ModalView extends Observable {
         document.getElementById('edit-module-h2').innerHTML = "Modul bearbeiten";
 
         if(module.passed){
-            console.log("PASSED");
-            console.log(this.gradeEl);
             this.gradeEl.classList.remove("hidden");
             this.weightEl.classList.remove("hidden");
             this.passedEl.classList.remove("hidden");

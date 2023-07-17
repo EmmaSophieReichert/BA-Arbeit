@@ -7,7 +7,6 @@ class IntermediateResult {
 
         this.weight = weight;
 
-        // console.log(this.kids);
         // //this.kids = kids;// ? kids : [];
         this.grade = grade;
 
@@ -22,14 +21,13 @@ class IntermediateResult {
         if (grade === null) {
             this.calculateGrade();
         }
-        // console.log(this.ID, id, this.kids);
+        this.calculateGrade();
     }
 
     addChild(moduleId) {
         // let chil =  structuredClone(this.kids);
         // chil.push(moduleId);
         // this.kids[0] = "haha";
-        // console.log("CHILL", chil, this.ID);
         this.kids.push(moduleId);
         this.calculateGrade();
     }
