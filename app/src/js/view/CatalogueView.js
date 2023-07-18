@@ -62,7 +62,8 @@ class CatalogueView extends Observable{
             column: count,
             cellHeight: "100px",
             disableOneColumnMode: true,
-            float: false
+            float: false,
+            margin: 8,
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
@@ -76,49 +77,61 @@ class CatalogueView extends Observable{
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: ScheduleView.getModuleDiv(module, colourCode),
+            content: this.getModuleDiv(module, colourCode),
         }
         this.grid.addWidget(moduleWidget);
         this.grid.save();
     }
 
     getModuleDiv(module, colourCode) {
-        let moduleDiv = document.createElement('div');
+        let moduleDiv = document.createElement('div'),
+            moduleDivLeft = ScheduleView.getModuleDivLeft(module, colourCode),
+            moduleDivRight = ScheduleView.getModuleDivRight(module, colourCode),
+            moduleDivMiddle = this.getModuleDivMiddle(module, colourCode);
         moduleDiv.classList.add('module-div');
-        if(module.passed){
-            moduleDiv.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
-            //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
-            moduleDiv.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
-            // moduleDiv.style.backgroundColor = "white";
-        }
-        else{
-            moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
-        }
 
-        let ectsBox = document.createElement('div');
-        ectsBox.classList.add('ects-box');
-        ectsBox.textContent = module.ECTS + " ECTS";
-        if(module.passed){
-            ectsBox.style.borderRadius = "0.3em";
-        }
-        else{
-            //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        }
-        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-
-        let moduleAbbreviation = document.createElement('span');
-        moduleAbbreviation.classList.add('module-abbreviation');
-        moduleAbbreviation.textContent = module.ID;
-
-        let moduleTitle = document.createElement('h3');
-        moduleTitle.classList.add('module-title');
-        moduleTitle.textContent = module.title;
-
-        moduleDiv.appendChild(ectsBox);
-        moduleDiv.appendChild(moduleAbbreviation);
-        moduleDiv.appendChild(moduleTitle);
+        moduleDiv.appendChild(moduleDivLeft);
+        moduleDiv.appendChild(moduleDivMiddle);
+        moduleDiv.appendChild(moduleDivRight);
 
         return moduleDiv.outerHTML;
+    }
+
+    getModuleDivMiddle(module, colourCode){
+        let middle = document.createElement("div"),
+            recommendedSem = document.createElement("p"),
+            selectedSem = document.createElement("p"),
+            length = document.createElement("p");
+        middle.classList.add("module-div-middle");
+        if(module.recommendedSemester){
+            recommendedSem.textContent = "Empfohlenes Semester: " + module.recommendedSemester;
+        }
+        let selSem = "Ausgewählte Semester: ";
+        for(let i = 0; i < module.selectedSemester.length; i++){
+            if(i+1 ===  module.selectedSemester.length){
+                selSem += module.selectedSemester[i];
+            }
+            else{
+                selSem += module.selectedSemester[i]; + ", ";
+            }
+        }
+        selectedSem.textContent = selSem;
+        length.textContent = "Länge in Semestern: " + module.minSemLength;
+
+        if (module.passed) {
+            middle.style.backgroundColor = "white";
+            middle.style.borderTop = "4px solid " + Config.COLOUR_CODES[colourCode];
+            middle.style.borderBottom = "4px solid " + Config.COLOUR_CODES[colourCode];
+        }
+        else {
+            middle.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
+        
+        middle.append(selectedSem);
+        middle.append(recommendedSem);
+        middle.append(length);
+
+        return middle;
     }
 
     handleWidgetChange(event, items) {
@@ -138,10 +151,7 @@ class CatalogueView extends Observable{
         //         this.notifyAll(e);
         //     }, 5000);
         // }
-    }
-
-    
-    
+    } 
 }
 
 export default CatalogueView;

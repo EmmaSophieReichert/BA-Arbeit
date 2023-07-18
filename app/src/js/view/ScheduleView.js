@@ -29,7 +29,7 @@ class ScheduleView extends Observable {
         this.gridContainer.addEventListener('click', (event) => {
             var widget = event.target.closest('.grid-stack-item');
             if (widget !== null) {
-                if(widget.getAttribute("gs-y") !== "0"){
+                if (widget.getAttribute("gs-y") !== "0") {
                     let id = widget.getAttribute("gs-id"),
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
@@ -46,7 +46,7 @@ class ScheduleView extends Observable {
         modalView.show(subjectTitle);
     }
 
-    updateStudy(){
+    updateStudy() {
         this.grid.removeAll();
         this.show(studies);
     }
@@ -61,6 +61,28 @@ class ScheduleView extends Observable {
                 this.addModule(module, subject.colourCode);
             }
         }
+        this.adjustFontSizeToHeight();
+        
+    }
+
+    adjustFontSizeToHeight() {
+        console.log("HRRH");
+        let leftElements = document.querySelectorAll(".module-div-left");
+        for (let moduleDivLeft of leftElements) {
+            console.log(moduleDivLeft.clientHeight, moduleDivLeft.scrollHeight);
+            if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight) { //&& moduleDivLeft.scrollTop === 0){
+                this.adjustSize(moduleDivLeft);
+            }
+        }
+    }
+
+    adjustSize(moduleDivLeft){
+        let currentFontSize = window.getComputedStyle(moduleDivLeft).fontSize,
+            newFontSize = parseFloat(currentFontSize) - 1;
+        moduleDivLeft.style.fontSize = newFontSize + "px";
+        if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight && parseFloat(currentFontSize) > 11){
+            this.adjustSize(moduleDivLeft);
+        }
     }
 
     initGrid(count) {
@@ -68,7 +90,8 @@ class ScheduleView extends Observable {
             column: count,
             cellHeight: "100px",
             disableOneColumnMode: true,
-            float: false
+            float: false,
+            margin: 8,
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
@@ -148,31 +171,60 @@ class ScheduleView extends Observable {
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: ScheduleView.getModuleDiv(module, colourCode),
+            content: this.getModuleDiv(module, colourCode),
         }
         this.grid.addWidget(moduleWidget);
         this.grid.save();
     }
 
-    static getModuleDiv(module, colourCode) {
+    getModuleDiv(module, colourCode) {
         let moduleDiv = document.createElement('div'),
-            moduleDivLeft = document.createElement('div'),
-            moduleDivRight = document.createElement('div');
+            moduleDivLeft = ScheduleView.getModuleDivLeft(module, colourCode),
+            moduleDivRight = ScheduleView.getModuleDivRight(module, colourCode);
         moduleDiv.classList.add('module-div');
-        moduleDivLeft.classList.add('module-div-left');
-        moduleDivRight.classList.add('module-div-right');
 
-        if(module.passed){
-            moduleDivLeft.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
-            //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
+        moduleDiv.appendChild(moduleDivLeft);
+        moduleDiv.appendChild(moduleDivRight);
+
+        return moduleDiv.outerHTML;
+    }
+
+    static getModuleDivLeft(module, colourCode) {
+        let moduleDivLeft = document.createElement('div');
+        moduleDivLeft.classList.add('module-div-left');
+
+        if (module.passed) {
+            moduleDivLeft.style.backgroundColor = "white";
             moduleDivLeft.style.borderTop = "4px solid " + Config.COLOUR_CODES[colourCode];
             moduleDivLeft.style.borderLeft = "4px solid " + Config.COLOUR_CODES[colourCode];
             moduleDivLeft.style.borderBottom = "4px solid " + Config.COLOUR_CODES[colourCode];
-            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES[colourCode];
-           // moduleDiv.style.backgroundColor = "white";
         }
-        else{
+        else {
             moduleDivLeft.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
+
+        let moduleAbbreviation = document.createElement('span');
+        moduleAbbreviation.classList.add('module-abbreviation');
+        moduleAbbreviation.textContent = module.ID;
+
+        let moduleTitle = document.createElement('h3');
+        moduleTitle.classList.add('module-title');
+        moduleTitle.textContent = module.title;
+
+        moduleDivLeft.appendChild(moduleAbbreviation);
+        moduleDivLeft.appendChild(moduleTitle);
+
+        return moduleDivLeft;
+    }
+
+    static getModuleDivRight(module, colourCode) {
+        let moduleDivRight = document.createElement('div');
+        moduleDivRight.classList.add('module-div-right');
+
+        if (module.passed) {
+            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
+        else {
             moduleDivRight.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         }
 
@@ -183,47 +235,24 @@ class ScheduleView extends Observable {
         ectsCount.textContent = module.ECTS;
         ectsDescription.classList.add("ects-description");
         ectsDescription.textContent = "ECTS";
-
         ectsBox.classList.add('ects-box');
         ectsBox.innerHTML = ectsCount.outerHTML + ectsDescription.outerHTML;
-        if(module.passed){
-            // ectsBox.style.borderRadius = "0.3em";
-        }
-        else{
-            //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        }
-        // ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        
 
         let turnusBox = document.createElement('div'); //TODO: ADD sth here
         turnusBox.classList.add('turnus-box');
         let symbol;
-        switch(module.period){
+        switch (module.period) {
             case "Wintersemester": symbol = "❄️"; break;
             case "Sommersemester": symbol = "☀️"; break;
             case "beide": symbol = "<p>❄️</p><p>☀️</p>"; break;
             default: symbol = "<p>❄️</p><p>☀️</p>"; break;
         }
         turnusBox.innerHTML = symbol;
-        // turnusBox.style.border = "0.3em solid " + Config.COLOUR_CODES[colourCode];
-
-        let moduleAbbreviation = document.createElement('span');
-        moduleAbbreviation.classList.add('module-abbreviation');
-        moduleAbbreviation.textContent = module.ID;
-
-        let moduleTitle = document.createElement('h3');
-        moduleTitle.classList.add('module-title');
-        moduleTitle.textContent = module.title;
 
         moduleDivRight.appendChild(ectsBox);
         moduleDivRight.appendChild(turnusBox);
-        moduleDivLeft.appendChild(moduleAbbreviation);
-        moduleDivLeft.appendChild(moduleTitle);
 
-        moduleDiv.appendChild(moduleDivLeft);
-        moduleDiv.appendChild(moduleDivRight);
-
-        return moduleDiv.outerHTML;
+        return moduleDivRight;
     }
 
     handleWidgetChange(event, items) {
@@ -250,7 +279,7 @@ class ScheduleView extends Observable {
     updateSemesterECTS(semesterCount) {
         let semP = document.getElementById("sem" + semesterCount + "ects"),
             semester = studies.getSemester(semesterCount);
-        if(semP){
+        if (semP) {
             semP.innerHTML = semester.ECTS + " ECTS";
         }
     }
