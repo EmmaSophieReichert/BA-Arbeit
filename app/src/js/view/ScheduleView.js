@@ -62,7 +62,7 @@ class ScheduleView extends Observable {
             }
         }
         this.adjustFontSizeToHeight();
-        
+
     }
 
     adjustFontSizeToHeight() {
@@ -76,11 +76,11 @@ class ScheduleView extends Observable {
         }
     }
 
-    adjustSize(moduleDivLeft){
+    adjustSize(moduleDivLeft) {
         let currentFontSize = window.getComputedStyle(moduleDivLeft).fontSize,
             newFontSize = parseFloat(currentFontSize) - 1;
         moduleDivLeft.style.fontSize = newFontSize + "px";
-        if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight && parseFloat(currentFontSize) > 11){
+        if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight && parseFloat(currentFontSize) > 11) {
             this.adjustSize(moduleDivLeft);
         }
     }
@@ -96,6 +96,8 @@ class ScheduleView extends Observable {
         this.grid = GridStack.init(options);
         this.grid.load([]);
         this.grid.on('change', this.handleWidgetChange.bind(this));
+        this.grid.on('dragstart', this.handleDragStart.bind(this));
+        this.grid.on('dragstop', this.handleDragStop.bind(this));
     }
 
     initSemesters(semesters) {
@@ -125,6 +127,7 @@ class ScheduleView extends Observable {
         //div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
         div.innerHTML = h3.outerHTML + p.outerHTML;
         div.className = "semester";
+        div.id = "semester-" + count + "-div";
         div.classList.add(period);
 
         let semesterWidget = {
@@ -151,6 +154,7 @@ class ScheduleView extends Observable {
             p.innerHTML = "0 ECTS";
             div.innerHTML = h3.outerHTML + p.outerHTML;
             div.className = "semester";
+            div.id = "semester-" + count + "-div";
             let semester = {
                 x: i - 1,
                 y: 0,
@@ -273,6 +277,50 @@ class ScheduleView extends Observable {
                 this.notifyAll(e);
                 this.timerId = null;
             }, 1000);
+        }
+    }
+
+    handleDragStart(event, el) {
+        console.log(el.getAttribute("gs-id"));
+        let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
+            recSem = [];
+        if (module.recommendedSemester) {
+            for (let i = 0; i < module.minSemLength; i++) {
+                recSem.push(module.recommendedSemester + i);
+            }
+            console.log(recSem);
+            for (let i of recSem) {
+                let semDiv = document.getElementById("semester-" + i + "-div");
+                console.log(semDiv);
+                semDiv.style.border = "none";
+                if (studies.getSemester(i).period === "Wintersemester") {
+                    semDiv.style.background = "linear-gradient(120deg, #0079ccff, #97ead2ff)";
+                }
+                else {
+                    semDiv.style.background = "linear-gradient(120deg, var(--apricot), var(--brilliant-rose))";
+                }
+                semDiv.style.color = "white";
+                semDiv.style.padding = "4px";
+            }
+        }
+
+    }
+
+    handleDragStop(event, el) {
+        console.log(el.getAttribute("gs-id"));
+        let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
+            recSem = [];
+        if (module.recommendedSemester) {
+            for (let i = 0; i < module.minSemLength; i++) {
+                recSem.push(module.recommendedSemester + i);
+            }
+            console.log(recSem);
+            for (let i of recSem) {
+                let semDiv = document.getElementById("semester-" + i + "-div");
+                if (semDiv) {
+                    semDiv.removeAttribute("style");
+                }
+            }
         }
     }
 
