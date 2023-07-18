@@ -38,7 +38,10 @@ class ModalView extends Observable {
             semester = document.getElementById('semester').value,
             length = parseInt(document.getElementById('length').value),
             period = document.querySelector('input[name="start"]:checked').value,
+            passed = false;
+        if(this.module.passed){
             passed = document.querySelector('input[name="module-passed-radio"]:checked').value === "true";
+        }
         semester = semester === "" ? null : parseInt(semester);    
 
         if(this.root !== "edit"){
@@ -52,7 +55,10 @@ class ModalView extends Observable {
             ev,
             id = null;
         if(this.module !== null){
-            moduleN = new Module(title, shortname, ects, period, semester, length);
+            moduleN = new Module(title, shortname, ects, period, semester, length, this.module.posY);
+            for(let s of this.module.selectedSemester){
+                moduleN.addSelectedSemester(s);
+            }
             moduleN.passed = passed;
             id = this.module.ID;
             if(passed){

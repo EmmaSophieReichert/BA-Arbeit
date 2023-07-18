@@ -6,6 +6,7 @@ import {Observable, Event} from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
+import ScheduleView from './ScheduleView.js';
 
 class CatalogueView extends Observable{
 
@@ -75,7 +76,7 @@ class CatalogueView extends Observable{
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: this.getModuleDiv(module, colourCode),
+            content: ScheduleView.getModuleDiv(module, colourCode),
         }
         this.grid.addWidget(moduleWidget);
         this.grid.save();

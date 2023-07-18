@@ -309,6 +309,7 @@ class Studies {
     getModuleNode(data) {
         let gradeAddition = "",
             weightAddition = "";
+        console.log("WEIGHT", data.module.title, data.module.weight);
         if (data.module.grade !== null) {
             gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>";
             weightAddition =  "<div class='grade-module-weight text-subject-"+ data.subject.colourCode +"'><p> x" + data.module.weight + "</p></div>";

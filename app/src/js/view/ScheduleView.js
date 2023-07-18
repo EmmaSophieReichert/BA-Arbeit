@@ -148,13 +148,13 @@ class ScheduleView extends Observable {
             id: module.ID,
             w: module.minSemLength,
             noResize: true,
-            content: this.getModuleDiv(module, colourCode),
+            content: ScheduleView.getModuleDiv(module, colourCode),
         }
         this.grid.addWidget(moduleWidget);
         this.grid.save();
     }
 
-    getModuleDiv(module, colourCode) {
+    static getModuleDiv(module, colourCode) {
         let moduleDiv = document.createElement('div'),
             moduleDivLeft = document.createElement('div'),
             moduleDivRight = document.createElement('div');
