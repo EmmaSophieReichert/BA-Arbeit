@@ -162,16 +162,18 @@ class ScheduleView extends Observable {
         moduleDivLeft.classList.add('module-div-left');
         moduleDivRight.classList.add('module-div-right');
 
-        moduleDivRight.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-
         if(module.passed){
             moduleDivLeft.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
             //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
-            moduleDivLeft.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.borderTop = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.borderLeft = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.borderBottom = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES[colourCode];
            // moduleDiv.style.backgroundColor = "white";
         }
         else{
             moduleDivLeft.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
         }
 
         let ectsBox = document.createElement('div');
@@ -199,10 +201,10 @@ class ScheduleView extends Observable {
         switch(module.period){
             case "Wintersemester": symbol = "❄️"; break;
             case "Sommersemester": symbol = "☀️"; break;
-            case "beide": symbol = "❄️☀️"; break;
-            default: symbol = "❄️☀️"; break;
+            case "beide": symbol = "<p>❄️</p><p>☀️</p>"; break;
+            default: symbol = "<p>❄️</p><p>☀️</p>"; break;
         }
-        turnusBox.textContent = symbol;
+        turnusBox.innerHTML = symbol;
         // turnusBox.style.border = "0.3em solid " + Config.COLOUR_CODES[colourCode];
 
         let moduleAbbreviation = document.createElement('span');
