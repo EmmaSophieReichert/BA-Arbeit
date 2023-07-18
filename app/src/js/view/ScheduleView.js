@@ -6,6 +6,7 @@ import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
+import html2canvas from '../html2canvas/html2canvas.esm.js';
 
 
 class ScheduleView extends Observable {
@@ -39,6 +40,13 @@ class ScheduleView extends Observable {
                     });
                 }
             }
+        });
+
+        document.getElementById("print-button").addEventListener("click", ()=>{
+            this.printDiv();
+        });
+        document.getElementById("PNG-button").addEventListener("click", ()=>{
+            this.savePNG();
         });
     }
 
@@ -321,7 +329,7 @@ class ScheduleView extends Observable {
                     semDiv.removeAttribute("style");
                 }
             }
-        }
+        }   
     }
 
     updateSemesterECTS(semesterCount) {
@@ -330,6 +338,41 @@ class ScheduleView extends Observable {
         if (semP) {
             semP.innerHTML = semester.ECTS + " ECTS";
         }
+    }
+
+    savePNG(){
+        let gr = document.querySelector(".grid-stack");
+        html2canvas(gr).then(function (canvas) {
+            var dataURL = canvas.toDataURL("image/png"); 
+            var link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'mein-studienverlauf.png'; 
+            link.click();
+        });
+    }
+
+    printDiv() {
+        let gr = document.querySelector(".grid-stack");
+        html2canvas(gr).then(function (canvas) {
+            var dataURL = canvas.toDataURL("image/png");
+
+            var windowContent = '<!DOCTYPE html>';
+            windowContent += '<html>'
+            windowContent += '<head><title>Mein Studienverlauf</title></head>';
+            windowContent += '<body>'
+            windowContent += '<img src="' + dataURL + '">';
+            windowContent += '</body>';
+            windowContent += '</html>';
+            console.log(windowContent);
+            var printWin = window.open('', '', 'width=340,height=260');
+            printWin.document.open();
+            printWin.document.write(windowContent);
+            //printWin.document.write('<script type="text/javascript">window.onload = function(){ console.log("WINDOW PRINT"); window.print(); //window.close(); };</script>');
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+            //printWin.close();
+        });
     }
 }
 

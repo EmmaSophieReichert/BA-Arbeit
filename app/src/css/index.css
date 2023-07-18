@@ -95,3 +95,11 @@ a {
 button {
     font-family: "Nunito";
 }
+
+@media print {
+    .main-left{
+        print-color-adjust: exact;
+    }
+    @page { margin: 0; }
+    body { margin: 1.6cm; }
+}
