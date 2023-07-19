@@ -3,12 +3,10 @@ import { studies } from "../studiesInstance.js";
 class IntermediateResult {
 
     constructor(name = "int", weight = 1, grade = null, id = null) {
-        console.log("THIS", this);
         this.name = name;
 
         this.weight = weight;
 
-        // console.log(this.kids);
         // //this.kids = kids;// ? kids : [];
         this.grade = grade;
 
@@ -23,14 +21,13 @@ class IntermediateResult {
         if (grade === null) {
             this.calculateGrade();
         }
-        // console.log(this.ID, id, this.kids);
+        this.calculateGrade();
     }
 
     addChild(moduleId) {
         // let chil =  structuredClone(this.kids);
         // chil.push(moduleId);
         // this.kids[0] = "haha";
-        // console.log("CHILL", chil, this.ID);
         this.kids.push(moduleId);
         this.calculateGrade();
     }
@@ -57,10 +54,8 @@ class IntermediateResult {
         let weightSum = 0,
             gradeSum = 0;
         for (let childID of this.kids) {
-            console.log(studies);
             if (studies !== undefined && studies !== null) {
                 let child = studies.getChild(childID);
-                console.log(child);
                 if (child) {
                     if (child.grade !== null) {
                         weightSum += child.weight;
@@ -69,7 +64,6 @@ class IntermediateResult {
                 }
             }
         }
-        console.log(gradeSum, weightSum);
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
         }

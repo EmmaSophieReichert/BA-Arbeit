@@ -6,6 +6,7 @@ import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './ModuleModalView.js';
+import html2canvas from '../html2canvas/html2canvas.esm.js';
 
 
 class ScheduleView extends Observable {
@@ -29,7 +30,7 @@ class ScheduleView extends Observable {
         this.gridContainer.addEventListener('click', (event) => {
             var widget = event.target.closest('.grid-stack-item');
             if (widget !== null) {
-                if(widget.getAttribute("gs-y") !== "0"){
+                if (widget.getAttribute("gs-y") !== "0") {
                     let id = widget.getAttribute("gs-id"),
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
@@ -40,13 +41,20 @@ class ScheduleView extends Observable {
                 }
             }
         });
+
+        document.getElementById("print-button").addEventListener("click", ()=>{
+            this.printDiv();
+        });
+        document.getElementById("PNG-button").addEventListener("click", ()=>{
+            this.savePNG();
+        });
     }
 
     showModal(subjectTitle) {
         modalView.show(subjectTitle);
     }
 
-    updateStudy(){
+    updateStudy() {
         this.grid.removeAll();
         this.show(studies);
     }
@@ -61,6 +69,28 @@ class ScheduleView extends Observable {
                 this.addModule(module, subject.colourCode);
             }
         }
+        this.adjustFontSizeToHeight();
+
+    }
+
+    adjustFontSizeToHeight() {
+        console.log("HRRH");
+        let leftElements = document.querySelectorAll(".module-div-left");
+        for (let moduleDivLeft of leftElements) {
+            console.log(moduleDivLeft.clientHeight, moduleDivLeft.scrollHeight);
+            if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight) { //&& moduleDivLeft.scrollTop === 0){
+                this.adjustSize(moduleDivLeft);
+            }
+        }
+    }
+
+    adjustSize(moduleDivLeft) {
+        let currentFontSize = window.getComputedStyle(moduleDivLeft).fontSize,
+            newFontSize = parseFloat(currentFontSize) - 1;
+        moduleDivLeft.style.fontSize = newFontSize + "px";
+        if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight && parseFloat(currentFontSize) > 11) {
+            this.adjustSize(moduleDivLeft);
+        }
     }
 
     initGrid(count) {
@@ -68,11 +98,14 @@ class ScheduleView extends Observable {
             column: count,
             cellHeight: "100px",
             disableOneColumnMode: true,
-            float: false
+            float: false,
+            margin: 8,
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
         this.grid.on('change', this.handleWidgetChange.bind(this));
+        this.grid.on('dragstart', this.handleDragStart.bind(this));
+        this.grid.on('dragstop', this.handleDragStop.bind(this));
     }
 
     initSemesters(semesters) {
@@ -102,6 +135,7 @@ class ScheduleView extends Observable {
         //div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
         div.innerHTML = h3.outerHTML + p.outerHTML;
         div.className = "semester";
+        div.id = "semester-" + count + "-div";
         div.classList.add(period);
 
         let semesterWidget = {
@@ -128,6 +162,7 @@ class ScheduleView extends Observable {
             p.innerHTML = "0 ECTS";
             div.innerHTML = h3.outerHTML + p.outerHTML;
             div.className = "semester";
+            div.id = "semester-" + count + "-div";
             let semester = {
                 x: i - 1,
                 y: 0,
@@ -155,40 +190,30 @@ class ScheduleView extends Observable {
     }
 
     getModuleDiv(module, colourCode) {
-        let moduleDiv = document.createElement('div');
+        let moduleDiv = document.createElement('div'),
+            moduleDivLeft = ScheduleView.getModuleDivLeft(module, colourCode),
+            moduleDivRight = ScheduleView.getModuleDivRight(module, colourCode);
         moduleDiv.classList.add('module-div');
-        if(module.passed){
-            moduleDiv.style.backgroundColor = "white";//Config.COLOUR_CODES[colourCode];
-            //moduleDiv.style.boxShadow = "inset 0px 0px 20px " + Config.COLOUR_CODES[colourCode];
-            moduleDiv.style.border = "4px solid " + Config.COLOUR_CODES[colourCode];
-           // moduleDiv.style.backgroundColor = "white";
-        }
-        else{
-            moduleDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
-        }
 
-        let ectsBox = document.createElement('div');
-        ectsBox.classList.add('ects-box');
-        ectsBox.textContent = module.ECTS + " ECTS";
-        if(module.passed){
-            ectsBox.style.borderRadius = "0.3em";
-        }
-        else{
-            //ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        }
-        ectsBox.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        
+        moduleDiv.appendChild(moduleDivLeft);
+        moduleDiv.appendChild(moduleDivRight);
 
-        // let turnusBox = document.createElement('div'); TODO: ADD sth here
-        // turnusBox.classList.add('turnus-box');
-        // let symbol;
-        // switch(module.period){
-        //     case "Wintersemester": symbol = "❄️"; break;
-        //     case "Sommersemester": symbol = "☀️"; break;
-        //     case "beide": symbol = "❄️☀️"; break;
-        //     default: symbol = "❄️☀️"; break;
-        // }
-        // turnusBox.textContent = symbol;
+        return moduleDiv.outerHTML;
+    }
+
+    static getModuleDivLeft(module, colourCode) {
+        let moduleDivLeft = document.createElement('div');
+        moduleDivLeft.classList.add('module-div-left');
+
+        if (module.passed) {
+            moduleDivLeft.style.backgroundColor = "white";
+            moduleDivLeft.style.borderTop = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.borderLeft = "4px solid " + Config.COLOUR_CODES[colourCode];
+            moduleDivLeft.style.borderBottom = "4px solid " + Config.COLOUR_CODES[colourCode];
+        }
+        else {
+            moduleDivLeft.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
 
         let moduleAbbreviation = document.createElement('span');
         moduleAbbreviation.classList.add('module-abbreviation');
@@ -198,12 +223,48 @@ class ScheduleView extends Observable {
         moduleTitle.classList.add('module-title');
         moduleTitle.textContent = module.title;
 
-        moduleDiv.appendChild(ectsBox);
-        //moduleDiv.appendChild(turnusBox);
-        moduleDiv.appendChild(moduleAbbreviation);
-        moduleDiv.appendChild(moduleTitle);
+        moduleDivLeft.appendChild(moduleAbbreviation);
+        moduleDivLeft.appendChild(moduleTitle);
 
-        return moduleDiv.outerHTML;
+        return moduleDivLeft;
+    }
+
+    static getModuleDivRight(module, colourCode) {
+        let moduleDivRight = document.createElement('div');
+        moduleDivRight.classList.add('module-div-right');
+
+        if (module.passed) {
+            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
+        else {
+            moduleDivRight.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
+        }
+
+        let ectsBox = document.createElement('div');
+        let ectsCount = document.createElement('p');
+        let ectsDescription = document.createElement('p');
+        ectsCount.classList.add("ects-count");
+        ectsCount.textContent = module.ECTS;
+        ectsDescription.classList.add("ects-description");
+        ectsDescription.textContent = "ECTS";
+        ectsBox.classList.add('ects-box');
+        ectsBox.innerHTML = ectsCount.outerHTML + ectsDescription.outerHTML;
+
+        let turnusBox = document.createElement('div'); //TODO: ADD sth here
+        turnusBox.classList.add('turnus-box');
+        let symbol;
+        switch (module.period) {
+            case "Wintersemester": symbol = "❄️"; break;
+            case "Sommersemester": symbol = "☀️"; break;
+            case "beide": symbol = "<p>❄️</p><p>☀️</p>"; break;
+            default: symbol = "<p>❄️</p><p>☀️</p>"; break;
+        }
+        turnusBox.innerHTML = symbol;
+
+        moduleDivRight.appendChild(ectsBox);
+        moduleDivRight.appendChild(turnusBox);
+
+        return moduleDivRight;
     }
 
     handleWidgetChange(event, items) {
@@ -227,12 +288,91 @@ class ScheduleView extends Observable {
         }
     }
 
+    handleDragStart(event, el) {
+        console.log(el.getAttribute("gs-id"));
+        let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
+            recSem = [];
+        if (module.recommendedSemester) {
+            for (let i = 0; i < module.minSemLength; i++) {
+                recSem.push(module.recommendedSemester + i);
+            }
+            console.log(recSem);
+            for (let i of recSem) {
+                let semDiv = document.getElementById("semester-" + i + "-div");
+                console.log(semDiv);
+                semDiv.style.border = "none";
+                if (studies.getSemester(i).period === "Wintersemester") {
+                    semDiv.style.background = "linear-gradient(120deg, #0079ccff, #97ead2ff)";
+                }
+                else {
+                    semDiv.style.background = "linear-gradient(120deg, var(--apricot), var(--brilliant-rose))";
+                }
+                semDiv.style.color = "white";
+                semDiv.style.padding = "4px";
+            }
+        }
+
+    }
+
+    handleDragStop(event, el) {
+        console.log(el.getAttribute("gs-id"));
+        let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
+            recSem = [];
+        if (module.recommendedSemester) {
+            for (let i = 0; i < module.minSemLength; i++) {
+                recSem.push(module.recommendedSemester + i);
+            }
+            console.log(recSem);
+            for (let i of recSem) {
+                let semDiv = document.getElementById("semester-" + i + "-div");
+                if (semDiv) {
+                    semDiv.removeAttribute("style");
+                }
+            }
+        }   
+    }
+
     updateSemesterECTS(semesterCount) {
         let semP = document.getElementById("sem" + semesterCount + "ects"),
             semester = studies.getSemester(semesterCount);
-        if(semP){
+        if (semP) {
             semP.innerHTML = semester.ECTS + " ECTS";
         }
+    }
+
+    savePNG(){
+        let gr = document.querySelector(".grid-stack");
+        html2canvas(gr).then(function (canvas) {
+            var dataURL = canvas.toDataURL("image/png"); 
+            var link = document.createElement('a');
+            link.href = dataURL;
+            link.download = 'mein-studienverlauf.png'; 
+            link.click();
+        });
+    }
+
+    printDiv() {
+        let gr = document.querySelector(".grid-stack");
+        html2canvas(gr).then(function (canvas) {
+            var dataURL = canvas.toDataURL("image/png");
+
+            var windowContent = '<!DOCTYPE html>';
+            windowContent += '<html>'
+            windowContent += '<head><title>Mein Studienverlauf</title></head>';
+            windowContent += '<body>'
+            windowContent += '<img src="' + dataURL + '">';
+            windowContent += '</body>';
+            windowContent += '</html>';
+            console.log(windowContent);
+            var printWin = window.open('', '', 'width=340,height=260');
+            printWin.document.open();
+            printWin.document.write(windowContent);
+            //printWin.document.write('<script type="text/javascript">window.onload = function(){ console.log("WINDOW PRINT"); window.print(); //window.close(); };</script>');
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+            //printWin.close();
+        });
     }
 }
 

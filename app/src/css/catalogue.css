@@ -11,3 +11,20 @@
 .filter-group h4{
     margin-bottom: 0.5em
 }
+
+.module-div-middle p{
+    margin: 0;
+}
+
+.module-div-middle {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: smaller;
+    width: 200px;
+}
+
+.catalogue-template .module-div-right{
+    width: 40px;
+}

@@ -41,11 +41,9 @@ class ModuleModalView extends Observable {
             // modalView.addEventListener("onModuleEdited", (e) => {
             //     let stud = studies;
             //     stud.deleteModule(this.module.ID);
-            //     console.log(stud);
             //     // let subjectIndex = studies.getSubjectIndex(e.data.subject.title);
             //     // stud.subjects[subjectIndex].addModule(e.data.module);
             //     // setStudyInstance(stud);
-            //     // console.log("DIRECT", studies);
             //     // this.onModuleChanged();
             // });
         });
@@ -95,17 +93,14 @@ class ModuleModalView extends Observable {
 
         console.log(module);
         if(module.recommendedSemester !== null){
-            console.log("hi");
             this.recommendedSemester.classList.remove("hidden");
             document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         }
         if(module.passed){
-            console.log("ho");
             this.passed.classList.remove("hidden");
             document.getElementById('passed-module-show').textContent = "bestanden";
         }
         if(module.grade !== null){
-            console.log("hu");
             this.grade.classList.remove("hidden");
             document.getElementById('grade-module-show').textContent = module.grade;
         }

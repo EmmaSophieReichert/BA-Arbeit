@@ -25,9 +25,12 @@ class GradeModalView extends Observable {
                 weight = document.getElementById("weight-input").value,
                 stud = studies;
 
-            console.log(this.module);
+            grade === "" ? null : parseFloat(grade);
+            weight === "" ? null : parseFloat(weight);
+
             stud.setModuleGrade(this.module.ID, grade, weight);
             setStudyInstance(stud);
+            fileManager.updateFile();
             this.onModuleChanged();
         })
 
@@ -41,7 +44,6 @@ class GradeModalView extends Observable {
     }
 
     show(module, subject) {
-        console.log("SHOWWWW");
         this.module = module;
         this.subject = subject;
 

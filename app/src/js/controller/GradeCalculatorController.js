@@ -12,7 +12,6 @@ class GradeCalculatorController{
         this.gradeCalculatorViewRight = new GradeCalculatorViewRight();
 
         if(studies !== null){
-            console.log("Study there");
             this.gradeCalculatorViewRight.showStudy(studies);
             this.gradeCalculatorView.show();
         }
