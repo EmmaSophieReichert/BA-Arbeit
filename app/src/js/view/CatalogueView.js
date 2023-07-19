@@ -108,11 +108,11 @@ class CatalogueView extends Observable{
         }
         let selSem = "Ausgewählte Semester: ";
         for(let i = 0; i < module.selectedSemester.length; i++){
-            if(i+1 ===  module.selectedSemester.length){
+            if((i+1) ===  module.selectedSemester.length){
                 selSem += module.selectedSemester[i];
             }
             else{
-                selSem += module.selectedSemester[i]; + ", ";
+                selSem += module.selectedSemester[i] + ", ";
             }
         }
         selectedSem.textContent = selSem;

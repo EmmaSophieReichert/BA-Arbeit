@@ -56,9 +56,9 @@ class ModalView extends Observable {
             id = null;
         if(this.module !== null){
             moduleN = new Module(title, shortname, ects, period, semester, length, this.module.posY);
-            for(let s of this.module.selectedSemester){
-                moduleN.addSelectedSemester(s);
-            }
+            // for(let s of this.module.selectedSemester){
+            //     moduleN.addSelectedSemester(s);
+            // }
             moduleN.passed = passed;
             id = this.module.ID;
             if(passed){
@@ -100,6 +100,9 @@ class ModalView extends Observable {
         if(this.root !== "edit"){
              stud.kids.push(moduleN.ID);
         }
+        stud.calculateSubjectECTS();
+        stud.calculateSemesterECTS();
+        stud.calculateGrade();
         setStudyInstance(stud);
         fileManager.updateFile(); 
         ev = new Event("onModuleChanged", data);
@@ -128,6 +131,7 @@ class ModalView extends Observable {
         document.getElementById('length').max = studies.semesters.length;
         //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
         this.modal.style.border = "5px solid " + Config.COLOUR_CODES[subject.colourCode];
+        document.getElementById('edit-module-h2').innerHTML = "Modul erstellen";
     }
 
     fill(module) {
