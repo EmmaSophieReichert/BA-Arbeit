@@ -104,7 +104,7 @@ class Studies {
     }
 
     initSubjects(subjects) {
-        let i = 0;
+        let i = this.subjects.length;
         for (let subject of subjects) {
             let sub = new Subject(subject.title, subject.ects, subject.colourCode ? subject.colourCode : i);
             i++;

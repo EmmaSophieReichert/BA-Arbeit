@@ -48,9 +48,9 @@ class StudyView extends Observable {
         this.editMode = false;
 
         fileManager.addEventListener("on-study-loaded", e => {
-            if(window.location.hash === "#study"){
+            if (window.location.hash === "#study") {
                 let study = e.data;
-            this.fill(study);
+                this.fill(study);
             }
         });
 
@@ -134,19 +134,21 @@ class StudyView extends Observable {
 
         let studBoxes = document.getElementById("add-subjects-div")
 
-        studBoxes.setAttribute("hidden", true);
+        // studBoxes.setAttribute("hidden", true);
 
-        // // Studiengang hinzufügen
-        // let studyBox = this.studyBoxes[0];
-        // let studyTitleInput = studyBox.querySelector('.study-title');
-        // studyTitleInput.value = data.subjects[0].title;
+        // Studiengang hinzufügen
+        let studyBox = this.studyBoxes[0];
+        studyBox.id = data.subjects[0].title;
+        let studyTitleInput = studyBox.querySelector('.study-title');
+        studyTitleInput.value = data.subjects[0].title;
+        studyTitleInput.id = data.subjects[0].title + "-title";;
 
-        // // Weitere Studiengang-Boxen
-        // for (let i = 1; i < this.studyBoxes.length; i++) {
-        //     let additionalStudyBox = studyBoxes[i];
-        //     let additionalStudyTitleInput = additionalStudyBox.querySelector('.study-title');
-        //     additionalStudyTitleInput.value = data.subjects[i].title;
-        // }
+        if (data.subjects.length > 1) {
+            studyBox.appendChild(this.getNumberInput(data.subjects[0]));
+            for (let i = 1; i < data.subjects.length; i++) {
+                this.getFilledStudyBox(data.subjects[i]);
+            }
+        }
     }
 
     onDegreeChanged() {
@@ -194,6 +196,45 @@ class StudyView extends Observable {
         }
     }
 
+    getFilledStudyBox(subject) {
+        let newStudyBox = document.createElement('div');
+        newStudyBox.classList.add('study-input-box');
+        newStudyBox.appendChild(this.getTextInput(subject));
+        newStudyBox.appendChild(this.getNumberInput(subject));
+        newStudyBox.id = subject.title;
+        let container = document.getElementById("additional-study-boxes");
+        container.appendChild(newStudyBox);
+        this.studyBoxes = document.querySelectorAll('.study-input-box');
+        if (this.studyBoxes.length >= MAX_NUM_SUBJECTS) {
+            this.addSubjectButton.style.display = "none";
+        }
+    }
+
+    getTextInput(subject) {
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.classList.add("study-title");
+        input.id = subject.title + "-title";
+        input.name = 'title';
+        input.required = true;
+        input.placeholder = "Titel";
+        input.value = subject.title;
+        return input;
+    }
+
+    getNumberInput(subject) {
+        let input = document.createElement('input');
+        input.type = 'number';
+        input.classList.add("study-ects");
+        input.id = subject.title + "-ects";
+        input.name = 'ects';
+        input.min = 0;
+        input.required = true;
+        input.placeholder = "ECTS Punkte";
+        input.value = subject.ects;
+        return input;
+    }
+
     onAddSubjectButtonClicked() {
         if (this.studyBoxes.length === 1) {
             let input = document.createElement('input');
@@ -209,8 +250,8 @@ class StudyView extends Observable {
         let newStudyBox = document.createElement('div');
         newStudyBox.classList.add('study-input-box');
         newStudyBox.innerHTML = `
-            <input class="study-title" type="text" id="title" name="title" placeholder="Titel">
-            <input class="study-ects" type="number" id="ects" name="ects" placeholder="ECTS Punkte" min="0">
+            <input class="study-title" type="text" id="title" name="title" placeholder="Titel" required>
+            <input class="study-ects" type="number" id="ects" name="ects" placeholder="ECTS Punkte" min="0" required>
         `;
         let container = document.getElementById("additional-study-boxes");
         container.appendChild(newStudyBox);
@@ -257,7 +298,8 @@ class StudyView extends Observable {
 
         for (let studyBox of this.studyBoxes) {
             let title = studyBox.querySelector('.study-title').value,
-                ects = ectsValue;
+                ects = ectsValue,
+                subID = studyBox.getAttribute("id");
             if (this.studyBoxes.length !== 1) {
                 ects = parseInt(studyBox.querySelector('.study-ects').value);
             }
@@ -267,8 +309,9 @@ class StudyView extends Observable {
                     return;
                 }
             }
-            studyData.push({ title, ects });
+            studyData.push({ title, ects, subID });
         }
+        console.log(studyData);
 
         //if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
         if (!degree || isNaN(ectsValue) || isNaN(semesterValue)) {
@@ -282,6 +325,8 @@ class StudyView extends Observable {
             stud.specialization = specializations;
             stud.totalECTS = ectsValue;
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
+            stud = this.initSubjects(stud, studyData);
+            console.log(stud); 
             setStudyInstance(stud);
             await fileManager.updateFile();
             window.location.hash = "#schedule";
@@ -298,6 +343,30 @@ class StudyView extends Observable {
                 e = new Event("study-submit", data)
             this.notifyAll(e);
         }
+    }
+
+    initSubjects(stud, studyData) {
+        let newSubjects = [];
+        for (let data of studyData) {
+            if (!data.subID) {
+                newSubjects.push({
+                    title: data.title,
+                    ects: data.ects,
+                });
+            }
+            else{
+                let id = data.subID;
+                console.log(id);
+                let subject = stud.getSubject(id);
+                if(subject){
+                    subject.title = data.title;
+                    subject.ects = data.ects;
+                };
+            }
+        }
+        stud.initSubjects(newSubjects);
+        console.log(stud);
+        return stud;
     }
 }
 

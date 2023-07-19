@@ -60,6 +60,7 @@ class ScheduleView extends Observable {
     }
 
     show(study) {
+        console.log(study);
         let semesters = study.semesters;
         this.initGrid(semesters.length);
         this.initSemesters(semesters);

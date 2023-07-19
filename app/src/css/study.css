@@ -2,6 +2,10 @@
     overflow-y: auto;
 }
 
+.study-template h2 {
+    text-align: center;
+}
+
 .study-container {
     margin: 5vw;
     width: 700px;
