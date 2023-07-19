@@ -106,7 +106,7 @@ class CatalogueViewRight extends Observable {
         let selectedSemesterContainer = document.getElementById('selected-semester-container');
 
         if (studies.subjects.length > 1) {
-            studies.subjects.forEach(function (subject) {
+            studies.subjects.forEach((subject) => {
                 let label = document.createElement('label');
 
                 let checkbox = document.createElement('input');
@@ -124,7 +124,7 @@ class CatalogueViewRight extends Observable {
 
 
         // semesters
-        studies.semesters.forEach(function (semester) {
+        studies.semesters.forEach((semester) => {
             let label = document.createElement('label');
 
             let checkbox = document.createElement('input');

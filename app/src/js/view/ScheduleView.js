@@ -60,7 +60,6 @@ class ScheduleView extends Observable {
     }
 
     show(study) {
-        console.log(study);
         let semesters = study.semesters;
         this.initGrid(semesters.length);
         this.initSemesters(semesters);
@@ -74,10 +73,8 @@ class ScheduleView extends Observable {
     }
 
     adjustFontSizeToHeight() {
-        console.log("HRRH");
         let leftElements = document.querySelectorAll(".module-div-left");
         for (let moduleDivLeft of leftElements) {
-            console.log(moduleDivLeft.clientHeight, moduleDivLeft.scrollHeight);
             if (moduleDivLeft.scrollHeight > moduleDivLeft.clientHeight) { //&& moduleDivLeft.scrollTop === 0){
                 this.adjustSize(moduleDivLeft);
             }
@@ -363,7 +360,6 @@ class ScheduleView extends Observable {
             windowContent += '<img src="' + dataURL + '">';
             windowContent += '</body>';
             windowContent += '</html>';
-            console.log(windowContent);
             var printWin = window.open('', '', 'width=340,height=260');
             printWin.document.open();
             printWin.document.write(windowContent);

@@ -14,6 +14,9 @@
     padding: 20px;
     overflow: auto;
     position: relative;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
 }
 
 .grid-stack {
@@ -173,9 +176,11 @@
 }
 
 #print-button-container {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: sticky;
+    bottom: 0px;
+    right: 0px;
+    width: fit-content;
+    margin-left: auto;
 }
 
 #print-button-container button{
