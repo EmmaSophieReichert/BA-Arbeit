@@ -9,7 +9,7 @@
     <meta name="keywords" content="studies, planning, scheduling">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
-    <link rel="stylesheet" href="src/js/treant-js-master/Treant.css" type="text/css"/>
+    <link rel="stylesheet" href="src/js/treant-js-master/Treant.css" type="text/css" />
     <link rel="stylesheet" href="src/css/index.css">
     <link rel="stylesheet" href="src/css/impressum.css">
     <link rel="stylesheet" href="src/css/nav-bar.css">
@@ -89,7 +89,7 @@
                     <input type="number" id="ects" min="0" value="6" required>
                 </div>
                 <div class="form-row row-space">
-                    <label >Start angeboten im:</label>
+                    <label>Start angeboten im:</label>
                     <div class="radio-div">
                         <div>
                             <input type="radio" id="Wintersemester" name="start" value="Wintersemester">
@@ -114,7 +114,7 @@
                     <input type="number" id="length" min="1" value="1" required>
                 </div>
                 <div id="passed-el-div" class="form-row row-space hidden">
-                    <label >Status:</label>
+                    <label>Status:</label>
                     <div class="radio-div">
                         <div>
                             <input type="radio" id="module-passed" name="module-passed-radio" value="true" checked>
@@ -137,6 +137,21 @@
                 <p class="server-answer answer" id="module-error-message"></p>
                 <button class="row-space" type="submit">Modul speichern</button>
             </form>
+        </div>
+    </dialog>
+
+    <dialog id="delete-subject-modal" class="modal">
+        <div class="modal-content">
+            <!-- <span class="close close-module-grade">&times;</span> -->
+            <h2 id="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
+            <p> Bist du dir sicher, dass du den Studiengang löschen willst? </p>
+            <p class="row-space"> Damit werden auch <b>alle Module</b> des Faches gelöscht! </p>
+            <p class="row-space"> Dieser Vorgang kann nicht rückgängig gemacht werden! </p>
+
+            <div class="button-container row-space">
+                <button id="delete-subject-button" class="red-button" type="button">Ja</button>
+                <button id="decline-delete-subject-button" class="register-button" type="button">Nein</button>
+            </div>
         </div>
     </dialog>
 

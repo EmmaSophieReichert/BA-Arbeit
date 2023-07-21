@@ -237,6 +237,20 @@ class Studies {
                 return subject;
             }
         }
+
+    }
+
+    deleteSubject(subjectTitle) {
+        for (let subject of this.subjects) {
+            if (subject.title === subjectTitle) {
+                for(let mod of subject.modules){
+                    this.deleteModule(mod.ID);
+                }
+            }
+        }
+        this.subjects = this.subjects.filter(function (sub) {
+            return sub.title !== subjectTitle;
+        });
     }
 
     getSubjectIndex(subjectTitle) {
