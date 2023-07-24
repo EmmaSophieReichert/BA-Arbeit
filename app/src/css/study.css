@@ -2,6 +2,10 @@
     overflow-y: auto;
 }
 
+.study-template h2 {
+    text-align: center;
+}
+
 .study-container {
     margin: 5vw;
     width: 700px;
@@ -85,16 +89,14 @@ input[type='text'] {
     display: flex;
 }
 
-.study-input-box input{
-    margin-right: 20px;
-}
-
 .study-input-box input[type="number"]{
     width: auto;
+    margin-right: 10px;
 }
 
 .study-input-box input[type="text"]{
-    width: 60ch;
+    width: 56ch;
+    margin-right: 20px;
 }
 
 .submit-subject-button{
@@ -162,4 +164,18 @@ input[type='radio'] {
   border: 0.15em solid currentColor;
   border-radius: 50%;
 } */
+
+.delete-subject-button {
+    padding: 10px 20px;
+    border: 2px solid var(--brilliant-rose);
+    cursor: pointer;
+    border-radius: 0.5em;
+    /* background: linear-gradient(120deg, var(--mint-green), var(--light-sky-blue)); */
+    color: var(--brilliant-rose);
+    font-weight: bold;
+    background-color: white;
+    margin: 8px 5px;
+    font-size: 19px;
+    padding: 0 7px;
+}
 

@@ -10,6 +10,10 @@ class ScheduleViewRight extends Observable {
         super();
         this.studyBoxesContainer = document.getElementById("study-boxes-container");
         this.filterContainer = document.getElementById('filter-container');
+        this.inPlanProgress = document.getElementById('in-plan-progress');
+        this.inPlanProgressText = document.getElementById('in-plan-progress-text');
+        this.passedProgress = document.getElementById('passed-progress');
+        this.passedProgressText = document.getElementById('passed-progress-text');
     }
 
     showStudy(study) {
@@ -17,6 +21,27 @@ class ScheduleViewRight extends Observable {
         for (let subject of study.subjects) {
             this.showSubject(subject);
         }
+        this.fillTotalProgress(study);
+    }
+
+    fillTotalProgress(study){
+        let inPlanECTS = 0, passedECTS = 0, colourRow = "";
+        for(let subject of study.subjects){
+            passedECTS += subject.currentECTS;
+            for(let module of subject.modules){
+                if(module.selectedSemester.length !== 0){
+                    inPlanECTS += module.ECTS;
+                }
+            }
+            colourRow += ", " + Config.COLOUR_CODES[subject.colourCode];
+        }
+        console.log(colourRow);
+        this.inPlanProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
+        this.inPlanProgress.style.width = (inPlanECTS / study.totalECTS) * 100 + '%';
+        this.inPlanProgressText.textContent = inPlanECTS + '/' + study.totalECTS + ' ECTS';
+        this.passedProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
+        this.passedProgress.style.width = (passedECTS / study.totalECTS) * 100 + '%';
+        this.passedProgressText.textContent = passedECTS + '/' + study.totalECTS + ' ECTS';
     }
 
     async showSubject(subject) {

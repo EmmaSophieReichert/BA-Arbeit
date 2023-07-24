@@ -42,10 +42,10 @@ class ScheduleView extends Observable {
             }
         });
 
-        document.getElementById("print-button").addEventListener("click", ()=>{
+        document.getElementById("print-button").addEventListener("click", () => {
             this.printDiv();
         });
-        document.getElementById("PNG-button").addEventListener("click", ()=>{
+        document.getElementById("PNG-button").addEventListener("click", () => {
             this.savePNG();
         });
     }
@@ -60,6 +60,7 @@ class ScheduleView extends Observable {
     }
 
     show(study) {
+        console.log(study);
         let semesters = study.semesters;
         this.initGrid(semesters.length);
         this.initSemesters(semesters);
@@ -296,16 +297,17 @@ class ScheduleView extends Observable {
             console.log(recSem);
             for (let i of recSem) {
                 let semDiv = document.getElementById("semester-" + i + "-div");
-                console.log(semDiv);
-                semDiv.style.border = "none";
-                if (studies.getSemester(i).period === "Wintersemester") {
-                    semDiv.style.background = "linear-gradient(120deg, #0079ccff, #97ead2ff)";
+                if (semDiv) {
+                    semDiv.style.border = "none";
+                    if (studies.getSemester(i).period === "Wintersemester") {
+                        semDiv.style.background = "linear-gradient(120deg, #0079ccff, #97ead2ff)";
+                    }
+                    else {
+                        semDiv.style.background = "linear-gradient(120deg, var(--apricot), var(--brilliant-rose))";
+                    }
+                    semDiv.style.color = "white";
+                    semDiv.style.padding = "4px";
                 }
-                else {
-                    semDiv.style.background = "linear-gradient(120deg, var(--apricot), var(--brilliant-rose))";
-                }
-                semDiv.style.color = "white";
-                semDiv.style.padding = "4px";
             }
         }
 
@@ -326,7 +328,7 @@ class ScheduleView extends Observable {
                     semDiv.removeAttribute("style");
                 }
             }
-        }   
+        }
     }
 
     updateSemesterECTS(semesterCount) {
@@ -337,13 +339,13 @@ class ScheduleView extends Observable {
         }
     }
 
-    savePNG(){
+    savePNG() {
         let gr = document.querySelector(".grid-stack");
         html2canvas(gr).then(function (canvas) {
-            var dataURL = canvas.toDataURL("image/png"); 
+            var dataURL = canvas.toDataURL("image/png");
             var link = document.createElement('a');
             link.href = dataURL;
-            link.download = 'mein-studienverlauf.png'; 
+            link.download = 'mein-studienverlauf.png';
             link.click();
         });
     }
