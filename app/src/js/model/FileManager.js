@@ -75,14 +75,14 @@ class FileManager extends Observable {
     }
 
     async updateFile() {
-        if(this.timerID === null){
+        //if(this.timerID === null){
             // location.reload();
             // let jwtPromise = getFile();
             // await jwtPromise.then((res) => {
             //     console.log(res);
             //     appwrite.client.setJWT(res.jwt);
             // })
-        }
+        //}
         if (this.inProcess) {
             setTimeout(async() => {
                 await this.updateFile();
