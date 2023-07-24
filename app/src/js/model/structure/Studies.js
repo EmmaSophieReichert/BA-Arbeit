@@ -190,6 +190,8 @@ class Studies {
                 if (module.ID === id) {
                     module.grade = grade ? parseFloat(grade) : grade;
                     module.weight = weight ? parseFloat(weight) : weight;
+                    let parent = this.getParent(id);
+                    parent.calculateGrade();
                 }
             }
         }
