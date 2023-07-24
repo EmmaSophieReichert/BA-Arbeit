@@ -114,6 +114,7 @@ class Studies {
                     for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
+                    m.conditions = mod.conditions;
                     sub.addModule(m);
                 }
             }

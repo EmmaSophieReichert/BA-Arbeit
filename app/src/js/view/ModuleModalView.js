@@ -16,6 +16,7 @@ class ModuleModalView extends Observable {
         this.subject = null;
 
         this.recommendedSemester = document.getElementById('recommended-semester-show-div');
+        this.conditionsDiv = document.getElementById('conditions-show-div');
         this.passed = document.getElementById('passed-show-div');
         this.grade = document.getElementById('grade-show-div');
 
@@ -96,6 +97,10 @@ class ModuleModalView extends Observable {
             this.recommendedSemester.classList.remove("hidden");
             document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         }
+        if(module.conditions.length !== 0){
+            this.conditionsDiv.classList.remove("hidden");
+            document.getElementById('condition-module-show').textContent = module.conditions.join(", ");
+        }
         if(module.passed){
             this.passed.classList.remove("hidden");
             document.getElementById('passed-module-show').textContent = "bestanden";
@@ -114,6 +119,7 @@ class ModuleModalView extends Observable {
 
     reset(){
         this.recommendedSemester.classList.add("hidden");
+        this.conditionsDiv.classList.add("hidden");
         this.passed.classList.add("hidden");
         this.grade.classList.add("hidden");
     }

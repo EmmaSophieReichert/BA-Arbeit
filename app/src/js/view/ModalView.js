@@ -35,6 +35,7 @@ class ModalView extends Observable {
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
             ects = parseInt(document.getElementById('ects').value),
+            conditionString = document.getElementById('condition').value,
             semester = document.getElementById('semester').value,
             length = parseInt(document.getElementById('length').value),
             period = document.querySelector('input[name="start"]:checked').value,
@@ -42,7 +43,13 @@ class ModalView extends Observable {
         if(this.module !== null && this.module.passed ){
             passed = document.querySelector('input[name="module-passed-radio"]:checked').value === "true";
         }
-        semester = semester === "" ? null : parseInt(semester);    
+        semester = semester === "" ? null : parseInt(semester);  
+
+        let conditions = [];
+        if(conditionString !== ""){
+            conditionString = conditionString.replace(/,\s/g, ',');  
+            conditions = conditionString.split(',');
+        }
 
         if(this.root !== "edit"){
             if(studies.getModuleAndSubjectByID(shortname) !== null){
@@ -60,6 +67,7 @@ class ModalView extends Observable {
                 moduleN.addSelectedSemester(s);
             }
             moduleN.passed = passed;
+            moduleN.conditions = conditions;
             id = this.module.ID;
             if(passed){
                 moduleN.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
@@ -71,6 +79,7 @@ class ModalView extends Observable {
             for (let i = 0; i < length; i++) {
                 moduleN.addSelectedSemester(semester ? semester + i : 1 + i);
             }
+            moduleN.conditions = conditions;
         }
         
         let data = {
@@ -137,10 +146,12 @@ class ModalView extends Observable {
     fill(module) {
         this.root = "edit";
         this.module = module;
+
         document.getElementById('module-title').value = module.title;
         document.getElementById('shortname').value = module.ID;
         document.getElementById('ects').value = module.ECTS;
         //document.getElementById('start').value = module.period;
+        document.getElementById('condition').value = module.conditions.join(", ");
         document.getElementById('semester').value = module.recommendedSemester;
         document.getElementById('length').value = module.minSemLength;
 

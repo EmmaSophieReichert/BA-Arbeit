@@ -30,7 +30,6 @@ class IntermediateResult {
         // this.kids[0] = "haha";
         this.kids.push(moduleId);
         this.calculateGrade();
-        console.log("CALCULATEEEE");
     }
 
     removeChild(childID) {
@@ -66,7 +65,6 @@ class IntermediateResult {
                 }
             }
         }
-        console.log(gradeSum, weightSum);
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
         }
