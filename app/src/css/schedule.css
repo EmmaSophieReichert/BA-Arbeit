@@ -323,3 +323,9 @@
     font-weight: bold;
     margin-top: 5px;
 }
+
+.dragging-condition div{
+    background-color: rgb(206, 157, 238) !important;
+    border-color: rgb(206, 157, 238) !important;
+    color: white;
+}
