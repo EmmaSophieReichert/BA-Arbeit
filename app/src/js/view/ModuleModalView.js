@@ -97,9 +97,11 @@ class ModuleModalView extends Observable {
             this.recommendedSemester.classList.remove("hidden");
             document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         }
-        if(module.conditions.length !== 0){
-            this.conditionsDiv.classList.remove("hidden");
-            document.getElementById('condition-module-show').textContent = module.conditions.join(", ");
+        if(module.conditions){
+            if(module.conditions.length !== 0){
+                this.conditionsDiv.classList.remove("hidden");
+                document.getElementById('condition-module-show').textContent = module.conditions.join(", ");
+            }
         }
         if(module.passed){
             this.passed.classList.remove("hidden");

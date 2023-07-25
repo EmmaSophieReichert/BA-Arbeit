@@ -1,3 +1,4 @@
+import fileManager from "../FileManager.js";
 import { studies } from "../studiesInstance.js";
 
 class IntermediateResult {
@@ -22,6 +23,11 @@ class IntermediateResult {
             this.calculateGrade();
         }
         this.calculateGrade();
+        fileManager.addEventListener("on-study-loaded", e => {
+            if(window.location.hash === "#grade-calculator"){
+                this.calculateGrade();
+            }
+        });
     }
 
     addChild(moduleId) {
@@ -54,7 +60,7 @@ class IntermediateResult {
         let weightSum = 0,
             gradeSum = 0;
         for (let childID of this.kids) {
-            if (studies !== undefined && studies !== null) {
+            if (studies) {
                 let child = studies.getChild(childID);
                 if (child) {
                     console.log(child);
@@ -67,6 +73,9 @@ class IntermediateResult {
         }
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
+        }
+        else if(weightSum === 0 && gradeSum !== 0){
+            this.grade = null;
         }
     }
 

@@ -15,7 +15,7 @@ class IntResModalView extends Observable {
         this.children = null;
 
         this.closeModalButton.addEventListener('click', () => {
-            this.gradeForm.reset();
+            this.intResForm.reset();
             this.modal.close();
         });
 

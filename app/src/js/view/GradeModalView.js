@@ -26,7 +26,7 @@ class GradeModalView extends Observable {
                 stud = studies;
 
             grade === "" ? null : parseFloat(grade);
-            weight === "" ? null : parseFloat(weight);
+            weight === "" ? 1 : parseFloat(weight);
 
             stud.setModuleGrade(this.module.ID, grade, weight);
             setStudyInstance(stud);

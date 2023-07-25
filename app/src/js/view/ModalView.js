@@ -71,7 +71,7 @@ class ModalView extends Observable {
             id = this.module.ID;
             if(passed){
                 moduleN.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
-                moduleN.weight = this.weightInput.value === "" ? null : parseFloat(this.weightInput.value);
+                moduleN.weight = this.weightInput.value === "" ? 1 : parseFloat(this.weightInput.value);
             }
         }
         else{

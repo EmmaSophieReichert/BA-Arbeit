@@ -315,7 +315,8 @@ class ScheduleView extends Observable {
             }
         }
         //show conditions
-        if (module.conditions.length !== 0){
+        if(!module.conditions){return;}
+        if(module.conditions.length !== 0){
             for(let con of module.conditions){
                 let modDiv = document.getElementById(con + "-div");
                 if(modDiv){
@@ -347,6 +348,7 @@ class ScheduleView extends Observable {
                 }
             }
         }
+        if(!module.conditions){return;}
         if (module.conditions.length !== 0){
             for(let con of module.conditions){
                 let modDiv = document.getElementById(con + "-div");

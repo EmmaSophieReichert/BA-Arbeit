@@ -105,7 +105,7 @@ class CatalogueViewRight extends Observable {
         let recommendedSemesterContainer = document.getElementById('recommended-semester-container');
         let selectedSemesterContainer = document.getElementById('selected-semester-container');
 
-        if (studies.subjects.length > 1) {
+        if (studies.subjects.length > 1 && subjectsContainer) {
             studies.subjects.forEach((subject) => {
                 let label = document.createElement('label');
 
@@ -124,26 +124,29 @@ class CatalogueViewRight extends Observable {
 
 
         // semesters
-        studies.semesters.forEach((semester) => {
-            let label = document.createElement('label');
+        if(recommendedSemesterContainer && selectedSemesterContainer){
+            studies.semesters.forEach((semester) => {
+                let label = document.createElement('label');
 
-            let checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.name = 'recommended-semester';
-            checkbox.value = semester.count;
-            checkbox.id = 'recommended-semester-' + semester.count;
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'recommended-semester';
+                checkbox.value = semester.count;
+                checkbox.id = 'recommended-semester-' + semester.count;
 
-            label.innerHTML = checkbox.outerHTML + " " + semester.count;
-            recommendedSemesterContainer.appendChild(label);
+                label.innerHTML = checkbox.outerHTML + " " + semester.count;
+                recommendedSemesterContainer.appendChild(label);
 
-            label = document.createElement('label');
+                label = document.createElement('label');
 
-            checkbox.name = 'selected-semester';
-            checkbox.id = 'selected-semester-' + semester.count;
+                checkbox.name = 'selected-semester';
+                checkbox.id = 'selected-semester-' + semester.count;
 
-            label.innerHTML = checkbox.outerHTML + " " + semester.count;
-            selectedSemesterContainer.appendChild(label);
-        });
+                label.innerHTML = checkbox.outerHTML + " " + semester.count;
+                selectedSemesterContainer.appendChild(label);
+            });
+        }
+        
 
     }
 }
