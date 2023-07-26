@@ -64,8 +64,11 @@ class ModalView extends Observable {
             id = null;
         if(this.module !== null){
             moduleN = new Module(title, shortname, ects, period, semester, length, this.module.posY);
-            for(let s of this.module.selectedSemester){
-                moduleN.addSelectedSemester(s);
+            // for(let s of this.module.selectedSemester){
+            //     moduleN.addSelectedSemester(s);
+            // }
+            for (let i = 0; i < length; i++) {
+                moduleN.addSelectedSemester(this.module.selectedSemester[0] + i);
             }
             moduleN.passed = passed;
             moduleN.conditions = conditions;
@@ -91,7 +94,6 @@ class ModalView extends Observable {
         }
 
         let stud = studies;
-        console.log("ZZZZZZ", stud);
         // if(this.root === "edit"){
         //     stud.deleteModule(id);
         // }
