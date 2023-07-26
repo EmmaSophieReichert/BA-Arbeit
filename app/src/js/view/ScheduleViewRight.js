@@ -37,13 +37,14 @@ class ScheduleViewRight extends Observable {
         }
         if (study.subjects.length > 1) {
             this.inPlanProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
+            this.passedProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
         }
         else {
             this.inPlanProgress.style.backgroundColor = Config.COLOUR_CODES[0];
+            this.passedProgress.style.backgroundColor = Config.COLOUR_CODES[0];
         }
         this.inPlanProgress.style.width = (inPlanECTS / study.totalECTS) * 100 + '%';
         this.inPlanProgressText.textContent = inPlanECTS + '/' + study.totalECTS + ' ECTS';
-        this.passedProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
         this.passedProgress.style.width = (passedECTS / study.totalECTS) * 100 + '%';
         this.passedProgressText.textContent = passedECTS + '/' + study.totalECTS + ' ECTS';
     }

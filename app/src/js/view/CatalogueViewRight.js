@@ -13,6 +13,10 @@ class CatalogueViewRight extends Observable {
         this.studyBoxesContainer = document.getElementById("study-boxes-container");
         this.filterContainer = document.getElementById('filter-container');
         this.checkboxes = null;
+        this.resetFilterButton = document.getElementById("reset-filter-button");
+        this.resetFilterButton.addEventListener("click", () => {
+            this.resetCheckboxes();
+        })
     }
 
     show(study) {
@@ -25,6 +29,16 @@ class CatalogueViewRight extends Observable {
             });
         });
         this.showStudy(study);
+    }
+
+    resetCheckboxes(){
+        if(this.checkboxes){
+            this.checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+            let e = new Event("onFilterValues", this.getFilteredValues());
+            this.notifyAll(e);
+        }
     }
 
     showStudy(study) {

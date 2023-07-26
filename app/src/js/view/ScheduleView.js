@@ -37,8 +37,10 @@ class ScheduleView extends Observable {
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
-                        this.updateStudy();
-                        this.notifyAll(e);
+                        if(window.location.hash === "#schedule"){
+                            this.updateStudy();
+                            this.notifyAll(e);
+                        }
                     });
                 }
             }
@@ -65,7 +67,6 @@ class ScheduleView extends Observable {
         console.log(study);
         let semesters = study.semesters;
         this.initGrid(semesters.length);
-        console.log("SEM;", semesters.length);
         this.initSemesters(semesters);
         for (let subject of study.subjects) {
             for (let module of subject.modules) {
@@ -245,7 +246,6 @@ class ScheduleView extends Observable {
     }
 
     handleWidgetChange(event, items) {
-        console.log("WIDGETCHANGE!");
         let stud = studies;
         items.forEach(item => {
             stud.changeModulePosition(item.id, item.x, item.y);
