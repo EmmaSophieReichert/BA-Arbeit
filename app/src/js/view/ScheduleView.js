@@ -192,6 +192,7 @@ class ScheduleView extends Observable {
             moduleDivLeft = ScheduleView.getModuleDivLeft(module, colourCode),
             moduleDivRight = ScheduleView.getModuleDivRight(module, colourCode);
         moduleDiv.classList.add('module-div');
+        moduleDiv.id = module.ID + "-div";
 
         moduleDiv.appendChild(moduleDivLeft);
         moduleDiv.appendChild(moduleDivRight);
@@ -288,8 +289,11 @@ class ScheduleView extends Observable {
 
     handleDragStart(event, el) {
         console.log(el.getAttribute("gs-id"));
-        let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
+        let data = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")),
+            module = data.module,
+            subject = data.subject,
             recSem = [];
+        //show recommended semester
         if (module.recommendedSemester) {
             for (let i = 0; i < module.minSemLength; i++) {
                 recSem.push(module.recommendedSemester + i);
@@ -310,7 +314,22 @@ class ScheduleView extends Observable {
                 }
             }
         }
-
+        //show conditions
+        if(!module.conditions){return;}
+        if(module.conditions.length !== 0){
+            for(let con of module.conditions){
+                let modDiv = document.getElementById(con + "-div");
+                if(modDiv){
+                    console.log("HHHHH", modDiv);
+                    modDiv.classList.add("dragging-condition");
+                    // modDiv.style.backgroundColor = "black";
+                    // let undDivs = modDiv.querySelectorAll("div");
+                    // for(let undDiv of undDivs){
+                    //     undDiv.style.backgroundColor = Config.COLOUR_CODES_DARKER[subject.colourCode];
+                    // }
+                }
+            }
+        }
     }
 
     handleDragStop(event, el) {
@@ -326,6 +345,21 @@ class ScheduleView extends Observable {
                 let semDiv = document.getElementById("semester-" + i + "-div");
                 if (semDiv) {
                     semDiv.removeAttribute("style");
+                }
+            }
+        }
+        if(!module.conditions){return;}
+        if (module.conditions.length !== 0){
+            for(let con of module.conditions){
+                let modDiv = document.getElementById(con + "-div");
+                if(modDiv){
+                    console.log("HHHHH", modDiv);
+                    modDiv.classList.remove("dragging-condition");
+                    // modDiv.style.backgroundColor = "black";
+                    // let undDivs = modDiv.querySelectorAll("div");
+                    // for(let undDiv of undDivs){
+                    //     undDiv.style.backgroundColor = Config.COLOUR_CODES_DARKER[subject.colourCode];
+                    // }
                 }
             }
         }

@@ -9,6 +9,7 @@ import { getAuth } from "../api/Auth/getAuth.js";
 import { deleteSession } from "../api/Session/deleteSession.js";
 import ModuleCatalogueController from "./ModuleCatalogueController.js";
 import GradeCalculatorController from "./GradeCalculatorController.js";
+import { setStudyInstance, studies } from "../model/studiesInstance.js";
 
 class AppController {
 
@@ -24,8 +25,11 @@ class AppController {
         this.logoutButton.addEventListener("click", async function () {
             let promise = deleteSession();
             await promise.then((res) => {
-                console.log("Logged out");
+                console.log("Logged out", res);
+                console.log(res);
+                setStudyInstance(null);
                 window.location.hash = "login";
+                location.reload();
             }, (error) => {
                 console.log("Failed to log out", error);
             });
@@ -67,7 +71,9 @@ class AppController {
                 if (currentHash === "#login" || currentHash === "#register") {
                     this.setHash("schedule");
                 }
+                this.logoutButton.style.display = "inline-block";
             } else {
+                this.logoutButton.style.display = "none";
                 if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
                     currentHash !== "#datenschutz") {
                     this.setHash("login");

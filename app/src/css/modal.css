@@ -107,3 +107,9 @@ button[type="submit"]:hover {
     color: black;
     font-weight: bold;
 }
+
+#input-description{
+    font-size: 80%;
+    color: var(--elephant-grey);
+    margin-left: 5px;
+}

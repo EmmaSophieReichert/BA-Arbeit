@@ -35,7 +35,6 @@ class ScheduleViewRight extends Observable {
             }
             colourRow += ", " + Config.COLOUR_CODES[subject.colourCode];
         }
-        console.log(colourRow);
         this.inPlanProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
         this.inPlanProgress.style.width = (inPlanECTS / study.totalECTS) * 100 + '%';
         this.inPlanProgressText.textContent = inPlanECTS + '/' + study.totalECTS + ' ECTS';

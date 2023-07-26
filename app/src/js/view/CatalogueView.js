@@ -89,12 +89,49 @@ class CatalogueView extends Observable{
             moduleDivRight = ScheduleView.getModuleDivRight(module, colourCode),
             moduleDivMiddle = this.getModuleDivMiddle(module, colourCode);
         moduleDiv.classList.add('module-div');
-
         moduleDiv.appendChild(moduleDivLeft);
+        if(module.conditions){
+            if(module.conditions.length !== 0){
+                let moduleDivConditions = this.getModuleDivConditions(module, colourCode);
+                moduleDiv.appendChild(moduleDivConditions);
+            }
+        }
         moduleDiv.appendChild(moduleDivMiddle);
         moduleDiv.appendChild(moduleDivRight);
 
         return moduleDiv.outerHTML;
+    }
+
+    getModuleDivConditions(module, colourCode){
+        let conditionsDiv = document.createElement("div"),
+            description = document.createElement("p"),
+            cond = document.createElement("p");
+        conditionsDiv.classList.add("module-div-middle");
+        description.textContent = "Voraussetzungen: ";
+        let condString = ""
+        for(let i = 0; i < module.conditions.length; i++){
+            if((i+1) ===  module.conditions.length){
+                condString += module.conditions[i];
+            }
+            else{
+                condString += module.conditions[i] + ", ";
+            }
+        }
+        cond.textContent = condString;
+
+        if (module.passed) {
+            conditionsDiv.style.backgroundColor = "white";
+            conditionsDiv.style.borderTop = "4px solid " + Config.COLOUR_CODES[colourCode];
+            conditionsDiv.style.borderBottom = "4px solid " + Config.COLOUR_CODES[colourCode];
+        }
+        else {
+            conditionsDiv.style.backgroundColor = Config.COLOUR_CODES[colourCode];
+        }
+
+        conditionsDiv.appendChild(description);
+        conditionsDiv.appendChild(cond);
+
+        return conditionsDiv;
     }
 
     getModuleDivMiddle(module, colourCode){

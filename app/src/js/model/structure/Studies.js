@@ -114,6 +114,7 @@ class Studies {
                     for (let s of mod.selectedSemester) {
                         m.addSelectedSemester(s);
                     }
+                    m.conditions = mod.conditions;
                     sub.addModule(m);
                 }
             }
@@ -190,6 +191,8 @@ class Studies {
                 if (module.ID === id) {
                     module.grade = grade ? parseFloat(grade) : grade;
                     module.weight = weight ? parseFloat(weight) : weight;
+                    let parent = this.getParent(id);
+                    parent.calculateGrade();
                 }
             }
         }
@@ -419,7 +422,7 @@ class Studies {
         }
 
         if (!this.checkSameParent(parentIDs)) {
-            console.log('kids do not have the same parent');
+            console.log('kids do not have the same parent'); //TODO: show this in eror message!
             return;
         }
 
@@ -431,11 +434,6 @@ class Studies {
         //     }
         // }
 
-        // Remove kids from parent
-        for (let childID of kidsIDs) {
-            parent.removeChild(childID);
-        }
-
         // Create new IntermediateResult
         let intermediateResult = new IntermediateResult(title, weight);
         for (let ch of kidsIDs) {
@@ -443,6 +441,11 @@ class Studies {
         }
         this.intermediateResults.push(intermediateResult);
         parent.addChild(intermediateResult.ID);
+
+        // Remove kids from parent
+        for (let childID of kidsIDs) {
+            parent.removeChild(childID);
+        }
 
         this.calculateGrade();
     }
@@ -469,6 +472,7 @@ class Studies {
 
         // Remove the intermediateResult from the parent's children
         parent.removeChild(intermediateResultID);
+        parent.calculateGrade();
 
         // Remove the intermediateResult from the intermediateResults list
         let index = this.intermediateResults.findIndex((result) => result.ID === intermediateResultID);

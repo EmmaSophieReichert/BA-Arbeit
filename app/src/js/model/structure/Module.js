@@ -11,6 +11,7 @@ class Module {
         //this.moduleComponents = [];
 
         this.selectedSemester = [];
+        this.conditions = [];
 
         this.posY = posY;
 
@@ -31,6 +32,10 @@ class Module {
 
     addSelectedSemester(sem) {
         this.selectedSemester.push(sem);
+    }
+
+    addCondition(con){
+        this.conditions.push(con);
     }
 
     setPassed(passed){
