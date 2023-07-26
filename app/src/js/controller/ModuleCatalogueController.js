@@ -18,9 +18,11 @@ class ModuleCatalogueController{
         }
         else{
             fileManager.addEventListener("on-study-loaded", e => {
-                let study = e.data;
-                this.catalogueView.show(study);
-                this.catalogueViewRight.show(study);
+                if(window.location.hash === "#module-catalogue"){
+                    let study = e.data;
+                    this.catalogueView.show(study);
+                    this.catalogueViewRight.show(study);
+                }
             });
             fileManager.getStudy();
         }

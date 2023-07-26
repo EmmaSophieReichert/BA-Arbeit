@@ -33,7 +33,7 @@ class CatalogueViewRight extends Observable {
         }
     }
 
-    showSubject(subject) {
+    async showSubject(subject) {
         let div = document.createElement("div");
         div.className = "subject-box";
         div.style.backgroundColor = Config.COLOUR_CODES[subject.colourCode];
@@ -52,7 +52,7 @@ class CatalogueViewRight extends Observable {
 
         // div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML; TODO: enable
         div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
-        this.studyBoxesContainer.appendChild(div);
+        await this.studyBoxesContainer.appendChild(div);
 
         addModuleButton = document.getElementById(subject.title + "-button");
         addModuleButton.addEventListener('click', () => {

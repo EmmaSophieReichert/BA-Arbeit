@@ -24,18 +24,23 @@ class ScheduleViewRight extends Observable {
         this.fillTotalProgress(study);
     }
 
-    fillTotalProgress(study){
+    fillTotalProgress(study) {
         let inPlanECTS = 0, passedECTS = 0, colourRow = "";
-        for(let subject of study.subjects){
+        for (let subject of study.subjects) {
             passedECTS += subject.currentECTS;
-            for(let module of subject.modules){
-                if(module.selectedSemester.length !== 0){
+            for (let module of subject.modules) {
+                if (module.selectedSemester.length !== 0) {
                     inPlanECTS += module.ECTS;
                 }
             }
             colourRow += ", " + Config.COLOUR_CODES[subject.colourCode];
         }
-        this.inPlanProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
+        if (study.subjects.length > 1) {
+            this.inPlanProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";
+        }
+        else {
+            this.inPlanProgress.style.backgroundColor = Config.COLOUR_CODES[0];
+        }
         this.inPlanProgress.style.width = (inPlanECTS / study.totalECTS) * 100 + '%';
         this.inPlanProgressText.textContent = inPlanECTS + '/' + study.totalECTS + ' ECTS';
         this.passedProgress.style.backgroundImage = "linear-gradient(to right" + colourRow + ")";

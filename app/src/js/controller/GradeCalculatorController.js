@@ -30,28 +30,6 @@ class GradeCalculatorController{
             });
             fileManager.getStudy();
         }
-
-        
-
-        // fileManager.addEventListener("on-study-loaded", e => {
-        //     let study = e.data;
-        //     this.gradeCalculatorView.show(study);
-        //     this.gradeCalculatorViewRight.showStudy(study);
-        // });
-        // this.gradeCalculatorView.addEventListener("onModuleAdded", e => { fileManager.addModule(e.data.module, e.data.subject) });
-        // this.gradeCalculatorView.addEventListener("positionsChanged", () => {
-        //     fileManager.updateFile();
-        //     ;
-        // } );
-        // this.gradeCalculatorViewRight.addEventListener("onAddModuleButtonClicked", e => {
-        //     this.gradeCalculatorView.showModal(e.data);
-        // });
-        // this.gradeCalculatorView.addEventListener("onModuleChanged", () => {
-        //     console.log("STUDIES", studies);
-        //     this.gradeCalculatorViewRight.showStudy(studies);
-        // });
-
-        // fileManager.getStudy();
         
     }
 }

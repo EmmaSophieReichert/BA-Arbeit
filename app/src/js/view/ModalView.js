@@ -31,6 +31,7 @@ class ModalView extends Observable {
     }
 
     onSubmitButtonClicked(e) {
+        console.log("MODAL", studies);
         e.preventDefault();
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
@@ -90,6 +91,7 @@ class ModalView extends Observable {
         }
 
         let stud = studies;
+        console.log("ZZZZZZ", stud);
         // if(this.root === "edit"){
         //     stud.deleteModule(id);
         // }
