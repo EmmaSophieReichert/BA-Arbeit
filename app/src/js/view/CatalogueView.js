@@ -14,13 +14,17 @@ class CatalogueView extends Observable{
         super();
 
         modalView.addEventListener("onModuleChanged", e => {
-            console.log("Module added");
-            // if(e.data.root === "edit"){
-            //     this.show(studies);
-            // }
-            // this.addModule(e.data.module, e.data.subject);
-            this.show(studies);
-            //this.notifyAll(e);
+            if(window.location.hash === "#module-catalogue"){
+                console.log("Module added");
+                console.log("STUUU", studies);
+                // if(e.data.root === "edit"){
+                //     this.show(studies);
+                // }
+                // this.addModule(e.data.module, e.data.subject);
+                this.show(studies);
+                //this.notifyAll(e);
+            }
+            
         });
 
         this.grid = null;
@@ -34,8 +38,10 @@ class CatalogueView extends Observable{
                     data = studies.getModuleAndSubjectByID(id);
                 moduleModalView.show(data.module, data.subject);
                 moduleModalView.addEventListener("onModuleChanged", (e) => {
-                    this.show(studies);
-                    //this.notifyAll(e);
+                    if(window.location.hash === "#module-catalogue"){
+                        this.show(studies);
+                        //this.notifyAll(e);
+                    }
                 });
             }
         });

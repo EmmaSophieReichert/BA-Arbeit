@@ -13,6 +13,10 @@ class CatalogueViewRight extends Observable {
         this.studyBoxesContainer = document.getElementById("study-boxes-container");
         this.filterContainer = document.getElementById('filter-container');
         this.checkboxes = null;
+        this.resetFilterButton = document.getElementById("reset-filter-button");
+        this.resetFilterButton.addEventListener("click", () => {
+            this.resetCheckboxes();
+        })
     }
 
     show(study) {
@@ -27,13 +31,23 @@ class CatalogueViewRight extends Observable {
         this.showStudy(study);
     }
 
+    resetCheckboxes(){
+        if(this.checkboxes){
+            this.checkboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+            });
+            let e = new Event("onFilterValues", this.getFilteredValues());
+            this.notifyAll(e);
+        }
+    }
+
     showStudy(study) {
         for (let subject of study.subjects) {
             this.showSubject(subject);
         }
     }
 
-    showSubject(subject) {
+    async showSubject(subject) {
         let div = document.createElement("div");
         div.className = "subject-box";
         div.style.backgroundColor = Config.COLOUR_CODES[subject.colourCode];
@@ -52,7 +66,7 @@ class CatalogueViewRight extends Observable {
 
         // div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML; TODO: enable
         div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
-        this.studyBoxesContainer.appendChild(div);
+        await this.studyBoxesContainer.appendChild(div);
 
         addModuleButton = document.getElementById(subject.title + "-button");
         addModuleButton.addEventListener('click', () => {

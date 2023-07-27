@@ -12,9 +12,11 @@ class ScheduleController{
         this.scheduleViewRight = new ScheduleViewRight();
 
         fileManager.addEventListener("on-study-loaded", e => {
-            let study = e.data;
-            this.scheduleView.show(study);
-            this.scheduleViewRight.showStudy(study);
+            if(window.location.hash === "#schedule"){
+                let study = e.data;
+                this.scheduleView.show(study);
+                this.scheduleViewRight.showStudy(study);
+            }
         });
         this.scheduleView.addEventListener("onModuleAdded", e => { fileManager.addModule(e.data.module, e.data.subject) });
         this.scheduleView.addEventListener("positionsChanged", () => {
@@ -28,8 +30,14 @@ class ScheduleController{
             console.log("STUDIES", studies);
             this.scheduleViewRight.showStudy(studies);
         });
-
-        fileManager.getStudy();
+        if(studies === null){
+            fileManager.getStudy();
+        }
+        else{
+            this.scheduleView.show(studies);
+            this.scheduleViewRight.showStudy(studies);
+        }
+        
         
     }
 }

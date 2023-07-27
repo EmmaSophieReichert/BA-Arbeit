@@ -299,7 +299,7 @@ class Studies {
             },
             nodeStructure: {
                 text: {
-                    name: "Gesamtergebnis " + this.grade,
+                    name: "Gesamtergebnis " + (this.grade ? this.grade : ""),
                 },
                 HTMLclass: "root-grade-view-element",
                 children: [],

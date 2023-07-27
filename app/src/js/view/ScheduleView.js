@@ -14,13 +14,15 @@ class ScheduleView extends Observable {
     constructor() {
         super();
         modalView.addEventListener("onModuleChanged", e => {
-            console.log("Module added");
-            // if(e.data.root === "edit"){
-            //     this.updateStudy();
-            // }
-            // this.addModule(e.data.module, e.data.subject);
-            this.updateStudy();
-            this.notifyAll(e);
+            if(window.location.hash === "#schedule"){
+                console.log("Module added");
+                // if(e.data.root === "edit"){
+                //     this.updateStudy();
+                // }
+                // this.addModule(e.data.module, e.data.subject);
+                this.updateStudy();
+                this.notifyAll(e);
+            }
         });
 
         this.grid = null;
@@ -35,8 +37,10 @@ class ScheduleView extends Observable {
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
-                        this.updateStudy();
-                        this.notifyAll(e);
+                        if(window.location.hash === "#schedule"){
+                            this.updateStudy();
+                            this.notifyAll(e);
+                        }
                     });
                 }
             }
@@ -113,6 +117,7 @@ class ScheduleView extends Observable {
                 ects = semester.ECTS,
                 semesterWidget = this.getSemesterWidget(period, count, ects);
             this.grid.addWidget(semesterWidget);
+            this.grid.save();
         }
     }
 
@@ -146,32 +151,6 @@ class ScheduleView extends Observable {
             content: div.outerHTML
         }
         return semesterWidget;
-    }
-
-
-    setSemesters(number) {
-        this.grid.column(number);
-        for (let i = 1; i <= number; i++) {
-            let div = document.createElement("div");
-            let h3 = document.createElement("h3");
-            h3.innerHTML = "<b>" + "Semester " + i + "</b>";
-            let p = document.createElement("p");
-            p.id = "sem" + i + "ects";
-            p.innerHTML = "0 ECTS";
-            div.innerHTML = h3.outerHTML + p.outerHTML;
-            div.className = "semester";
-            div.id = "semester-" + count + "-div";
-            let semester = {
-                x: i - 1,
-                y: 0,
-                id: "sem" + i,
-                locked: true,
-                noResize: true,
-                noMove: true,
-                content: div.outerHTML
-            }
-            this.grid.addWidget(semester);
-        }
     }
 
     addModule(module, colourCode) {

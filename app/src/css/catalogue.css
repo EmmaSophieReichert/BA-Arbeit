@@ -28,3 +28,23 @@
 .catalogue-template .module-div-right{
     width: 40px;
 }
+
+#reset-filter-button-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#reset-filter-button-container h3{
+    margin: 0;
+}
+
+#reset-filter-button{
+    /* margin-left: 5px; */
+    background-color: var(--elephant-grey);
+    color: white;
+    font-size: 70%;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5em;
+}

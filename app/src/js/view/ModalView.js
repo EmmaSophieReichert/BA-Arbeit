@@ -31,6 +31,7 @@ class ModalView extends Observable {
     }
 
     onSubmitButtonClicked(e) {
+        console.log("MODAL", studies);
         e.preventDefault();
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
@@ -63,8 +64,11 @@ class ModalView extends Observable {
             id = null;
         if(this.module !== null){
             moduleN = new Module(title, shortname, ects, period, semester, length, this.module.posY);
-            for(let s of this.module.selectedSemester){
-                moduleN.addSelectedSemester(s);
+            // for(let s of this.module.selectedSemester){
+            //     moduleN.addSelectedSemester(s);
+            // }
+            for (let i = 0; i < length; i++) {
+                moduleN.addSelectedSemester(this.module.selectedSemester[0] + i);
             }
             moduleN.passed = passed;
             moduleN.conditions = conditions;
