@@ -267,7 +267,6 @@ class ScheduleView extends Observable {
     }
 
     handleDragStart(event, el) {
-        console.log(el.getAttribute("gs-id"));
         let data = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")),
             module = data.module,
             subject = data.subject,
@@ -312,7 +311,6 @@ class ScheduleView extends Observable {
     }
 
     handleDragStop(event, el) {
-        console.log(el.getAttribute("gs-id"));
         let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
             recSem = [];
         if (module.recommendedSemester) {

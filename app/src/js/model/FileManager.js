@@ -102,6 +102,37 @@ class FileManager extends Observable {
             res = await computePromise(promise);
         //id = res.files[0].$id,
         //deletePromise = deleteFile(id);
+
+        // if (res.files !== undefined && res.files !== null && res.files !== []) {
+        //     for (let file of res.files) {
+        //         let id = file.$id,
+        //             deletePromise = deleteFile(id);
+        //         await computePromise(deletePromise).then(() => {
+                    
+        //         }, (error) => { console.log(error) });
+        //     }
+        // }
+
+        // let studyJSON = JSON.stringify(studies),
+        //     blob = new Blob([studyJSON], { type: "text/plain" }),
+        //     file = new File([blob], studies.subjects[0].title);
+        // await createFile(file).then(() => {
+        //     this.inProcess = false;
+        //     console.log("Change gas been successfully saved.")
+        // });
+
+        let studyJSON = JSON.stringify(studies),
+            blob = new Blob([studyJSON], { type: "text/plain" }),
+            fileF = new File([blob], studies.subjects[0].title);
+
+        await createFile(fileF).then(async() => {
+            this.inProcess = false;
+            await this.deleteFiles(res);
+            console.log("Change gas been successfully saved.")
+        }, (error) => { console.log(error) });
+    }
+
+    async deleteFiles(res){
         if (res.files !== undefined && res.files !== null && res.files !== []) {
             for (let file of res.files) {
                 let id = file.$id,
@@ -111,16 +142,6 @@ class FileManager extends Observable {
                 }, (error) => { console.log(error) });
             }
         }
-
-
-
-        let studyJSON = JSON.stringify(studies),
-            blob = new Blob([studyJSON], { type: "text/plain" }),
-            file = new File([blob], studies.subjects[0].title);
-        await createFile(file).then(() => {
-            this.inProcess = false;
-            console.log("Change gas been successfully saved.")
-        });
     }
 
 }
