@@ -73,11 +73,13 @@ class StudyView extends Observable {
 
         document.getElementById('study-form').addEventListener('submit', this.onSubmitButtonClicked.bind(this));
 
-        if (studies !== null) {
-            this.fill(studies);
-        }
-        else {
-            this.handleNoStudies();
+        if(window.location.hash === "#study"){
+            if (studies !== null) {
+                this.fill(studies);
+            }
+            else {
+                this.handleNoStudies();
+            }
         }
 
         deleteSubjectModalView.addEventListener("onSubjectDeleted", (e) => {
@@ -390,7 +392,9 @@ class StudyView extends Observable {
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
             stud = this.initSubjects(stud, studyData);
             console.log(stud); 
-            setStudyInstance(stud);
+            if(stud){
+               setStudyInstance(stud); 
+            }
             await fileManager.updateFile();
             window.location.hash = "#schedule";
         }

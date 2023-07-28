@@ -27,7 +27,9 @@ class FileManager extends Observable {
         let res = await this.getList();
         if (res.total === 0) {
             console.log("NO STUDY FOUND");
-            window.location.hash = "study";
+            if(studies === null){
+                window.location.hash = "study";
+            }
             return;
         }
         let id = res.files[0].$id,
@@ -37,7 +39,9 @@ class FileManager extends Observable {
         this.fileID = id;
         this.timerID = setTimeout(() => {
             this.timerID = null;
-            location.reload();
+            //location.reload();
+            this.getStudy();
+            console.log("STUDY RELOADED");
         }, 800000);
 
         jwtPromise.then(function (response) {
@@ -62,16 +66,22 @@ class FileManager extends Observable {
     }
 
     translateObject(obj) {
-        setStudyInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization, obj.intermediateResults, obj.kids));
-        let e = new Event("on-study-loaded", studies);
-        this.notifyAll(e);
+        console.log("OBJECT", obj);
+        let stud = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization, obj.intermediateResults, obj.kids);
+        if(stud){
+            setStudyInstance(stud);
+            let e = new Event("on-study-loaded", studies);
+            this.notifyAll(e);
+        };
     }
 
     addModule(module, subjectIndex) {
         let stud = studies;
         stud.subjects[subjectIndex].addModule(module);
-        setStudyInstance(stud);
-        this.updateFile();
+        if(stud){
+            setStudyInstance(stud);
+            this.updateFile();
+        }
     }
 
     async updateFile() {

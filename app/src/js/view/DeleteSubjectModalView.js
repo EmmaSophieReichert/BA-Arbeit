@@ -28,8 +28,10 @@ class DeleteSubjectModalView extends Observable {
         this.deleteButton.addEventListener("click", () => {
             let study = studies;
             study.deleteSubject(this.subject.title);
-            setStudyInstance(study);
-            fileManager.updateFile();
+            if(study){
+                setStudyInstance(study);
+                fileManager.updateFile();
+            }
             let e = new Event("onSubjectDeleted", this.subject.title);
             this.notifyAll(e);
             this.modal.close();
