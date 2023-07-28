@@ -37,7 +37,9 @@ class FileManager extends Observable {
         this.fileID = id;
         this.timerID = setTimeout(() => {
             this.timerID = null;
-            location.reload();
+            //location.reload();
+            this.getStudy();
+            console.log("STUDY RELOADED");
         }, 800000);
 
         jwtPromise.then(function (response) {
@@ -62,6 +64,7 @@ class FileManager extends Observable {
     }
 
     translateObject(obj) {
+        console.log("OBJECT", obj);
         setStudyInstance(new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization, obj.intermediateResults, obj.kids));
         let e = new Event("on-study-loaded", studies);
         this.notifyAll(e);

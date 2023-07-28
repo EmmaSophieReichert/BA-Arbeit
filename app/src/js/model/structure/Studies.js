@@ -162,6 +162,8 @@ class Studies {
             }
         }
         this.calculateGrade();
+        this.calculateSemesterECTS();
+        this.calculateSubjectECTS();
     }
 
     changeModulePosition(id, x, y) {

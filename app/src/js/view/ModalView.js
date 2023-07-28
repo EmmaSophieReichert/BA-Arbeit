@@ -107,6 +107,9 @@ class ModalView extends Observable {
             stud.deleteModule(id);
             if(parent){
                 parent.addChild(moduleN.ID);
+                console.log("p", parent, parent.grade);
+                parent.calculateGrade();
+                console.log("p", parent, parent.grade);
             }
         }
         stud.subjects[this.subject].addModule(moduleN);
@@ -117,6 +120,9 @@ class ModalView extends Observable {
         stud.calculateSemesterECTS();
         stud.calculateGrade();
         setStudyInstance(stud);
+        if(this.root === "edit" && moduleN.passed){
+            studies.setModuleGrade(id, moduleN.grade, moduleN.weight)
+        }
         fileManager.updateFile(); 
         ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);

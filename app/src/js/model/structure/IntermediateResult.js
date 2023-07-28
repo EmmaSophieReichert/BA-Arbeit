@@ -71,8 +71,15 @@ class IntermediateResult {
                 }
             }
         }
+        console.log(gradeSum, weightSum);
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
+            if(studies){
+                let parent = studies.getParent(this.ID);
+                if(parent){
+                    parent.calculateGrade();
+                }
+            }
         }
         else if(weightSum === 0 && gradeSum !== 0){
             this.grade = null;

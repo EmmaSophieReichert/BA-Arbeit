@@ -73,11 +73,13 @@ class StudyView extends Observable {
 
         document.getElementById('study-form').addEventListener('submit', this.onSubmitButtonClicked.bind(this));
 
-        if (studies !== null) {
-            this.fill(studies);
-        }
-        else {
-            this.handleNoStudies();
+        if(window.location.hash === "#study"){
+            if (studies !== null) {
+                this.fill(studies);
+            }
+            else {
+                this.handleNoStudies();
+            }
         }
 
         deleteSubjectModalView.addEventListener("onSubjectDeleted", (e) => {
