@@ -119,7 +119,9 @@ class ModalView extends Observable {
         stud.calculateSubjectECTS();
         stud.calculateSemesterECTS();
         stud.calculateGrade();
-        setStudyInstance(stud);
+        if(stud){
+            setStudyInstance(stud);
+        }
         if(this.root === "edit" && moduleN.passed){
             studies.setModuleGrade(id, moduleN.grade, moduleN.weight)
         }

@@ -251,7 +251,9 @@ class ScheduleView extends Observable {
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
         });
-        setStudyInstance(stud);
+        if(stud){
+            setStudyInstance(stud);
+        }
         for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }
