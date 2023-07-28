@@ -54,8 +54,10 @@ class ModuleModalView extends Observable {
             if (event.button === 0) {
                 let stud = studies;
                 stud.deleteModule(this.module.ID);
-                setStudyInstance(stud);
-                fileManager.updateFile();
+                if(stud){
+                    setStudyInstance(stud);
+                    fileManager.updateFile();
+                }
                 this.onModuleChanged();
             } else {
                 event.preventDefault();
@@ -66,8 +68,10 @@ class ModuleModalView extends Observable {
         this.passedModalButton.addEventListener("click", (event) => {
             let stud = studies;
             stud.setModulePassed(this.module.ID, true);
-            setStudyInstance(stud);
-            fileManager.updateFile();
+            if(stud){
+               setStudyInstance(stud);
+                fileManager.updateFile(); 
+            }
             this.onModuleChanged();
             gradeModalView.show(this.module, this.subject);
             gradeModalView.addEventListener("onModuleChanged", (e) => {this.notifyAll(e)});

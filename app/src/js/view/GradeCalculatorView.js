@@ -22,6 +22,8 @@ class GradeCalculatorView extends Observable {
         this.currentClickedIDs = [];
         this.buttonContainer = document.getElementById("add-int-res-button-container");
 
+        this.hint = document.getElementById("int-res-hint");
+
         intResModalView.addEventListener("onIntResSubmit", () => {
             this.show();
         })
@@ -49,6 +51,7 @@ class GradeCalculatorView extends Observable {
 
     // different look, add to array
     handleClick(nodeID) {
+        this.hint.style.display = "none";
         let nodeElement = document.getElementById(nodeID);
         let wrap = nodeElement.querySelector(".grade-module-wrap");
         // Prove if nodeID is in Array
@@ -69,7 +72,7 @@ class GradeCalculatorView extends Observable {
     }
 
     createButton() {
-        // Überprüfen, ob der Button bereits vorhanden ist
+        // prove if button is already appended
         if (this.buttonContainer.querySelector("button")) {
             return;
         }

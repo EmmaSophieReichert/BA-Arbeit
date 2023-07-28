@@ -43,9 +43,11 @@ class FileManager extends Observable {
             this.getStudy();
             console.log("STUDY RELOADED");
         }, 800000);
+        //}, 30000);
 
         jwtPromise.then(function (response) {
             appwrite.client.setJWT(response.jwt);
+            console.log(appwrite.client);
             let headers = new Headers();
             headers.append('X-Appwrite-JWT', response.jwt);
             data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
@@ -136,20 +138,22 @@ class FileManager extends Observable {
             fileF = new File([blob], studies.subjects[0].title);
 
         await createFile(fileF).then(async() => {
-            this.inProcess = false;
             await this.deleteFiles(res);
+            this.inProcess = false;
             console.log("Change gas been successfully saved.")
         }, (error) => { console.log(error) });
     }
 
     async deleteFiles(res){
-        if (res.files !== undefined && res.files !== null && res.files !== []) {
+        if (res.files !== undefined && res.files !== null && res.files.length !== 0) {
             for (let file of res.files) {
                 let id = file.$id,
                     deletePromise = deleteFile(id);
-                await computePromise(deletePromise).then(() => {
+                if(deletePromise){
+                    await computePromise(deletePromise).then(() => {
                     
-                }, (error) => { console.log(error) });
+                    }, (error) => { console.log(error) });
+                }
             }
         }
     }
