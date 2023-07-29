@@ -1,7 +1,7 @@
 import { listFiles } from "../api/Storage/listFiles.js";
 import { getFile } from "../api/Storage/getFile.js";
 import Studies from "./structure/Studies.js";
-import appwrite from "../api/appwrite.js";
+import appwrite, { reloadClient } from "../api/appwrite.js";
 import Config from "../utils/Config.js";
 import { Observable, Event } from "../utils/Observable.js";
 import { deleteFile } from "../api/Storage/deleteFile.js";
@@ -29,6 +29,8 @@ class FileManager extends Observable {
         await getAuth().then(res => {
             if(!res.login){
                 window.location.hash = "login";
+                location.reload();
+                return;
             }
         });
         let res = await this.getList();
@@ -54,7 +56,8 @@ class FileManager extends Observable {
             //}, 30000);
     
             jwtPromise.then(function (response) {
-                appwrite.client.setJWT(response.jwt);
+                //appwrite.client.setJWT(response.jwt);
+                reloadClient(response.jwt);
                 console.log(appwrite.client);
                 let headers = new Headers();
                 headers.append('X-Appwrite-JWT', response.jwt);

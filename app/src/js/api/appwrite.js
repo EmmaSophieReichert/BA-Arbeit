@@ -1,12 +1,12 @@
 const { Client, Account, ID, Databases, Storage} = Appwrite;
 // const appwrite = new Client();
 
-const client = new Client(),
+var client = new Client(),
      account = new Account(client),
      database = new Databases(client),
      storage = new Storage(client);
 
-const appwrite = {
+var appwrite = {
      client: client,
      account: account,
      database: database,
@@ -24,7 +24,7 @@ function reloadClient(jwt){
      database = new Databases(client);
      storage = new Storage(client);
 
-     const appwrite = {
+     appwrite = {
           client: client,
           account: account,
           database: database,
@@ -39,4 +39,4 @@ function reloadClient(jwt){
 }
      
 export default appwrite;
-//export {reloadClient};
+export {reloadClient};
