@@ -27,6 +27,7 @@ class StudyManager extends Observable {
             file = new File([blob], studies.subjects[0].title);
         await createFile(file).then(() => { 
             this.notifyAll(new Event("studies-reached-cloud", "studies reached cloud")); 
+            console.log("Studies reached cloud StudyManager");
         });
     }
 

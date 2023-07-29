@@ -66,7 +66,13 @@ class ScheduleView extends Observable {
     show(study) {
         console.log(study);
         let semesters = study.semesters;
-        this.initGrid(semesters.length);
+        if(this.grid === null){
+           this.initGrid(semesters.length); 
+        }
+        else{
+            this.grid.removeAll();
+            this.grid.column(semesters.length);
+        }
         this.initSemesters(semesters);
         for (let subject of study.subjects) {
             for (let module of subject.modules) {
@@ -74,7 +80,6 @@ class ScheduleView extends Observable {
             }
         }
         this.adjustFontSizeToHeight();
-
     }
 
     adjustFontSizeToHeight() {
@@ -105,6 +110,7 @@ class ScheduleView extends Observable {
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
+        this.grid.offAll();
         this.grid.on('change', this.handleWidgetChange.bind(this));
         this.grid.on('dragstart', this.handleDragStart.bind(this));
         this.grid.on('dragstop', this.handleDragStop.bind(this));
@@ -258,13 +264,14 @@ class ScheduleView extends Observable {
             this.updateSemesterECTS(i);
         }
         if (this.timerId === null) {
+            console.log("Sonnenblume");
             this.timerId = setTimeout(() => {
                 console.log("Timer finished");
                 console.log(studies);
                 let e = new Event("positionsChanged", "positionsChanged");
                 this.notifyAll(e);
                 this.timerId = null;
-            }, 1000);
+            }, 1500);
         }
     }
 
