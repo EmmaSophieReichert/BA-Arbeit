@@ -5,7 +5,7 @@ import { getUser } from "../User/getUser.js";
 
 async function getAuth(){
     let promise = getUser(),
-        auth;
+        auth = null;
     await promise.then(res => {
         auth = {
             login: true,
