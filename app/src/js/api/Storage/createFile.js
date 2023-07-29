@@ -6,12 +6,17 @@ const { Permission, Role } = Appwrite;
 
 // Create a stored file
 async function createFile(data) {
-    getAuth().then(res => {
-        let promise = appwrite.storage.createFile(Config.BUCKET_ID, appwrite.ID.unique(), data, [
+    await getAuth().then(res => {
+        if(res.login){
+            let promise = appwrite.storage.createFile(Config.BUCKET_ID, appwrite.ID.unique(), data, [
             Permission.read(Role.user(res.user.$id)),
             Permission.write(Role.user(res.user.$id)),
-        ]);
-        return promise;
+            ]);
+            return promise;
+        }
+        else{
+            window.location.hash = "login";
+        }
     });
 }
 

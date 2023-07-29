@@ -18,10 +18,11 @@ class ScheduleController{
                 this.scheduleViewRight.showStudy(study);
             }
         });
-        this.scheduleView.addEventListener("onModuleAdded", e => { fileManager.addModule(e.data.module, e.data.subject) });
+        this.scheduleView.addEventListener("onModuleAdded", e => { 
+            //fileManager.addModule(e.data.module, e.data.subject) 
+        });
         this.scheduleView.addEventListener("positionsChanged", () => {
             fileManager.updateFile();
-            ;
         } );
         this.scheduleViewRight.addEventListener("onAddModuleButtonClicked", e => {
             this.scheduleView.showModal(e.data);

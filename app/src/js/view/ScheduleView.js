@@ -70,6 +70,7 @@ class ScheduleView extends Observable {
            this.initGrid(semesters.length); 
         }
         else{
+            this.grid.removeAll();
             this.grid.column(semesters.length);
         }
         this.initSemesters(semesters);
@@ -79,7 +80,6 @@ class ScheduleView extends Observable {
             }
         }
         this.adjustFontSizeToHeight();
-
     }
 
     adjustFontSizeToHeight() {

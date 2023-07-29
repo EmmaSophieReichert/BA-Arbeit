@@ -7,6 +7,8 @@ import { Observable, Event } from "../utils/Observable.js";
 import { deleteFile } from "../api/Storage/deleteFile.js";
 import { createFile } from "../api/Storage/createFile.js";
 import { studies, setStudyInstance } from "./studiesInstance.js";
+import { getUser } from "../api/User/getUser.js";
+import { getAuth } from "../api/Auth/getAuth.js";
 
 class FileManager extends Observable {
 
@@ -24,47 +26,54 @@ class FileManager extends Observable {
     }
 
     async getStudy() {
-        let res = await this.getList();
-        if (res.total === 0) {
-            console.log("NO STUDY FOUND");
-            if(studies === null){
-                window.location.hash = "study";
+        await getAuth().then(res => {
+            if(!res.login){
+                window.location.hash = "login";
             }
-            return;
-        }
-        let id = res.files[0].$id,
-            jwtPromise = getFile(id),
-            reader = new FileReader(),
-            data;
-        this.fileID = id;
-        this.timerID = setTimeout(() => {
-            this.timerID = null;
-            //location.reload();
-            this.getStudy();
-            console.log("STUDY RELOADED");
-        }, 800000);
-        //}, 30000);
-
-        jwtPromise.then(function (response) {
-            appwrite.client.setJWT(response.jwt);
-            console.log(appwrite.client);
-            let headers = new Headers();
-            headers.append('X-Appwrite-JWT', response.jwt);
-            data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-            return fetch(data.href, { headers: headers });
-        }, function (error) {
-            console.log(error);
-        }).then(data => data.blob()).then(blob => {
-            let file = new File([blob], "CodeFile");
-            reader.readAsText(file);
         });
-
-        reader.onload = (res) => {
-            let text = res.target.result,
-                obj = JSON.parse(text);
-            this.translateObject(obj);
-            //this.notifyAll(new Event("codeHTML-downloaded", text));
-        };
+        let res = await this.getList();
+        if(res){
+            if (res.total === 0) {
+                console.log("NO STUDY FOUND");
+                if(studies === null){
+                    window.location.hash = "study";
+                }
+                return;
+            }
+            let id = res.files[0].$id,
+                jwtPromise = getFile(id),
+                reader = new FileReader(),
+                data;
+            this.fileID = id;
+            this.timerID = setTimeout(() => {
+                this.timerID = null;
+                //location.reload();
+                this.getStudy();
+                console.log("STUDY RELOADED");
+            }, 800000);
+            //}, 30000);
+    
+            jwtPromise.then(function (response) {
+                appwrite.client.setJWT(response.jwt);
+                console.log(appwrite.client);
+                let headers = new Headers();
+                headers.append('X-Appwrite-JWT', response.jwt);
+                data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
+                return fetch(data.href, { headers: headers });
+            }, function (error) {
+                console.log(error);
+            }).then(data => data.blob()).then(blob => {
+                let file = new File([blob], "CodeFile");
+                reader.readAsText(file);
+            });
+    
+            reader.onload = (res) => {
+                let text = res.target.result,
+                    obj = JSON.parse(text);
+                this.translateObject(obj);
+                //this.notifyAll(new Event("codeHTML-downloaded", text));
+            };
+        }
     }
 
     translateObject(obj) {
@@ -151,8 +160,10 @@ class FileManager extends Observable {
                     deletePromise = deleteFile(id);
                 if(deletePromise){
                     await computePromise(deletePromise).then(() => {
-                    
-                    }, (error) => { console.log(error) });
+                        console.log("FILE DELETED", id);
+                    }, (error) => { console.log(error) }).catch((error) => {
+                        console.log(error);
+                    });
                 }
             }
         }
@@ -164,6 +175,8 @@ async function computePromise(promise) {
     let res = await promise.then((res) => {
         return res;
     }, (error) => {
+        console.log(error);
+    }).catch((error) => {
         console.log(error);
     });
     return res;
