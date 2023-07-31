@@ -96,7 +96,7 @@ class ModuleModalView extends Observable {
         document.getElementById('start-module-show').textContent = module.period;
         document.getElementById('length-module-show').textContent = module.minSemLength;
 
-        console.log(module);
+        //console.log(module);
         if(module.recommendedSemester !== null){
             this.recommendedSemester.classList.remove("hidden");
             document.getElementById('semester-module-show').textContent = module.recommendedSemester;

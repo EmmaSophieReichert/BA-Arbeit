@@ -63,7 +63,6 @@ class IntermediateResult {
             if (studies) {
                 let child = studies.getChild(childID);
                 if (child) {
-                    console.log(child);
                     if (child.grade !== null) {
                         weightSum += child.weight;
                         gradeSum += child.grade * child.weight;

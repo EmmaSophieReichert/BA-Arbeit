@@ -26,7 +26,6 @@ class AppController {
             let promise = deleteSession();
             await promise.then((res) => {
                 console.log("Logged out", res);
-                console.log(res);
                 setStudyInstance(null);
                 window.location.hash = "login";
                 location.reload();
@@ -82,7 +81,7 @@ class AppController {
         }
         if (currentHash === "#schedule") {
             setTimeout(() => {
-                console.log("TIMER");
+                //console.log("TIMER");
                 this.router.onHashChanged(event);
                 return;
             }, 500);

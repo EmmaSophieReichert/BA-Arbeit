@@ -96,7 +96,7 @@ class StudyView extends Observable {
     }
 
     fill(data) {
-        console.log("FILL");
+        //console.log("FILL");
         this.editMode = true;
         this.declineButton.removeAttribute("hidden");
         this.declineButton.addEventListener("click", () => { window.location.hash = "schedule" });
@@ -262,24 +262,22 @@ class StudyView extends Observable {
     onSubjectDeleteButtonClicked(target, subject){
         if(this.editMode){
             if(subject){
-                console.log("EDIT DELETE", subject.title);
+                //console.log("EDIT DELETE", subject.title);
                 deleteSubjectModalView.show(subject);
             }
             else{
-                console.log("CREATE DELETE", target);
+                //console.log("CREATE DELETE", target);
                 let div = target.closest('.study-input-box');
                 this.removeDiv(div);
             }
         }
         else{
-            console.log("CREATE DELETE", target);
             let div = target.closest('.study-input-box');
             this.removeDiv(div);
         }
     }
 
     removeDiv(div){
-        console.log(studies);
         let container = document.getElementById("additional-study-boxes");
         if(div && container){
             container.removeChild(div);
@@ -376,7 +374,6 @@ class StudyView extends Observable {
             }
             studyData.push({ title, ects, subID });
         }
-        console.log(studyData);
 
         //if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
         if (!degree || isNaN(ectsValue) || isNaN(semesterValue)) {
@@ -391,7 +388,6 @@ class StudyView extends Observable {
             stud.totalECTS = ectsValue;
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
             stud = this.initSubjects(stud, studyData);
-            console.log(stud); 
             if(stud){
                setStudyInstance(stud); 
             }
@@ -423,7 +419,6 @@ class StudyView extends Observable {
             }
             else{
                 let id = data.subID;
-                console.log(id);
                 let subject = stud.getSubject(id);
                 if(subject){
                     subject.title = data.title;
@@ -432,7 +427,6 @@ class StudyView extends Observable {
             }
         }
         stud.initSubjects(newSubjects);
-        console.log(stud);
         return stud;
     }
 }
