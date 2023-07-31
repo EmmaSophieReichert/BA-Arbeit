@@ -42,9 +42,19 @@ class RegisterController {
         if (bool) {
             // Instead of creating a session for the new user, we redirect to the login page
             // where he can login
+            alert('Registrierung erfolgreich!');
             window.location.hash = "login";
         }
-        this.registerView.setServerAnswer(event.data.answer.message);
+        let message = event.data.answer.message;
+        if(message){
+            if(event.data.answer.response.message === "Invalid email: Value must be a valid email address"){
+                message = "Invalide Email."
+            }
+            else if(event.data.answer.response.message === "Invalid password: Password must be at least 8 characters"){
+                message = "Invalides Passwort. Das Passwort muss mindestens 8 Zeichen lang sein."
+            }
+            this.registerView.setServerAnswer(message);
+        }
     }
 
 }

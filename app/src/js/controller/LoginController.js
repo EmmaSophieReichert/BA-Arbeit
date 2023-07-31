@@ -43,9 +43,21 @@ class LoginController {
             }, 300);
             //this.navView.showNavView(); show again?
         } else {
-            console.log("Login failed");
+            console.log("Login failed"); 
             this.loginView.clearInputs();
-            this.loginView.setServerAnswer(event.data.answer.message);
+            let message = event.data.answer.message;
+            if(message){
+                if(event.data.answer.type === "user_invalid_credentials"){
+                    message = "Invalide Eingabe. Bitte überprüfe E-Mail und Passwort."
+                }
+                else if(event.data.answer.response.message === "Invalid email: Value must be a valid email address"){
+                    message = "Invalide Email."
+                }
+                else if(event.data.answer.response.message === "Invalid password: Password must be at least 8 characters"){
+                    message = "Invalides Passwort. Das Passwort muss mindestens 8 Zeichen lang sein."
+                }
+                this.loginView.setServerAnswer(message);
+            }
         }
     }
 

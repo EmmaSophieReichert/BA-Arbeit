@@ -18,12 +18,11 @@ class RegisterView extends Observable {
         var confirmPassword = document.getElementById('confirm-password').value;
 
         if (username === '' || email === '' || password === '' || confirmPassword === '') {
-            alert('Bitte füllen Sie alle Felder aus.');
+            this.setServerAnswer('Bitte fülle alle Felder aus.');
         } else if (password !== confirmPassword) {
-            alert('Die Passwörter stimmen nicht überein.');
+            this.setServerAnswer('Die Passwörter stimmen nicht überein.');
         } else {
             // Alle Felder wurden ausgefüllt und die Passwörter stimmen überein
-            alert('Registrierung erfolgreich!');
             this.onSubmit(email, password, username);
             // Beispiel: Weiterleitung zu einer anderen Seite
             //window.location.href = '#schedule';
