@@ -15,7 +15,7 @@ class ScheduleView extends Observable {
         super();
         modalView.addEventListener("onModuleChanged", e => {
             if(window.location.hash === "#schedule"){
-                console.log("Module added");
+                //console.log("Module added");
                 // if(e.data.root === "edit"){
                 //     this.updateStudy();
                 // }
@@ -64,7 +64,7 @@ class ScheduleView extends Observable {
     }
 
     show(study) {
-        console.log(study);
+        //console.log(study);
         let semesters = study.semesters;
         if(this.grid === null){
            this.initGrid(semesters.length); 
@@ -264,10 +264,9 @@ class ScheduleView extends Observable {
             this.updateSemesterECTS(i);
         }
         if (this.timerId === null) {
-            console.log("Sonnenblume");
             this.timerId = setTimeout(() => {
                 console.log("Timer finished");
-                console.log(studies);
+                //console.log(studies);
                 let e = new Event("positionsChanged", "positionsChanged");
                 this.notifyAll(e);
                 this.timerId = null;
@@ -285,7 +284,6 @@ class ScheduleView extends Observable {
             for (let i = 0; i < module.minSemLength; i++) {
                 recSem.push(module.recommendedSemester + i);
             }
-            console.log(recSem);
             for (let i of recSem) {
                 let semDiv = document.getElementById("semester-" + i + "-div");
                 if (semDiv) {
@@ -307,7 +305,6 @@ class ScheduleView extends Observable {
             for(let con of module.conditions){
                 let modDiv = document.getElementById(con + "-div");
                 if(modDiv){
-                    console.log("HHHHH", modDiv);
                     modDiv.classList.add("dragging-condition");
                     // modDiv.style.backgroundColor = "black";
                     // let undDivs = modDiv.querySelectorAll("div");
@@ -326,7 +323,6 @@ class ScheduleView extends Observable {
             for (let i = 0; i < module.minSemLength; i++) {
                 recSem.push(module.recommendedSemester + i);
             }
-            console.log(recSem);
             for (let i of recSem) {
                 let semDiv = document.getElementById("semester-" + i + "-div");
                 if (semDiv) {
@@ -339,7 +335,6 @@ class ScheduleView extends Observable {
             for(let con of module.conditions){
                 let modDiv = document.getElementById(con + "-div");
                 if(modDiv){
-                    console.log("HHHHH", modDiv);
                     modDiv.classList.remove("dragging-condition");
                     // modDiv.style.backgroundColor = "black";
                     // let undDivs = modDiv.querySelectorAll("div");

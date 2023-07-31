@@ -37,7 +37,6 @@ class IntResModalView extends Observable {
     }
 
     show(children) {
-        console.log("SHOWWWW");
         this.children = children;
 
         this.modal.close();

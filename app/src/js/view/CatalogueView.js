@@ -16,7 +16,6 @@ class CatalogueView extends Observable{
         modalView.addEventListener("onModuleChanged", e => {
             if(window.location.hash === "#module-catalogue"){
                 console.log("Module added");
-                console.log("STUUU", studies);
                 // if(e.data.root === "edit"){
                 //     this.show(studies);
                 // }

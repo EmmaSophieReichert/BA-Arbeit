@@ -31,7 +31,7 @@ class ModalView extends Observable {
     }
 
     onSubmitButtonClicked(e) {
-        console.log("MODAL", studies);
+        //console.log("MODAL", studies);
         e.preventDefault();
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
@@ -107,9 +107,7 @@ class ModalView extends Observable {
             stud.deleteModule(id);
             if(parent){
                 parent.addChild(moduleN.ID);
-                console.log("p", parent, parent.grade);
                 parent.calculateGrade();
-                console.log("p", parent, parent.grade);
             }
         }
         stud.subjects[this.subject].addModule(moduleN);

@@ -28,7 +28,7 @@ class ScheduleController{
             this.scheduleView.showModal(e.data);
         });
         this.scheduleView.addEventListener("onModuleChanged", () => {
-            console.log("STUDIES", studies);
+            //console.log("STUDIES", studies);
             this.scheduleViewRight.showStudy(studies);
         });
         if(studies === null){

@@ -323,7 +323,7 @@ class Studies {
                 treeData.nodeStructure.children.push(intermediateResultNode);
             }
         }
-        console.log(treeData);
+        //console.log(treeData);
         return treeData;
     }
 

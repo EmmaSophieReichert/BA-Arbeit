@@ -58,7 +58,6 @@ class FileManager extends Observable {
             jwtPromise.then(function (response) {
                 //appwrite.client.setJWT(response.jwt);
                 reloadClient(response.jwt);
-                console.log(appwrite.client);
                 let headers = new Headers();
                 headers.append('X-Appwrite-JWT', response.jwt);
                 data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
@@ -80,7 +79,6 @@ class FileManager extends Observable {
     }
 
     translateObject(obj) {
-        console.log("OBJECT", obj);
         let stud = new Studies(obj.degree, obj.totalECTS, obj.semesters, obj.subjects, obj.specialization, obj.intermediateResults, obj.kids);
         if(stud){
             setStudyInstance(stud);
@@ -99,14 +97,6 @@ class FileManager extends Observable {
     }
 
     async updateFile() {
-        //if(this.timerID === null){
-            // location.reload();
-            // let jwtPromise = getFile();
-            // await jwtPromise.then((res) => {
-            //     console.log(res);
-            //     appwrite.client.setJWT(res.jwt);
-            // })
-        //}
         if (this.inProcess) {
             setTimeout(async() => {
                 await this.updateFile();
@@ -152,7 +142,7 @@ class FileManager extends Observable {
         await createFile(fileF).then(async() => {
             await this.deleteFiles(res);
             this.inProcess = false;
-            console.log("Change gas been successfully saved.")
+            console.log("Change has been successfully saved.")
         }, (error) => { console.log(error) });
     }
 
