@@ -97,6 +97,9 @@ class StudyView extends Observable {
 
     fill(data) {
         //console.log("FILL");
+        if(this.editMode){
+            return;
+        }
         this.editMode = true;
         this.declineButton.removeAttribute("hidden");
         this.declineButton.addEventListener("click", () => { window.location.hash = "schedule" });
@@ -391,6 +394,7 @@ class StudyView extends Observable {
             if(stud){
                setStudyInstance(stud); 
             }
+            this.editMode = false;
             await fileManager.updateFile();
             window.location.hash = "#schedule";
         }
