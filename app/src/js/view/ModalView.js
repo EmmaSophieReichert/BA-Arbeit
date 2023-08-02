@@ -102,9 +102,9 @@ class ModalView extends Observable {
         if(this.root === "edit"){
             let parent = stud.getParent(id);
             if(parent){
-                parent.removeChild(id);
+                parent.removeChild(id, true);
             }
-            stud.deleteModule(id);
+            stud.deleteModule(id, true);
             if(parent){
                 parent.addChild(moduleN.ID);
                 parent.calculateGrade();
