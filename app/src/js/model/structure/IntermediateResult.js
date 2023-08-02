@@ -38,7 +38,7 @@ class IntermediateResult {
         this.calculateGrade();
     }
 
-    removeChild(childID) {
+    removeChild(childID, childIsUpdated = false) {
         this.kids = this.kids.filter(function (child) {
             return child !== childID;
         });
@@ -51,7 +51,9 @@ class IntermediateResult {
             }
         }
         this.calculateGrade();
-        if (this.kids.length === 0) {
+        console.log("OOOOO", this.name, childIsUpdated);
+        if (this.kids.length === 0 && !childIsUpdated) {
+            console.log("Delete self");
             studies.deleteIntermediateResult(this.ID);
         }
     }

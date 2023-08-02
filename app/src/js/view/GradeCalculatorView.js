@@ -131,7 +131,11 @@ class GradeCalculatorView extends Observable {
         deleteButton.id = "delete-int-res-button";
 
         deleteButton.addEventListener("click", () => {
-            studies.deleteIntermediateResult(this.currentClickedIDs[0]);
+            let stud = studies;
+            stud.deleteIntermediateResult(this.currentClickedIDs[0]);
+            if(stud){
+                setStudyInstance(stud);
+            }
             fileManager.updateFile();
             this.currentClickedIDs = [];
             this.removeButton();

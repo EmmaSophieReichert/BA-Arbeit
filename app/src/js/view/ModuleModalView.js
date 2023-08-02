@@ -21,7 +21,7 @@ class ModuleModalView extends Observable {
         this.grade = document.getElementById('grade-show-div');
 
         this.closeModalButton.addEventListener('click', () => {
-            this.reset()
+            this.reset();
             this.modal.close();
             this.passedModalButton.removeAttribute("hidden");
         });
@@ -30,7 +30,7 @@ class ModuleModalView extends Observable {
         this.editModalButton.addEventListener("click", () => {
             let e = new Event("onModuleEdited", "onModuleEdited");
             this.notifyAll(e);
-            this.reset;
+            this.reset();
             this.modal.close();
             this.passedModalButton.removeAttribute("hidden");
             modalView.show(this.subject.title);

@@ -146,7 +146,7 @@ class Studies {
         return null;
     }
 
-    deleteModule(id) {
+    deleteModule(id, childIsUpdated = false) {
         for (let subject of this.subjects) {
             subject.modules = subject.modules.filter(function (module) {
                 return module.ID !== id;
@@ -155,10 +155,14 @@ class Studies {
         this.kids = this.kids.filter(function (child) {
             return child !== id;
         });
-        for (let childID of this.kids) {
-            let child = this.getChild(childID);
-            if (child instanceof IntermediateResult) {
-                child.removeChild(id);
+        if(!childIsUpdated){
+            for (let childID of this.kids) {
+                let child = this.getChild(childID);
+                if(child){
+                    if (child instanceof IntermediateResult) {
+                        child.removeChild(id, childIsUpdated);
+                    }
+                }
             }
         }
         this.calculateGrade();
