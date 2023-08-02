@@ -15,6 +15,8 @@ class GradeCalculatorView extends Observable {
 
     constructor() {
         super();
+
+        this.initNavView();
         this.chart = null;
 
         this.nodes = null;
@@ -27,6 +29,14 @@ class GradeCalculatorView extends Observable {
         intResModalView.addEventListener("onIntResSubmit", () => {
             this.show();
         })
+    }
+
+    initNavView(){
+        let navs = document.querySelectorAll(".navigation-button");
+        for(let nav of navs){
+            nav.classList.remove("selected-side");
+        }
+        document.getElementById("nav-grade").classList.add("selected-side");
     }
 
     show() {

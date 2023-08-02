@@ -45,7 +45,18 @@ class FileManager extends Observable {
             let id = res.files[0].$id,
                 jwtPromise = getFile(id),
                 reader = new FileReader(),
-                data;
+                data,
+                currentFile = res.files[0];
+            for(let file of res.files){
+                let currentDate = new Date(currentFile.$updatedAt),
+                    newDate = new Date(file.$updatedAt);
+                if(newDate > currentDate){
+                    currentFile = file;
+                } 
+            }
+            id = currentFile.$id;
+            console.log("FILES", res.files.length);
+            console.log(res.files);
             this.fileID = id;
             this.timerID = setTimeout(() => {
                 this.timerID = null;
@@ -134,6 +145,9 @@ class FileManager extends Observable {
         //     this.inProcess = false;
         //     console.log("Change gas been successfully saved.")
         // });
+
+        console.log("FILES");
+        console.log(res.files);
 
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
