@@ -16,7 +16,7 @@ async function createFile(data) {
         }
         else{
             window.location.hash = "login";
-            //location.reload(); //TODO: edit this
+            location.reload();
             return null;
         }
     });
