@@ -164,6 +164,10 @@
     margin-left: 20px;
 }
 
+#int-res-hint {
+    margin-bottom: 0;
+}
+
 .intermediate-result .grade-module-wrap {
     background-color: white;
     border: 1.5px solid var(--elephant-grey);

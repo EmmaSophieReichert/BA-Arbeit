@@ -6,6 +6,7 @@
     height: 7vh;
     width: 100%;
     align-items: center;
+    justify-content: space-between;
     background: linear-gradient(to right, var(--french-blue), var(--tiffany-blue), var(--apricot));
 }
 
@@ -18,7 +19,6 @@
 .nav-align-left {
     display: flex;
     flex-direction: row;
-    margin-right: auto;
     overflow: hidden;
     align-items: center;
     user-select: none;
@@ -27,7 +27,6 @@
 .nav-align-right {
     display: flex;
     flex-direction: row;
-    margin-left: auto;
     align-items: center;
     user-select: none;
     padding: 0 1vw;
@@ -49,4 +48,47 @@
     margin: 0.2vh 1vw;
     font-weight: 200;
     text-decoration: underline;
+}
+
+.navigation-button{
+    text-decoration: none !important;
+    margin: 0 !important;
+}
+
+.navigation-button p{
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    width: fit-content;
+    margin: 0 1em;
+    /* font-size: 90%; */
+    hyphens: auto;
+    border-radius: 0.5em;
+    padding: 5px 10px;
+}
+
+#logout-button{
+    /* margin-left: 1vw; */
+    width: fit-content;
+}
+
+.nav-align-middle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 60%;
+    height: 100%;
+}
+
+.selected-side{
+    color: black;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.selected-side p{
+    color: black;
+    background-color: rgba(255, 255, 255, 0.4);
 }

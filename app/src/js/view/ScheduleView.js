@@ -13,6 +13,9 @@ class ScheduleView extends Observable {
 
     constructor() {
         super();
+
+        this.initNavView();
+
         modalView.addEventListener("onModuleChanged", e => {
             if(window.location.hash === "#schedule"){
                 //console.log("Module added");
@@ -52,6 +55,14 @@ class ScheduleView extends Observable {
         document.getElementById("PNG-button").addEventListener("click", () => {
             this.savePNG();
         });
+    }
+
+    initNavView(){
+        let navs = document.querySelectorAll(".navigation-button");
+        for(let nav of navs){
+            nav.classList.remove("selected-side");
+        }
+        document.getElementById("nav-schedule").classList.add("selected-side");
     }
 
     showModal(subjectTitle) {

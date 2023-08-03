@@ -13,6 +13,8 @@ class CatalogueView extends Observable{
     constructor() {
         super();
 
+        this.initNavView();
+
         modalView.addEventListener("onModuleChanged", e => {
             if(window.location.hash === "#module-catalogue"){
                 console.log("Module added");
@@ -48,6 +50,14 @@ class CatalogueView extends Observable{
 
     showModal(subjectTitle) {
         modalView.show(subjectTitle);
+    }
+
+    initNavView(){
+        let navs = document.querySelectorAll(".navigation-button");
+        for(let nav of navs){
+            nav.classList.remove("selected-side");
+        }
+        document.getElementById("nav-catalogue").classList.add("selected-side");
     }
 
     show(study) {
