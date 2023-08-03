@@ -55,8 +55,6 @@ class FileManager extends Observable {
                 } 
             }
             id = currentFile.$id;
-            console.log("FILES", res.files.length);
-            console.log(res.files);
             this.fileID = id;
             this.timerID = setTimeout(() => {
                 this.timerID = null;
@@ -145,9 +143,6 @@ class FileManager extends Observable {
         //     this.inProcess = false;
         //     console.log("Change gas been successfully saved.")
         // });
-
-        console.log("FILES");
-        console.log(res.files);
 
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),

@@ -24,6 +24,12 @@ class GradeModalView extends Observable {
             let grade = document.getElementById("grade-input").value,
                 weight = document.getElementById("weight-input").value,
                 stud = studies;
+            if(!weight){
+                weight = 1;
+            }
+            if(!grade){
+                grade = null;
+            }
 
             grade === "" ? null : parseFloat(grade);
             weight === "" ? 1 : parseFloat(weight);
