@@ -1,14 +1,14 @@
 // import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import modalView from './ModalView.js';
+import modalView from './modals/ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
-import moduleModalView from './ModuleModalView.js';
+import moduleModalView from './modals/ModuleModalView.js';
 import IntermediateResult from '../model/structure/IntermediateResult.js';
 import fileManager from '../model/FileManager.js';
-import intResModalView from './IntResModalView.js';
+import intResModalView from './modals/IntResModalView.js';
 
 
 class GradeCalculatorView extends Observable {

@@ -66,13 +66,13 @@ class FileManager extends Observable {
             }, 800000);
             //}, 30000);
     
-            jwtPromise.then(function (response) {
+            jwtPromise.then(async function (response) {
                 //appwrite.client.setJWT(response.jwt);
                 reloadClient(response.jwt);
                 let headers = new Headers();
                 headers.append('X-Appwrite-JWT', response.jwt);
                 data = appwrite.storage.getFileDownload(Config.BUCKET_ID, id);
-                return fetch(data.href, { headers: headers });
+                return await fetch(data.href, { headers: headers });
             }, function (error) {
                 console.log(error);
             }).then(data => data.blob()).then(blob => {

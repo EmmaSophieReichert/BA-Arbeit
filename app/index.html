@@ -160,7 +160,7 @@
     <dialog id="delete-subject-modal" class="modal">
         <div class="modal-content">
             <!-- <span class="close close-module-grade">&times;</span> -->
-            <h2 id="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
+            <h2 class="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
             <p> Bist du dir sicher, dass du den Studiengang löschen willst? </p>
             <p class="row-space"> Damit werden auch <b>alle Module</b> des Faches gelöscht! </p>
             <p class="row-space"> Dieser Vorgang kann nicht rückgängig gemacht werden! </p>
@@ -172,10 +172,25 @@
         </div>
     </dialog>
 
+    <dialog id="error-modal" class="modal">
+        <div class="modal-content">
+            <!-- <span class="close close-module-grade">&times;</span> -->
+            <h2 class="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
+            <p id="error-modal-description"> </p>
+            <p id="conditions-error-box" class="row-space hidden"> </p>
+            <p class="row-space"> Willst du das wirklich tun? </p>
+
+            <div class="button-container row-space">
+                <button id="error-submit-button" class="red-button" type="button">Klar!</button>
+                <button id="error-decline-button" class="register-button" type="button">Lieber doch nicht...</button>
+            </div>
+        </div>
+    </dialog>
+
     <dialog id="grade-modal" class="modal">
         <div class="modal-content">
             <span class="close close-module-grade">&times;</span>
-            <h2 id="edit-module-h2">🎊 Glückwunsch! 🎊</h2>
+            <h2 class="edit-module-h2">🎊 Glückwunsch! 🎊</h2>
             <p> Du hast das Modul bestanden! </p>
             <p class="row-space"> War das Modul benotet? Dann kannst du hier deine Note eintragen: </p>
             <form id="grade-form">
@@ -196,7 +211,7 @@
     <dialog id="int-res-modal" class="modal">
         <div class="modal-content">
             <span class="close close-module-int-res">&times;</span>
-            <h2 id="edit-module-h2">Zwischenergebnis hinzufügen</h2>
+            <h2 class="edit-module-h2">Zwischenergebnis hinzufügen</h2>
             <p> Bitte gib einen Namen ein und definiere, wie das Zwischenergebnis gewichtet werden soll. </p>
             <form id="int-res-form">
                 <div class="form-row row-space">

@@ -1,11 +1,11 @@
 //import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import modalView from './ModalView.js';
+import modalView from './modals/ModalView.js';
 import {Observable, Event} from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
-import moduleModalView from './ModuleModalView.js';
+import moduleModalView from './modals/ModuleModalView.js';
 import ScheduleView from './ScheduleView.js';
 
 class CatalogueView extends Observable{
@@ -123,15 +123,7 @@ class CatalogueView extends Observable{
             cond = document.createElement("p");
         conditionsDiv.classList.add("module-div-middle");
         description.textContent = "Voraussetzungen: ";
-        let condString = ""
-        for(let i = 0; i < module.conditions.length; i++){
-            if((i+1) ===  module.conditions.length){
-                condString += module.conditions[i];
-            }
-            else{
-                condString += module.conditions[i] + ", ";
-            }
-        }
+        let condString = module.getConditionString();
         cond.textContent = condString;
 
         if (module.passed) {

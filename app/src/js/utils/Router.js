@@ -33,7 +33,7 @@ class Router extends Observable {
     // When the URL hash changes the linked html template is retrieved
     // When the route is not available a 404 Error page will be shown
 
-    onHashChanged() {
+    async onHashChanged() {
         let hash = window.location.hash,
             route = ROUTES[hash] || ROUTES[404];
         if (this.isDynamicShareRoute(window.location.hash)) {
@@ -44,7 +44,9 @@ class Router extends Observable {
             route = ROUTES[hash];
         }
 
-        fetch(route).then(res => {
+        //TODO: Try and catch??? 
+
+        await fetch(route).then(res => {
             let data = res.text();
             data.then(res => {
                 let template = {
