@@ -23,7 +23,7 @@ class ScheduleController{
         });
         this.scheduleView.addEventListener("positionsChanged", () => {
             fileManager.updateFile();
-        } );
+        });
         this.scheduleViewRight.addEventListener("onAddModuleButtonClicked", e => {
             this.scheduleView.showModal(e.data);
         });

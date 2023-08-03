@@ -49,6 +49,19 @@ class Module {
         return false;
     }
 
+    getConditionString(){
+        let condString = ""
+        for(let i = 0; i < this.conditions.length; i++){
+            if((i+1) ===  this.conditions.length){
+                condString += this.conditions[i];
+            }
+            else{
+                condString += this.conditions[i] + ", ";
+            }
+        }
+        return condString;
+    }
+
     isParent(childID){
         return null;
     }

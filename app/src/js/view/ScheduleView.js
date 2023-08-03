@@ -1,12 +1,13 @@
 // import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
-import modalView from './ModalView.js';
+import modalView from './modals/ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
-import moduleModalView from './ModuleModalView.js';
+import moduleModalView from './modals/ModuleModalView.js';
 import html2canvas from '../html2canvas/html2canvas.esm.js';
+import errorModalView from './modals/ErrorModalView.js';
 
 
 class ScheduleView extends Observable {
@@ -17,7 +18,7 @@ class ScheduleView extends Observable {
         this.initNavView();
 
         modalView.addEventListener("onModuleChanged", e => {
-            if(window.location.hash === "#schedule"){
+            if (window.location.hash === "#schedule") {
                 //console.log("Module added");
                 // if(e.data.root === "edit"){
                 //     this.updateStudy();
@@ -28,8 +29,22 @@ class ScheduleView extends Observable {
             }
         });
 
+        errorModalView.addEventListener("onModuleMoved", e => {
+            if (window.location.hash === "#schedule") {
+                this.changeWidgets(e.data);
+                this.currentDraggedModuleID = null;
+            }
+        });
+        errorModalView.addEventListener("onDecline", e => {
+            if (window.location.hash === "#schedule") {
+                this.show(studies);
+                this.currentDraggedModuleID = null;
+            }
+        });
+
         this.grid = null;
         this.timerId = null;
+        this.currentDraggedModuleID = null;
 
         this.gridContainer = document.querySelector('.grid-stack');
         this.gridContainer.addEventListener('click', (event) => {
@@ -40,7 +55,7 @@ class ScheduleView extends Observable {
                         data = studies.getModuleAndSubjectByID(id);
                     moduleModalView.show(data.module, data.subject);
                     moduleModalView.addEventListener("onModuleChanged", (e) => {
-                        if(window.location.hash === "#schedule"){
+                        if (window.location.hash === "#schedule") {
                             this.updateStudy();
                             this.notifyAll(e);
                         }
@@ -57,9 +72,9 @@ class ScheduleView extends Observable {
         });
     }
 
-    initNavView(){
+    initNavView() {
         let navs = document.querySelectorAll(".navigation-button");
-        for(let nav of navs){
+        for (let nav of navs) {
             nav.classList.remove("selected-side");
         }
         document.getElementById("nav-schedule").classList.add("selected-side");
@@ -77,10 +92,10 @@ class ScheduleView extends Observable {
     show(study) {
         //console.log(study);
         let semesters = study.semesters;
-        if(this.grid === null){
-           this.initGrid(semesters.length); 
+        if (this.grid === null) {
+            this.initGrid(semesters.length);
         }
-        else{
+        else {
             this.grid.removeAll();
             this.grid.column(semesters.length);
         }
@@ -263,12 +278,18 @@ class ScheduleView extends Observable {
     }
 
     handleWidgetChange(event, items) {
+        if (this.checkForErrors(items)) {
+            this.changeWidgets(items);
+        }
+    }
+
+    changeWidgets(items) {
         let stud = studies;
         items.forEach(item => {
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
         });
-        if(stud){
+        if (stud) {
             setStudyInstance(stud);
         }
         for (let i = 1; i <= studies.semesters.length; i++) {
@@ -283,6 +304,42 @@ class ScheduleView extends Observable {
                 this.timerId = null;
             }, 1500);
         }
+    }
+
+    checkForErrors(items) {
+        for (let item of items) {
+            let oldMod = studies.getModuleAndSubjectByID(this.currentDraggedModuleID),
+                oldPosition = null;
+            if(oldMod){
+                oldPosition = oldMod.module.selectedSemester[0];
+            }
+            if (item.id === this.currentDraggedModuleID && item.x + 1 !== oldPosition) {
+                let semCount = item.x + 1,
+                    semester = studies.getSemester(semCount),
+                    module = studies.getModuleAndSubjectByID(item.id).module;
+                if (semester && module) {
+                    //check for turnus
+                    if (module.period !== "beide" && semester.period !== module.period) {
+                        errorModalView.showTurnus(module, semester.period, item.x, item.y, items);
+                        return false;
+                    }
+                    //check for conditions
+                    if (module.conditions) {
+                        for (let con of module.conditions) {
+                            let data = studies.getModuleAndSubjectByID(con);
+                            if (data) {
+                                let pos = data.module.selectedSemester[data.module.selectedSemester.length - 1];
+                                if (semCount <= pos) {
+                                    errorModalView.showConditions(module, item.x, item.y, items);
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     handleDragStart(event, el) {
@@ -311,11 +368,11 @@ class ScheduleView extends Observable {
             }
         }
         //show conditions
-        if(!module.conditions){return;}
-        if(module.conditions.length !== 0){
-            for(let con of module.conditions){
+        if (!module.conditions) { return; }
+        if (module.conditions.length !== 0) {
+            for (let con of module.conditions) {
                 let modDiv = document.getElementById(con + "-div");
-                if(modDiv){
+                if (modDiv) {
                     modDiv.classList.add("dragging-condition");
                     // modDiv.style.backgroundColor = "black";
                     // let undDivs = modDiv.querySelectorAll("div");
@@ -328,6 +385,7 @@ class ScheduleView extends Observable {
     }
 
     handleDragStop(event, el) {
+        this.currentDraggedModuleID = el.getAttribute("gs-id");
         let module = studies.getModuleAndSubjectByID(el.getAttribute("gs-id")).module,
             recSem = [];
         if (module.recommendedSemester) {
@@ -341,11 +399,11 @@ class ScheduleView extends Observable {
                 }
             }
         }
-        if(!module.conditions){return;}
-        if (module.conditions.length !== 0){
-            for(let con of module.conditions){
+        if (!module.conditions) { return; }
+        if (module.conditions.length !== 0) {
+            for (let con of module.conditions) {
                 let modDiv = document.getElementById(con + "-div");
-                if(modDiv){
+                if (modDiv) {
                     modDiv.classList.remove("dragging-condition");
                     // modDiv.style.backgroundColor = "black";
                     // let undDivs = modDiv.querySelectorAll("div");

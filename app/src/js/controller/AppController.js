@@ -33,6 +33,8 @@ class AppController {
                 console.log("Failed to log out", error);
             });
         });
+
+        this.navLinks = document.getElementById("nav-links");
     }
 
     setHash(hash) {
@@ -71,8 +73,11 @@ class AppController {
                     this.setHash("schedule");
                 }
                 this.logoutButton.style.display = "inline-block";
+                this.navLinks.style.display = "flex";
+
             } else {
                 this.logoutButton.style.display = "none";
+                this.navLinks.style.display = "none";
                 if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
                     currentHash !== "#datenschutz") {
                     this.setHash("login");

@@ -1,8 +1,8 @@
-import fileManager from '../model/FileManager.js';
-import Module from '../model/structure/Module.js';
-import { studies, setStudyInstance } from '../model/studiesInstance.js';
-import Config from '../utils/Config.js';
-import { Event, Observable } from '../utils/Observable.js';
+import fileManager from '../../model/FileManager.js';
+import Module from '../../model/structure/Module.js';
+import { studies, setStudyInstance } from '../../model/studiesInstance.js';
+import Config from '../../utils/Config.js';
+import { Event, Observable } from '../../utils/Observable.js';
 import gradeModalView from './GradeModalView.js';
 import modalView from './ModalView.js';
 
@@ -42,12 +42,6 @@ class DeleteSubjectModalView extends Observable {
         this.subject = subject;
         this.modal.close();
         this.modal.showModal();
-    }
-
-    reset(){
-        this.recommendedSemester.classList.add("hidden");
-        this.passed.classList.add("hidden");
-        this.grade.classList.add("hidden");
     }
 }
 

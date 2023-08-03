@@ -2,7 +2,7 @@ import fileManager from "../model/FileManager.js";
 import Studies from "../model/structure/Studies.js";
 import { setStudyInstance, studies } from "../model/studiesInstance.js";
 import { Observable, Event } from "../utils/Observable.js";
-import deleteSubjectModalView from "./DeleteSubjectModalView.js";
+import deleteSubjectModalView from "./modals/DeleteSubjectModalView.js";
 
 // Subject depending on degree
 let subjectOptions = {

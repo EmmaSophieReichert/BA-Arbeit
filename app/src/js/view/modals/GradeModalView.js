@@ -1,8 +1,8 @@
-import fileManager from '../model/FileManager.js';
-import Module from '../model/structure/Module.js';
-import { studies, setStudyInstance } from '../model/studiesInstance.js';
-import Config from '../utils/Config.js';
-import { Event, Observable } from '../utils/Observable.js';
+import fileManager from '../../model/FileManager.js';
+import Module from '../../model/structure/Module.js';
+import { studies, setStudyInstance } from '../../model/studiesInstance.js';
+import Config from '../../utils/Config.js';
+import { Event, Observable } from '../../utils/Observable.js';
 import modalView from './ModalView.js';
 
 class GradeModalView extends Observable {
@@ -24,6 +24,12 @@ class GradeModalView extends Observable {
             let grade = document.getElementById("grade-input").value,
                 weight = document.getElementById("weight-input").value,
                 stud = studies;
+            if(!weight){
+                weight = 1;
+            }
+            if(!grade){
+                grade = null;
+            }
 
             grade === "" ? null : parseFloat(grade);
             weight === "" ? 1 : parseFloat(weight);
