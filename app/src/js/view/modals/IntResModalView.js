@@ -19,7 +19,8 @@ class IntResModalView extends Observable {
             this.modal.close();
         });
 
-        this.intResForm.addEventListener("submit", () => {
+        this.intResForm.addEventListener("submit", (e) => {
+            e.preventDefault();
             let title = document.getElementById("int-res-title").value,
                 weight = parseFloat(document.getElementById("weight-input-int-res").value),
                 stud = studies;
