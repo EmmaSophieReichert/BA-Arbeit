@@ -26,6 +26,7 @@ class IntResModalView extends Observable {
             stud.addIntermediateResult(this.children, title, weight);
             if(stud){
                 setStudyInstance(stud);
+                console.log("SOURCE 7");
                 fileManager.updateFile();
             }
             this.onIntResSubmit();

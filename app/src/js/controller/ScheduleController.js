@@ -22,6 +22,7 @@ class ScheduleController{
             //fileManager.addModule(e.data.module, e.data.subject) 
         });
         this.scheduleView.addEventListener("positionsChanged", () => {
+            console.log("SOURCE 1");
             fileManager.updateFile();
         });
         this.scheduleViewRight.addEventListener("onAddModuleButtonClicked", e => {

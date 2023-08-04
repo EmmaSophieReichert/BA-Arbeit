@@ -289,6 +289,7 @@ class ScheduleView extends Observable {
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
         });
+        console.log("IS SAME", JSON.stringify(stud) === JSON.stringify(studies));
         if (stud) {
             setStudyInstance(stud);
         }
