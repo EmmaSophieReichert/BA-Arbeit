@@ -29,7 +29,8 @@ class FileManager extends Observable {
         let auth = await getAuth();
         if(!auth.login){
             window.location.hash = "login";
-            location.reload();
+            console.log("RELOAD getStudy")
+            //location.reload();
             return;
         }
         let res = await this.getList();
@@ -163,7 +164,8 @@ class FileManager extends Observable {
         }
         else{
             window.location.hash = "login";
-            location.reload();
+            console.log("RELOAD createFile");
+            //location.reload();
         }
 
         
