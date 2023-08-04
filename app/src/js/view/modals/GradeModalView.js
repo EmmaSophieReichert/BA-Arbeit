@@ -20,7 +20,8 @@ class GradeModalView extends Observable {
             this.modal.close();
         });
 
-        this.gradeForm.addEventListener("submit", () => {
+        this.gradeForm.addEventListener("submit", (e) => {
+            e.preventDefault();
             let grade = document.getElementById("grade-input").value,
                 weight = document.getElementById("weight-input").value,
                 stud = studies;
