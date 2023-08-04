@@ -3,6 +3,7 @@
 import { Observable, Event } from "./Observable.js";
 
 const ROUTES = {
+    404: "../app/src/html/404.html",
     "": "../app/src/html/schedule.html",
     "#login": "../app/src/html/login.html",
     "#register": "../app/src/html/register.html",
@@ -36,27 +37,29 @@ class Router extends Observable {
     async onHashChanged() {
         let hash = window.location.hash,
             route = ROUTES[hash] || ROUTES[404];
-        if (this.isDynamicShareRoute(window.location.hash)) {
-            hash = "#/share/:id";
-            route = ROUTES[hash];
-        } else if (this.isDynamicCreateRoute(window.location.hash)) {
-            hash = "#create";
-            route = ROUTES[hash];
-        }
+        // if (this.isDynamicShareRoute(window.location.hash)) {
+        //     hash = "#/share/:id";
+        //     route = ROUTES[hash];
+        // } else if (this.isDynamicCreateRoute(window.location.hash)) {
+        //     hash = "#create";
+        //     route = ROUTES[hash];
+        // }
 
-        //TODO: Try and catch??? 
-
-        await fetch(route).then(res => {
-            let data = res.text();
-            data.then(res => {
-                let template = {
-                        route: hash,
-                        template: res,
-                    },
-                    event = new Event("template-ready", template);
-                this.notifyAll(event);
+        try {
+            await fetch(route).then(res => {
+                let data = res.text();
+                data.then(res => {
+                    let template = {
+                            route: hash,
+                            template: res,
+                        },
+                        event = new Event("template-ready", template);
+                    this.notifyAll(event);
+                });
             });
-        });
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // Checks for a dynamic route like /#/share/[ID with length 20]
