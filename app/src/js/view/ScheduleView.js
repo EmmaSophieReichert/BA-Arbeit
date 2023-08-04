@@ -286,13 +286,14 @@ class ScheduleView extends Observable {
     changeWidgets(items) {
         let stud = studies;
         items.forEach(item => {
+           // console.log(item.id, item.x, item.y);
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
         });
-        console.log("IS SAME", JSON.stringify(stud) === JSON.stringify(studies));
         if (stud) {
             setStudyInstance(stud);
         }
+        //console.log("Change IT!");
         for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }

@@ -51,7 +51,6 @@ class IntermediateResult {
             }
         }
         this.calculateGrade();
-        console.log("OOOOO", this.name, childIsUpdated);
         if (this.kids.length === 0 && !childIsUpdated) {
             console.log("Delete self");
             studies.deleteIntermediateResult(this.ID);
