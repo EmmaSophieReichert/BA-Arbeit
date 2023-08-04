@@ -100,6 +100,7 @@ class FileManager extends Observable {
         stud.subjects[subjectIndex].addModule(module);
         if(stud){
             setStudyInstance(stud);
+            console.log("SOURCE 2");
             this.updateFile();
         }
     }
@@ -122,6 +123,8 @@ class FileManager extends Observable {
         this.inProcess = true;
         let promise = listFiles(),
             res = await computePromise(promise);
+
+        console.log("UPDATE");
         //id = res.files[0].$id,
         //deletePromise = deleteFile(id);
 
@@ -145,13 +148,25 @@ class FileManager extends Observable {
 
         let studyJSON = JSON.stringify(studies),
             blob = new Blob([studyJSON], { type: "text/plain" }),
-            fileF = new File([blob], studies.subjects[0].title);
+            fileF = new File([blob], studies.subjects[0].title),
+            auth = await getAuth();
+        
+        if(auth.login){
+            let promise = createFile(fileF, auth);
+            await promise.then(async() => {
+                await this.deleteFiles(res);
+                this.inProcess = false;
+                console.log("Change has been successfully saved.")
+            }, (error) => { console.log(error) }).catch((error) => {
+                console.log(error);
+            });
+        }
+        else{
+            window.location.hash = "login";
+            location.reload();
+        }
 
-        await createFile(fileF).then(async() => {
-            await this.deleteFiles(res);
-            this.inProcess = false;
-            console.log("Change has been successfully saved.")
-        }, (error) => { console.log(error) });
+        
     }
 
     async deleteFiles(res){
@@ -160,7 +175,7 @@ class FileManager extends Observable {
                 let id = file.$id,
                     deletePromise = deleteFile(id);
                 if(deletePromise){
-                    await computePromise(deletePromise).then(() => {
+                    await deletePromise.then(() => {
                         console.log("FILE DELETED", id);
                     }, (error) => { console.log(error) }).catch((error) => {
                         console.log(error);

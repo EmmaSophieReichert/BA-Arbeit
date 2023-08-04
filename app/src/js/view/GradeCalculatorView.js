@@ -146,6 +146,7 @@ class GradeCalculatorView extends Observable {
             if(stud){
                 setStudyInstance(stud);
             }
+            console.log("SOURCE 3");
             fileManager.updateFile();
             this.currentClickedIDs = [];
             this.removeButton();

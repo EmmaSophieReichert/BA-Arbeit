@@ -56,6 +56,7 @@ class ModuleModalView extends Observable {
                 stud.deleteModule(this.module.ID);
                 if(stud){
                     setStudyInstance(stud);
+                    console.log("SOURCE 9");
                     fileManager.updateFile();
                 }
                 this.onModuleChanged();
@@ -69,7 +70,8 @@ class ModuleModalView extends Observable {
             let stud = studies;
             stud.setModulePassed(this.module.ID, true);
             if(stud){
-               setStudyInstance(stud);
+                setStudyInstance(stud);
+                console.log("SOURCE 10");
                 fileManager.updateFile(); 
             }
             this.onModuleChanged();

@@ -30,6 +30,7 @@ class DeleteSubjectModalView extends Observable {
             study.deleteSubject(this.subject.title);
             if(study){
                 setStudyInstance(study);
+                console.log("SOURCE 5");
                 fileManager.updateFile();
             }
             let e = new Event("onSubjectDeleted", this.subject.title);

@@ -123,6 +123,7 @@ class ModalView extends Observable {
         if(this.root === "edit" && moduleN.passed){
             studies.setModuleGrade(id, moduleN.grade, moduleN.weight)
         }
+        console.log("SOURCE 8");
         fileManager.updateFile(); 
         ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);

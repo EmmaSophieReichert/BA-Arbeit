@@ -37,6 +37,7 @@ class GradeModalView extends Observable {
             stud.setModuleGrade(this.module.ID, grade, weight);
             if(stud){
                 setStudyInstance(stud);
+                console.log("SOURCE 6");
                 fileManager.updateFile();
             }
             this.onModuleChanged();
@@ -45,8 +46,8 @@ class GradeModalView extends Observable {
     }
 
     onModuleChanged(){
-        let e = new Event("onModuleChanged", "onModuleChanged");
-        this.notifyAll(e);
+        // let e = new Event("onModuleChanged", "onModuleChanged");
+        // this.notifyAll(e);
         this.gradeForm.reset();
         this.modal.close();
     }

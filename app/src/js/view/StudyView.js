@@ -395,6 +395,7 @@ class StudyView extends Observable {
                setStudyInstance(stud); 
             }
             this.editMode = false;
+            console.log("SOURCE 4");
             await fileManager.updateFile();
             window.location.hash = "#schedule";
         }
