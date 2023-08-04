@@ -6,7 +6,8 @@ const { Permission, Role } = Appwrite;
 
 // Create a stored file
 async function createFile(data) {
-    await getAuth().then(res => {
+    let res = await getAuth();
+    //await getAuth().then(res => {
         if(res.login){
             let promise = appwrite.storage.createFile(Config.BUCKET_ID, appwrite.ID.unique(), data, [
             Permission.read(Role.user(res.user.$id)),
@@ -19,7 +20,7 @@ async function createFile(data) {
             location.reload();
             return null;
         }
-    });
+    //});
 }
 
 export { createFile };

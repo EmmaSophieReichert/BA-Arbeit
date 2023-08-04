@@ -26,13 +26,12 @@ class FileManager extends Observable {
     }
 
     async getStudy() {
-        await getAuth().then(res => {
-            if(!res.login){
-                window.location.hash = "login";
-                location.reload();
-                return;
-            }
-        });
+        let auth = await getAuth();
+        if(!auth.login){
+            window.location.hash = "login";
+            location.reload();
+            return;
+        }
         let res = await this.getList();
         if(res){
             if (res.total === 0) {
