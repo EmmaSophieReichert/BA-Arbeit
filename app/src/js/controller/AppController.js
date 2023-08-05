@@ -28,8 +28,7 @@ class AppController {
                 console.log("Logged out", res);
                 setStudyInstance(null);
                 window.location.hash = "login";
-                console.log("RELOAD delete Session");
-                //location.reload();
+                location.reload();
             }, (error) => {
                 console.log("Failed to log out", error);
             });

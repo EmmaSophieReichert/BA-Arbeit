@@ -4,7 +4,7 @@
 
 .filter-group label{
     text-align: left;
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
     width: fit-content;
 }
 

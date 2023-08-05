@@ -30,7 +30,7 @@
 .grade-module p{
     margin: 0;
     height: fit-content;
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
 }
 
 .grade-module-wrap{

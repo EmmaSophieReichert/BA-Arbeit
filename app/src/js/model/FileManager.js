@@ -29,8 +29,7 @@ class FileManager extends Observable {
         let auth = await getAuth();
         if(!auth.login){
             window.location.hash = "login";
-            console.log("RELOAD getStudy")
-            //location.reload();
+            location.reload();
             return;
         }
         let res = await this.getList();
@@ -58,7 +57,6 @@ class FileManager extends Observable {
             this.fileID = id;
             this.timerID = setTimeout(() => {
                 this.timerID = null;
-                //location.reload();
                 this.getStudy();
                 console.log("STUDY RELOADED");
             }, 800000);
@@ -164,8 +162,7 @@ class FileManager extends Observable {
         }
         else{
             window.location.hash = "login";
-            console.log("RELOAD createFile");
-            //location.reload();
+            location.reload();
         }
 
         

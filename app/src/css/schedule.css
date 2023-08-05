@@ -64,6 +64,8 @@
 
 .semester h3 {
     margin: 0.25em;
+    -webkit-text-size-adjust: auto;
+    text-size-adjust: auto;
     /* margin: 0; */
 }
 
@@ -170,7 +172,7 @@
     margin-top: 2px;
     margin-bottom: 0;
     font-size: 1em;
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
     line-height: 110%;
     font-size: 95%;
 }
@@ -206,7 +208,7 @@
 }
 
 .main-right h2 {
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
 }
 
 .main-right-up {
@@ -268,7 +270,7 @@
 
 .subject-box-title {
     /* word-wrap: break-word; */
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
     margin-top: 0;
     margin-bottom: 8px;
 }

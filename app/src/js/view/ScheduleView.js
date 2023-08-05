@@ -150,6 +150,8 @@ class ScheduleView extends Observable {
                 semesterWidget = this.getSemesterWidget(period, count, ects);
             this.grid.addWidget(semesterWidget);
             this.grid.save();
+            let div = document.getElementById("semester-" + count + "-div");
+            this.adjustSize(div);
         }
     }
 
