@@ -60,9 +60,9 @@
     text-decoration: none;
     color: white;
     width: fit-content;
-    margin: 0 1em;
+    /* margin: 0 0.5em; */
     /* font-size: 90%; */
-    hyphens: auto;
+    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
     border-radius: 0.5em;
     padding: 5px 10px;
 }
@@ -91,4 +91,26 @@
 .selected-side p{
     color: black;
     background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Responsive Layout */
+
+/* @media (max-width: 850px) {
+    .navigation-button p{
+        font-size: 80%;
+    }
+} */
+
+@media (max-width: 700px) {
+    .navigation-button p{
+        font-size: 80%;
+    }
+
+    .nav-bar {
+        font-size: 80%;
+    }
+
+    #logout-button{
+        font-size: 80%;
+    }
 }
