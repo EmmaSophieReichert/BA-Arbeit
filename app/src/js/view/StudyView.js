@@ -299,14 +299,16 @@ class StudyView extends Observable {
 
     onAddSubjectButtonClicked() {
         if (this.studyBoxes.length === 1) {
-            let input = document.createElement('input');
-            input.type = 'number';
-            input.classList.add("study-ects");
-            input.id = "ects";
-            input.name = 'ects';
-            input.min = 0;
-            input.placeholder = "ECTS Punkte";
-            this.studyBoxes[0].appendChild(input);
+            if(!this.studyBoxes[0].querySelector("input[type='number']")){
+                let input = document.createElement('input');
+                input.type = 'number';
+                input.classList.add("study-ects");
+                input.id = "ects";
+                input.name = 'ects';
+                input.min = 0;
+                input.placeholder = "ECTS Punkte";
+                this.studyBoxes[0].appendChild(input);
+            }
         }
         //create new StudyBox
         let newStudyBox = document.createElement('div');
