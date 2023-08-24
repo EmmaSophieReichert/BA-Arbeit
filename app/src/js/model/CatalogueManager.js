@@ -4,21 +4,20 @@ import { studies } from "./studiesInstance.js";
 class CatalogueManager {
 
     constructor() {
-
     }
 
     filterStudies(filterValues) {
-        let study = structuredClone(studies) ;
-        // Filtern der Subjects
+        let study = structuredClone(studies);
+        // filter subjects
         var filteredSubjects = study.subjects.filter(function (subject) {
-            // Filtern nach Fachname (wenn ausgewählt)
+            // filter subject names
             if (filterValues.subjects.length !== 0) {
                 return filterValues.subjects.includes(subject.title);
             }
-            return true; // Wenn kein Fach ausgewählt wurde, alle Subjects zurückgeben
+            return true; // no subject selected -> return all subjects
         });
 
-        // Filtern der Modules in den gefilterten Subjects
+        // filter modules of filtered subject
         var filteredModules = [];
         filteredSubjects.forEach(function (subject) {
             var filteredSubjectModules = subject.modules.filter(function (module) {
@@ -40,17 +39,17 @@ class CatalogueManager {
                 }
                 if (filterValues.selectedSemester.length !== 0) {
                     let inSelSem = false;
-                    for(let selectedSemester of module.selectedSemester){
+                    for (let selectedSemester of module.selectedSemester) {
                         inSelSem = inSelSem || filterValues.selectedSemester.includes(selectedSemester);
                     }
                     willBeShown = willBeShown && inSelSem;
                 }
-                return willBeShown; // No Filter -> all Modules
+                return willBeShown; // no filter -> all Modules
             });
             subject.modules = filteredModules.concat(filteredSubjectModules);
         });
 
-        // Erstellen einer neuen Instanz von Studies mit den gefilterten Daten
+        // new Study Instance width filtered data
         var filteredStudies = new Studies(studies.degree, studies.totalECTS, studies.semesters, filteredSubjects, studies.specialization);
 
         return filteredStudies;

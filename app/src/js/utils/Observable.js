@@ -1,3 +1,5 @@
+//Quelle: Kurs Multimedia Engineering WiSe 21/22, Universität Regensburg, Alexander Bazo
+
 /**
  * Represents an Event, published by an Observable. Similar events are identified by 
  * a common type to which Observables may subscribe. With each Event a unique payload,

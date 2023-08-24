@@ -28,13 +28,7 @@ class Studies {
         this.calculateGrade();
 
         this.ID = id;
-        //this.addIntermediateResult([this.kids[0], this.kids[1]]);
     }
-
-    // updateModule(id, mod){
-    //     let data =  this.getModuleAndSubjectByID(id);
-    //     let parent
-    // }
 
     getID() {
         return this.ID;
@@ -155,10 +149,10 @@ class Studies {
         this.kids = this.kids.filter(function (child) {
             return child !== id;
         });
-        if(!childIsUpdated){
+        if (!childIsUpdated) {
             for (let childID of this.kids) {
                 let child = this.getChild(childID);
-                if(child){
+                if (child) {
                     if (child instanceof IntermediateResult) {
                         child.removeChild(id, childIsUpdated);
                     }
@@ -198,7 +192,7 @@ class Studies {
                     module.grade = grade ? parseFloat(grade) : grade;
                     module.weight = weight ? parseFloat(weight) : weight;
                     let parent = this.getParent(id);
-                    if(parent){
+                    if (parent) {
                         parent.calculateGrade();
                     }
                 }
@@ -254,7 +248,7 @@ class Studies {
     deleteSubject(subjectTitle) {
         for (let subject of this.subjects) {
             if (subject.title === subjectTitle) {
-                for(let mod of subject.modules){
+                for (let mod of subject.modules) {
                     this.deleteModule(mod.ID);
                 }
             }
@@ -284,6 +278,7 @@ class Studies {
         }
     }
 
+    // returns the tree for Treant.js
     toTreeData() {
         let treeData = {
             chart: {
@@ -293,7 +288,6 @@ class Studies {
                 siblingSeparation: 8,
                 subTeeSeparation: 25,
                 padding: 50,
-                // scrollbar: "fancy",
                 connectors: {
                     style: {
                         'stroke-width': 1.5,
@@ -315,7 +309,7 @@ class Studies {
 
         };
 
-        // Iterate over kids of studies
+        // Iterate over kids of studies and add kids
         for (let childID of this.kids) {
             let child = this.getChild(childID);
             if (child instanceof Module) {
@@ -327,29 +321,26 @@ class Studies {
                 treeData.nodeStructure.children.push(intermediateResultNode);
             }
         }
-        //console.log(treeData);
         return treeData;
     }
 
+    //Builds a module node for the tree
     getModuleNode(data) {
         let gradeAddition = "",
             weightAddition = "";
         if (data.module.grade !== null) {
             gradeAddition = "<div class='grade-module-number'><p>" + data.module.grade + "</p></div>";
-            weightAddition =  "<div class='grade-module-weight text-subject-"+ data.subject.colourCode +"'><p> x" + data.module.weight + "</p></div>";
+            weightAddition = "<div class='grade-module-weight text-subject-" + data.subject.colourCode + "'><p> x" + data.module.weight + "</p></div>";
         }
 
         return {
-            // text: {
-            //     name:  data.module.title,
-            // },
             "parentConnector": {
                 style: {
                     "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0, 7),
                     "stroke-width": 1.5,
                 },
             },
-            connectors:{
+            connectors: {
                 style: {
                     "stroke": Config.COLOUR_CODES_DARK[data.subject.colourCode].substring(0, 7),
                     "stroke-width": 1.5,
@@ -357,13 +348,14 @@ class Studies {
             },
             HTMLclass: "grade-module",
             HTMLid: data.module.ID,
-            innerHTML: "<div class='grade-module-div'><div class='grade-module-wrap subject-"+ data.subject.colourCode +"'><div class='grade-module-text'><p>" + data.module.title + "</p></div>" + gradeAddition + "</div>" + weightAddition + "</div>",
+            innerHTML: "<div class='grade-module-div'><div class='grade-module-wrap subject-" + data.subject.colourCode + "'><div class='grade-module-text'><p>" + data.module.title + "</p></div>" + gradeAddition + "</div>" + weightAddition + "</div>",
             data: {
                 id: data.module.ID
             },
         };
     }
 
+    //Builds an intermediate result node for the tree
     buildIntermediateResultNode(intermediateResult) {
         let gradeAddition = "",
             weightAddition = "";
@@ -372,9 +364,6 @@ class Studies {
             weightAddition = "<div class='grade-module-weight'><p> x" + intermediateResult.weight + "</p></div>";
         }
         let intermediateResultNode = {
-            // text: {
-            //     name: "Zwischenergebnis " + gradeAddition,//intermediateResult.name,
-            // },
             data: {
                 id: intermediateResult.ID
             },
@@ -397,12 +386,6 @@ class Studies {
                 intermediateResultNode.children.push(childIntermediateResultNode);
             }
         }
-        // if(subjects.every((sub) => sub === subjects[0]) && subjects.length !== 0){ //subjects the same?
-        //     let sub = subjects[0];
-        //     intermediateResultNode.HTMLclass = "grade-module subject-" + sub.colourCode;
-        //     //intermediateResultNode.parentConnector.style.stroke = Config.COLOUR_CODES_DARK[sub.colourCode].substring(0,7);
-        //     //intermediateResultNode.parentConnector.style.strokeWidth = 1.5; //TODO: Does not work
-        // }
         return intermediateResultNode;
     }
 
@@ -430,17 +413,9 @@ class Studies {
         }
 
         if (!this.checkSameParent(parentIDs)) {
-            console.log('kids do not have the same parent'); //TODO: show this in eror message!
+            console.log('kids do not have the same parent');
             return;
         }
-
-        // let childs = []; TODO: Was sollte hier geprüft werden?
-        // for (let childID of this.kids) {
-        //     if (kidsIDs.includes(childID)) {
-        //         //let child = this.getChild(childID);
-        //         childs.push(childID);
-        //     }
-        // }
 
         // Create new IntermediateResult
         let intermediateResult = new IntermediateResult(title, weight);

@@ -33,18 +33,9 @@ class Router extends Observable {
 
     // When the URL hash changes the linked html template is retrieved
     // When the route is not available a 404 Error page will be shown
-
     async onHashChanged() {
         let hash = window.location.hash,
             route = ROUTES[hash] || ROUTES[404];
-        // if (this.isDynamicShareRoute(window.location.hash)) {
-        //     hash = "#/share/:id";
-        //     route = ROUTES[hash];
-        // } else if (this.isDynamicCreateRoute(window.location.hash)) {
-        //     hash = "#create";
-        //     route = ROUTES[hash];
-        // }
-
         try {
             await fetch(route).then(res => {
                 let data = res.text();
@@ -60,22 +51,6 @@ class Router extends Observable {
         } catch (error) {
             console.log(error);
         }
-    }
-
-    // Checks for a dynamic route like /#/share/[ID with length 20]
-    // ID uses [a-z] && [0-9]
-    isDynamicShareRoute(hash) {
-        let route = hash,
-            regex = /^#\/share\/[0-9a-z]{20}$/;
-        return regex.test(route);
-    }
-
-    // Checks for a dynamic route like /#create/[ID with length 20]
-    // ID uses [a-z] && [0-9]
-    isDynamicCreateRoute(hash) {
-        let route = hash,
-            regex = /^#create\/[0-9a-z]{20}$/;
-        return regex.test(route);
     }
 }
 

@@ -63,21 +63,19 @@ class AppController {
         if (currentHash === "") {
             this.setHash("login");
         }
-        if (!this.router.isDynamicShareRoute(currentHash)) {
-            if (loggedIn) {
-                if (currentHash === "#login" || currentHash === "#register") {
-                    this.setHash("schedule");
-                }
-                this.logoutButton.style.display = "inline-block";
-                this.navLinks.style.display = "flex";
+        if (loggedIn) {
+            if (currentHash === "#login" || currentHash === "#register") {
+                this.setHash("schedule");
+            }
+            this.logoutButton.style.display = "inline-block";
+            this.navLinks.style.display = "flex";
 
-            } else {
-                this.logoutButton.style.display = "none";
-                this.navLinks.style.display = "none";
-                if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
-                    currentHash !== "#datenschutz") {
-                    this.setHash("login");
-                }
+        } else {
+            this.logoutButton.style.display = "none";
+            this.navLinks.style.display = "none";
+            if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
+                currentHash !== "#datenschutz") {
+                this.setHash("login");
             }
         }
         if (currentHash === "#schedule") {
