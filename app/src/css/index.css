@@ -97,9 +97,15 @@ button {
 }
 
 @media print {
-    .main-left{
+    .main-left {
         print-color-adjust: exact;
     }
-    @page { margin: 0; }
-    body { margin: 1.6cm; }
+
+    @page {
+        margin: 0;
+    }
+
+    body {
+        margin: 1.6cm;
+    }
 }

@@ -4,7 +4,6 @@ class Subject {
         this.ects = ECTS;
 
         this.modules = [];
-        //this.grade = null;
         this.currentECTS = 0;
         this.colourCode = colourCode;
     }

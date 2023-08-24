@@ -1,9 +1,9 @@
 import appwrite from "../appwrite.js";
 
-// Function to delete a session -> mostly for testing the auth
+// delete a session
 function deleteSession() {
     let promise = appwrite.account.deleteSession("current");
     return promise;
 }
 
-export {deleteSession};
+export { deleteSession };

@@ -1,7 +1,3 @@
-//import { GridStack } from 'gridstack';
-import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
-import Module from '../model/structure/Module.js';
-import modalView from './modals/ModalView.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies } from '../model/studiesInstance.js';
@@ -55,16 +51,12 @@ class CatalogueViewRight extends Observable {
         h2.innerHTML = subject.title;
         h2.className = "subject-box-title";
 
-        let progressBar = this.getProgressbar(subject.ects, subject.currentECTS, subject.colourCode);
-
         let addModuleButton = document.createElement("button");
         addModuleButton.className = "add-module-button";
         addModuleButton.id = subject.title + "-button";
         addModuleButton.style.backgroundColor = Config.COLOUR_CODES_DARK[subject.colourCode];
         addModuleButton.textContent = "Modul hinzufügen";
 
-
-        // div.innerHTML = h2.outerHTML + progressBar.outerHTML + addModuleButton.outerHTML; TODO: enable
         div.innerHTML = h2.outerHTML + addModuleButton.outerHTML;
         await this.studyBoxesContainer.appendChild(div);
 
@@ -73,21 +65,6 @@ class CatalogueViewRight extends Observable {
             let e = new Event("onAddModuleButtonClicked", subject.title);
             this.notifyAll(e);
         });
-    }
-
-    getProgressbar(totalECTS, currentECTS, colourCode) {
-        let progressBar = document.createElement("div"),
-            progress = document.createElement("div"),
-            progressText = document.createElement("div");
-        progress.className = "progress";
-        progress.style.backgroundColor = Config.COLOUR_CODES_DARK[colourCode];
-        progressBar.className = "progress-bar";
-        progressText.className = "progress-text";
-        //progress.style.width = (currentECTS / totalECTS) * 100 + '%';
-        progress.style.width = "50%"; //TODO: Remove this
-        progressText.textContent = currentECTS + '/' + totalECTS + ' ECTS';
-        progressBar.innerHTML = progress.outerHTML + progressText.outerHTML;
-        return progressBar;
     }
 
     getFilteredValues() {
@@ -119,6 +96,7 @@ class CatalogueViewRight extends Observable {
         let recommendedSemesterContainer = document.getElementById('recommended-semester-container');
         let selectedSemesterContainer = document.getElementById('selected-semester-container');
 
+        // subjects
         if (studies.subjects.length > 1 && subjectsContainer) {
             studies.subjects.forEach((subject) => {
                 let label = document.createElement('label');
@@ -134,9 +112,7 @@ class CatalogueViewRight extends Observable {
             });
             subjectsContainer.removeAttribute("hidden"); 
         }
-        // subjects
-
-
+        
         // semesters
         if(recommendedSemesterContainer && selectedSemesterContainer){
             studies.semesters.forEach((semester) => {
@@ -160,8 +136,6 @@ class CatalogueViewRight extends Observable {
                 selectedSemesterContainer.appendChild(label);
             });
         }
-        
-
     }
 }
 

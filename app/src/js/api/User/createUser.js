@@ -6,4 +6,4 @@ function createUser(email, password, username) {
     return promise;
 }
 
-export {createUser};
+export { createUser };

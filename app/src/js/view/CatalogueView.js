@@ -2,13 +2,13 @@
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
 import Module from '../model/structure/Module.js';
 import modalView from './modals/ModalView.js';
-import {Observable, Event} from '../utils/Observable.js';
+import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
 import Config from '../utils/Config.js';
 import moduleModalView from './modals/ModuleModalView.js';
 import ScheduleView from './ScheduleView.js';
 
-class CatalogueView extends Observable{
+class CatalogueView extends Observable {
 
     constructor() {
         super();
@@ -16,16 +16,10 @@ class CatalogueView extends Observable{
         this.initNavView();
 
         modalView.addEventListener("onModuleChanged", e => {
-            if(window.location.hash === "#module-catalogue"){
-                console.log("Module added");
-                // if(e.data.root === "edit"){
-                //     this.show(studies);
-                // }
-                // this.addModule(e.data.module, e.data.subject);
+            if (window.location.hash === "#module-catalogue") {
                 this.show(studies);
-                //this.notifyAll(e);
             }
-            
+
         });
 
         this.grid = null;
@@ -39,9 +33,8 @@ class CatalogueView extends Observable{
                     data = studies.getModuleAndSubjectByID(id);
                 moduleModalView.show(data.module, data.subject);
                 moduleModalView.addEventListener("onModuleChanged", (e) => {
-                    if(window.location.hash === "#module-catalogue"){
+                    if (window.location.hash === "#module-catalogue") {
                         this.show(studies);
-                        //this.notifyAll(e);
                     }
                 });
             }
@@ -52,21 +45,21 @@ class CatalogueView extends Observable{
         modalView.show(subjectTitle);
     }
 
-    initNavView(){
+    initNavView() {
         let navs = document.querySelectorAll(".navigation-button");
-        for(let nav of navs){
+        for (let nav of navs) {
             nav.classList.remove("selected-side");
         }
         document.getElementById("nav-catalogue").classList.add("selected-side");
     }
 
     show(study) {
-        if(this.grid !== null){
+        if (this.grid !== null) {
             this.grid.removeAll();
         }
         this.initGrid(1);
-        for(let subject of study.subjects){
-            for(let module of subject.modules){
+        for (let subject of study.subjects) {
+            for (let module of subject.modules) {
                 this.addModule(module, subject.colourCode);
             }
         }
@@ -82,7 +75,6 @@ class CatalogueView extends Observable{
         }
         this.grid = GridStack.init(options);
         this.grid.load([]);
-        //this.grid.on('change', this.handleWidgetChange.bind(this));
     }
 
     addModule(module, colourCode) {
@@ -105,8 +97,8 @@ class CatalogueView extends Observable{
             moduleDivMiddle = this.getModuleDivMiddle(module, colourCode);
         moduleDiv.classList.add('module-div');
         moduleDiv.appendChild(moduleDivLeft);
-        if(module.conditions){
-            if(module.conditions.length !== 0){
+        if (module.conditions) {
+            if (module.conditions.length !== 0) {
                 let moduleDivConditions = this.getModuleDivConditions(module, colourCode);
                 moduleDiv.appendChild(moduleDivConditions);
             }
@@ -117,7 +109,7 @@ class CatalogueView extends Observable{
         return moduleDiv.outerHTML;
     }
 
-    getModuleDivConditions(module, colourCode){
+    getModuleDivConditions(module, colourCode) {
         let conditionsDiv = document.createElement("div"),
             description = document.createElement("p"),
             cond = document.createElement("p");
@@ -141,21 +133,21 @@ class CatalogueView extends Observable{
         return conditionsDiv;
     }
 
-    getModuleDivMiddle(module, colourCode){
+    getModuleDivMiddle(module, colourCode) {
         let middle = document.createElement("div"),
             recommendedSem = document.createElement("p"),
             selectedSem = document.createElement("p"),
             length = document.createElement("p");
         middle.classList.add("module-div-middle");
-        if(module.recommendedSemester){
+        if (module.recommendedSemester) {
             recommendedSem.textContent = "Empfohlenes Semester: " + module.recommendedSemester;
         }
         let selSem = "Ausgewählte Semester: ";
-        for(let i = 0; i < module.selectedSemester.length; i++){
-            if((i+1) ===  module.selectedSemester.length){
+        for (let i = 0; i < module.selectedSemester.length; i++) {
+            if ((i + 1) === module.selectedSemester.length) {
                 selSem += module.selectedSemester[i];
             }
-            else{
+            else {
                 selSem += module.selectedSemester[i] + ", ";
             }
         }
@@ -170,32 +162,13 @@ class CatalogueView extends Observable{
         else {
             middle.style.backgroundColor = Config.COLOUR_CODES[colourCode];
         }
-        
+
         middle.append(selectedSem);
         middle.append(recommendedSem);
         middle.append(length);
 
         return middle;
     }
-
-    handleWidgetChange(event, items) {
-        // items.forEach(item => {
-        //     let stud = studies;
-        //     stud.changeModulePosition(item.id, item.x, item.y);
-        //     stud.calculateSemesterECTS();
-        //     setStudyInstance(stud);
-        // });
-        // for(let i = 1; i<= studies.semesters.length; i++){
-        //     this.updateSemesterECTS(i);
-        // }
-        // if (this.timerId === null) {
-        //     this.timerId = setTimeout(() => {
-        //         this.timerId = null;
-        //         let e = new Event("positionsChanged", "positionsChanged");
-        //         this.notifyAll(e);
-        //     }, 5000);
-        // }
-    } 
 }
 
 export default CatalogueView;

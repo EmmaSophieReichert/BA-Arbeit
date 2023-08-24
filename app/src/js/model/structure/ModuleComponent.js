@@ -1,4 +1,5 @@
 class ModuleComponent {
+    
     constructor(name, type, ECTS) {
         this.name = name;
         this.type = type;

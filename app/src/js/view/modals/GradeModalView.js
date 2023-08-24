@@ -1,9 +1,6 @@
 import fileManager from '../../model/FileManager.js';
-import Module from '../../model/structure/Module.js';
 import { studies, setStudyInstance } from '../../model/studiesInstance.js';
-import Config from '../../utils/Config.js';
 import { Event, Observable } from '../../utils/Observable.js';
-import modalView from './ModalView.js';
 
 class GradeModalView extends Observable {
 
@@ -47,8 +44,6 @@ class GradeModalView extends Observable {
     }
 
     onModuleChanged(){
-        // let e = new Event("onModuleChanged", "onModuleChanged");
-        // this.notifyAll(e);
         this.gradeForm.reset();
         this.modal.close();
     }
@@ -56,7 +51,6 @@ class GradeModalView extends Observable {
     show(module, subject) {
         this.module = module;
         this.subject = subject;
-
         this.modal.close();
         this.modal.showModal();
     }

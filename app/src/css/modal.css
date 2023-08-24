@@ -10,14 +10,13 @@
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     border: 0;
-    /* display: none; */
 }
 
 .modal-content {
     text-align: center;
 }
 
-.modal-content h2{
+.modal-content h2 {
     margin-top: 30px;
     max-width: 70vw;
 }
@@ -60,21 +59,22 @@ input[type="number"] {
     width: 10ch;
 }
 
-button[type="submit"], .red-button {
+button[type="submit"],
+.red-button {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background: linear-gradient(120deg, var(--apricot), var( --lavender-pink));
+    background: linear-gradient(120deg, var(--apricot), var(--lavender-pink));
     color: black;
     font-weight: bold;
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(120deg,  var(--atomic-tangerine), var(--brilliant-rose));
+    background: linear-gradient(120deg, var(--atomic-tangerine), var(--brilliant-rose));
     color: black;
     font-weight: bold;
-}   
+}
 
 #module-title {
     width: 50ch;
@@ -84,11 +84,11 @@ button[type="submit"]:hover {
     margin-top: 35px;
 }
 
-.form-row .radio-div{
+.form-row .radio-div {
     width: auto;
 }
 
-.button-container button{
+.button-container button {
     margin: 2vh 1vw;
 }
 
@@ -108,7 +108,7 @@ button[type="submit"]:hover {
     font-weight: bold;
 }
 
-#input-description{
+#input-description {
     font-size: 80%;
     color: var(--elephant-grey);
     margin-left: 5px;

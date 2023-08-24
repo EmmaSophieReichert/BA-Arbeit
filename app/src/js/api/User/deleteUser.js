@@ -6,4 +6,4 @@ function deleteUser() {
     return promise;
 }
 
-export {deleteUser};
+export { deleteUser };

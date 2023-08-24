@@ -1,7 +1,7 @@
 /* eslint-env browser */
 
 import { createSession } from "../api/Session/createSession.js";
-import {Observable, Event} from "../utils/Observable.js";
+import { Observable, Event } from "../utils/Observable.js";
 
 class LoginManager extends Observable {
 
@@ -22,8 +22,7 @@ class LoginManager extends Observable {
 }
 
 // If the account credentials are real -> return true (User is granted access)
-// Returns the reason why login was not successful too -> use for validation/ error animations in view
-// On success it returns the user, which could be used to greet him or such stuff
+// Returns the reason why login was not successful too -> use for validation/ errors in view
 async function computePromise(promise) {
     let res = await promise.then((res) => {
         return {

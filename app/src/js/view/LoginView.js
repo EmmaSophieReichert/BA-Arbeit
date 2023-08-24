@@ -13,21 +13,19 @@ class LoginView extends Observable {
         this.viewPassword = document.getElementById("password");
     }
 
-    onLogInButtonClicked(event){
+    onLogInButtonClicked(event) {
         event.preventDefault();
         let email = this.viewEmail.value,
             password = this.viewPassword.value;
         this.onSubmit(email, password);
     }
 
-    // User wants to login
+    // User wants to login -> event to controller
     onSubmit(email, password) {
-        // Data as JSON Object stores email and password
         let data = {
-                email: email,
-                password: password,
-            },
-            // Data is send with an new login-submit event
+            email: email,
+            password: password,
+        },
             event = new Event("login-submit", data);
         this.notifyAll(event);
     }

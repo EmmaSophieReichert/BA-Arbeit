@@ -1,6 +1,3 @@
-//import { GridStack } from 'gridstack';
-import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
-import Module from '../model/structure/Module.js';
 import Config from '../utils/Config.js';
 import { Observable, Event } from '../utils/Observable.js';
 
@@ -42,7 +39,6 @@ class GradeCalculatorViewRight extends Observable {
         progressBar.className = "progress-bar";
         progressText.className = "progress-text";
         progress.style.width = (currentECTS / totalECTS) * 100 + '%';
-        //progress.style.width = "50%"; //TODO: Remove this
         progressText.textContent = currentECTS + '/' + totalECTS + ' ECTS';
         progressBar.innerHTML = progress.outerHTML + progressText.outerHTML;
         return progressBar;

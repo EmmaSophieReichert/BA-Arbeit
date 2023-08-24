@@ -1,17 +1,10 @@
-import fileManager from '../../model/FileManager.js';
-import Module from '../../model/structure/Module.js';
-import { studies, setStudyInstance } from '../../model/studiesInstance.js';
-import Config from '../../utils/Config.js';
 import { Event, Observable } from '../../utils/Observable.js';
-import gradeModalView from './GradeModalView.js';
-import modalView from './ModalView.js';
 
 class ErrorModalView extends Observable {
 
     constructor() {
         super();
         this.modal = document.getElementById('error-modal');
-        //this.closeModalButton = document.querySelector('.close-module-show');
         this.module = null;
         this.positionX = null;
         this.positionY = null;
@@ -19,12 +12,6 @@ class ErrorModalView extends Observable {
 
         this.description = document.getElementById("error-modal-description");
         this.conditions = document.getElementById("conditions-error-box");
-
-        /* this.closeModalButton.addEventListener('click', () => {
-            this.reset()
-            this.modal.close();
-            this.passedModalButton.removeAttribute("hidden");
-        }); */
 
         this.declineButton = document.getElementById("error-decline-button");
         this.declineButton.addEventListener("click", () => {
@@ -35,12 +22,6 @@ class ErrorModalView extends Observable {
         });
         this.submitButton = document.getElementById("error-submit-button");
         this.submitButton.addEventListener("click", () => {
-            // let study = studies;
-            // study.deleteSubject(this.subject.title);
-            // if(study){
-            //     setStudyInstance(study);
-            //     fileManager.updateFile();
-            // }
             let e = new Event("onModuleMoved", this.items);
             this.notifyAll(e);
             this.reset();
@@ -75,7 +56,7 @@ class ErrorModalView extends Observable {
         this.modal.showModal();
     }
 
-    reset(){
+    reset() {
         this.module = null;
         this.position = null;
         this.conditions.classList.add("hidden");

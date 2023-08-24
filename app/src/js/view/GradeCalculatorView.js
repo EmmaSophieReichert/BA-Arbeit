@@ -1,11 +1,5 @@
-// import { GridStack } from 'gridstack';
-import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
-import Module from '../model/structure/Module.js';
-import modalView from './modals/ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
-import Config from '../utils/Config.js';
-import moduleModalView from './modals/ModuleModalView.js';
 import IntermediateResult from '../model/structure/IntermediateResult.js';
 import fileManager from '../model/FileManager.js';
 import intResModalView from './modals/IntResModalView.js';
@@ -31,9 +25,9 @@ class GradeCalculatorView extends Observable {
         })
     }
 
-    initNavView(){
+    initNavView() {
         let navs = document.querySelectorAll(".navigation-button");
-        for(let nav of navs){
+        for (let nav of navs) {
             nav.classList.remove("selected-side");
         }
         document.getElementById("nav-grade").classList.add("selected-side");
@@ -51,10 +45,6 @@ class GradeCalculatorView extends Observable {
             element.addEventListener("click", () => {
                 let nodeId = element.getAttribute("id");
                 this.handleClick(nodeId);
-                //let node = this.chart.tree.getNodeById(nodeId);
-                // if (node) {
-                //     handleClick(node);
-                // }
             });
         });
     }
@@ -67,13 +57,13 @@ class GradeCalculatorView extends Observable {
         // Prove if nodeID is in Array
         let index = this.currentClickedIDs.indexOf(nodeID);
         if (index === -1) {
-            if(wrap){
+            if (wrap) {
                 wrap.style.border = "2px solid rgb(171, 89, 226)";
             }
             this.currentClickedIDs.push(nodeID);
             this.updateButton();
         } else {
-            if(wrap){
+            if (wrap) {
                 wrap.style.border = "";
             }
             this.currentClickedIDs.splice(index, 1);
@@ -93,7 +83,6 @@ class GradeCalculatorView extends Observable {
         button.id = "add-int-res-button";
         button.addEventListener("click", () => {
             intResModalView.show(this.currentClickedIDs);
-            //this.show();
             this.currentClickedIDs = [];
             this.removeButton();
             this.removeDeleteButton();
@@ -104,8 +93,6 @@ class GradeCalculatorView extends Observable {
 
     removeButton() {
         let button = this.buttonContainer.querySelector("#add-int-res-button");
-
-        // Überprüfen, ob der Button vorhanden ist
         if (button) {
             this.buttonContainer.removeChild(button);
         }
@@ -126,11 +113,11 @@ class GradeCalculatorView extends Observable {
     }
 
     isIntermediateResultSelected() {
-        if(this.currentClickedIDs.length !== 1){
+        if (this.currentClickedIDs.length !== 1) {
             return false;
         }
         let node = this.currentClickedIDs[0],
-        child = studies.getChild(node);
+            child = studies.getChild(node);
         return child instanceof IntermediateResult;
     }
 
@@ -143,7 +130,7 @@ class GradeCalculatorView extends Observable {
         deleteButton.addEventListener("click", () => {
             let stud = studies;
             stud.deleteIntermediateResult(this.currentClickedIDs[0]);
-            if(stud){
+            if (stud) {
                 setStudyInstance(stud);
             }
             console.log("SOURCE 3");
@@ -152,13 +139,12 @@ class GradeCalculatorView extends Observable {
             this.removeButton();
             this.removeDeleteButton();
             this.show();
-            // Hier können Sie den Code für die Aktion des zweiten Buttons einfügen
         });
         let addButton = this.buttonContainer.querySelector("#add-int-res-button");
-        if(addButton){
+        if (addButton) {
             this.buttonContainer.insertBefore(deleteButton, addButton);
         }
-        else{
+        else {
             this.buttonContainer.appendChild(deleteButton);
         }
     }

@@ -35,18 +35,6 @@ class ModuleModalView extends Observable {
             this.passedModalButton.removeAttribute("hidden");
             modalView.show(this.subject.title);
             modalView.fill(this.module);
-        
-            // let modalView = new ModalView();
-            // modalView.showModule(this.module, this.subject);
-            // this.modal.close();
-            // modalView.addEventListener("onModuleEdited", (e) => {
-            //     let stud = studies;
-            //     stud.deleteModule(this.module.ID);
-            //     // let subjectIndex = studies.getSubjectIndex(e.data.subject.title);
-            //     // stud.subjects[subjectIndex].addModule(e.data.module);
-            //     // setStudyInstance(stud);
-            //     // this.onModuleChanged();
-            // });
         });
 
         this.deleteModalButton = document.getElementById("delete-module-button");
@@ -54,7 +42,7 @@ class ModuleModalView extends Observable {
             if (event.button === 0) {
                 let stud = studies;
                 stud.deleteModule(this.module.ID);
-                if(stud){
+                if (stud) {
                     setStudyInstance(stud);
                     console.log("SOURCE 9");
                     fileManager.updateFile();
@@ -69,18 +57,18 @@ class ModuleModalView extends Observable {
         this.passedModalButton.addEventListener("click", (event) => {
             let stud = studies;
             stud.setModulePassed(this.module.ID, true);
-            if(stud){
+            if (stud) {
                 setStudyInstance(stud);
                 console.log("SOURCE 10");
-                fileManager.updateFile(); 
+                fileManager.updateFile();
             }
             this.onModuleChanged();
             gradeModalView.show(this.module, this.subject);
-            gradeModalView.addEventListener("onModuleChanged", (e) => {this.notifyAll(e)});
+            gradeModalView.addEventListener("onModuleChanged", (e) => { this.notifyAll(e) });
         });
     }
 
-    onModuleChanged(){
+    onModuleChanged() {
         let e = new Event("onModuleChanged", "onModuleChanged");
         this.notifyAll(e);
         this.reset();
@@ -91,54 +79,44 @@ class ModuleModalView extends Observable {
     show(module, subject) {
         this.module = module;
         this.subject = subject;
-        //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
         document.getElementById('module-title-module-show').textContent = module.title;
         document.getElementById('shortname-module-show').textContent = module.ID;
         document.getElementById('ects-module-show').textContent = module.ECTS;
         document.getElementById('start-module-show').textContent = module.period;
         document.getElementById('length-module-show').textContent = module.minSemLength;
 
-        //console.log(module);
-        if(module.recommendedSemester !== null){
+        if (module.recommendedSemester !== null) {
             this.recommendedSemester.classList.remove("hidden");
             document.getElementById('semester-module-show').textContent = module.recommendedSemester;
         }
-        if(module.conditions){
-            if(module.conditions.length !== 0){
+        if (module.conditions) {
+            if (module.conditions.length !== 0) {
                 this.conditionsDiv.classList.remove("hidden");
                 document.getElementById('condition-module-show').textContent = module.conditions.join(", ");
             }
         }
-        if(module.passed){
+        if (module.passed) {
             this.passed.classList.remove("hidden");
             document.getElementById('passed-module-show').textContent = "bestanden";
         }
-        if(module.grade !== null){
+        if (module.grade !== null) {
             this.grade.classList.remove("hidden");
             document.getElementById('grade-module-show').textContent = module.grade;
         }
 
         this.modal.close();
         this.modal.showModal();
-        if(module.passed){
+        if (module.passed) {
             this.passedModalButton.setAttribute("hidden", true);
         }
     }
 
-    reset(){
+    reset() {
         this.recommendedSemester.classList.add("hidden");
         this.conditionsDiv.classList.add("hidden");
         this.passed.classList.add("hidden");
         this.grade.classList.add("hidden");
     }
-
-    // show(subjectTitle) {
-    //     this.modal.showModal();
-    //     let subject = studies.getSubject(subjectTitle);
-    //     console.log(subject);
-    //     //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
-    //     this.modal.style.border = "5px solid " + Config.COLOUR_CODES[subject.colourCode];
-    // }
 }
 
 var moduleModalView = new ModuleModalView()

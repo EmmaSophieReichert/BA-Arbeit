@@ -7,8 +7,6 @@ class IntermediateResult {
         this.name = name;
 
         this.weight = weight;
-
-        // //this.kids = kids;// ? kids : [];
         this.grade = grade;
 
         this.ID = null;
@@ -24,16 +22,13 @@ class IntermediateResult {
         }
         this.calculateGrade();
         fileManager.addEventListener("on-study-loaded", e => {
-            if(window.location.hash === "#grade-calculator"){
+            if (window.location.hash === "#grade-calculator") {
                 this.calculateGrade();
             }
         });
     }
 
     addChild(moduleId) {
-        // let chil =  structuredClone(this.kids);
-        // chil.push(moduleId);
-        // this.kids[0] = "haha";
         this.kids.push(moduleId);
         this.calculateGrade();
     }
@@ -73,18 +68,19 @@ class IntermediateResult {
         }
         if (weightSum !== 0 || gradeSum !== 0) {
             this.grade = Number((gradeSum / weightSum).toFixed(2));
-            if(studies){
+            if (studies) {
                 let parent = studies.getParent(this.ID);
-                if(parent){
+                if (parent) {
                     parent.calculateGrade();
                 }
             }
         }
-        else if(weightSum === 0 && gradeSum !== 0){
+        else if (weightSum === 0 && gradeSum !== 0) {
             this.grade = null;
         }
     }
 
+    //checks if itself or its kids contain a kid with the given ID
     containsID(childID) {
         if (this.ID === childID) {
             return true;
@@ -101,6 +97,7 @@ class IntermediateResult {
         return false;
     }
 
+    //checks if it is the parent or grandparent and so on of a child
     isParent(childID) {
         for (let childid of this.kids) {
             if (studies !== undefined && studies !== null) {
@@ -121,6 +118,7 @@ class IntermediateResult {
     }
 }
 
+//creates unique ID
 //Quelle: https://stackoverflow.com/a/2117523
 function uuidv4() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

@@ -16,4 +16,4 @@ function updateEmail(email, password) {
     return promise;
 }
 
-export {updateUsername, updatePassword, updateEmail};
+export { updateUsername, updatePassword, updateEmail };

@@ -64,15 +64,17 @@
     margin: 0;
 }
 
-/* Respensive Layout */
+/* Responsive Layout */
 
 @media (max-width: 310px) {
     body {
         font-size: 70%;
     }
+
     button {
         font-size: 70%;
     }
+
     .login-container {
         width: 90%;
     }
@@ -82,6 +84,7 @@
     body {
         font-size: 70%;
     }
+
     .login-container {
         position: relative;
         top: 0;
@@ -89,6 +92,7 @@
         margin: 20px auto;
         transform: none;
     }
+
     .template {
         overflow: auto;
     }

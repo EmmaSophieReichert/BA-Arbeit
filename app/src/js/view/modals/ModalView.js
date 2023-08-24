@@ -31,7 +31,6 @@ class ModalView extends Observable {
     }
 
     onSubmitButtonClicked(e) {
-        //console.log("MODAL", studies);
         e.preventDefault();
         let title = document.getElementById('module-title').value,
             shortname = document.getElementById('shortname').value,
@@ -41,19 +40,19 @@ class ModalView extends Observable {
             length = parseInt(document.getElementById('length').value),
             period = document.querySelector('input[name="start"]:checked').value,
             passed = false;
-        if(this.module !== null && this.module.passed ){
+        if (this.module !== null && this.module.passed) {
             passed = document.querySelector('input[name="module-passed-radio"]:checked').value === "true";
         }
-        semester = semester === "" ? null : parseInt(semester);  
+        semester = semester === "" ? null : parseInt(semester);
 
         let conditions = [];
-        if(conditionString !== ""){
-            conditionString = conditionString.replace(/,\s/g, ',');  
+        if (conditionString !== "") {
+            conditionString = conditionString.replace(/,\s/g, ',');
             conditions = conditionString.split(',');
         }
 
-        if(this.root !== "edit"){
-            if(studies.getModuleAndSubjectByID(shortname) !== null){
+        if (this.root !== "edit") {
+            if (studies.getModuleAndSubjectByID(shortname) !== null) {
                 this.errorMessage.textContent = 'Diese Kurzform existiert schon. Bitte wählen Sie eine Kurzform, die noch nicht existiert.';
                 return;
             }
@@ -62,30 +61,27 @@ class ModalView extends Observable {
         var moduleN,
             ev,
             id = null;
-        if(this.module !== null){
+        if (this.module !== null) {
             moduleN = new Module(title, shortname, ects, period, semester, length, this.module.posY);
-            // for(let s of this.module.selectedSemester){
-            //     moduleN.addSelectedSemester(s);
-            // }
             for (let i = 0; i < length; i++) {
                 moduleN.addSelectedSemester(this.module.selectedSemester[0] + i);
             }
             moduleN.passed = passed;
             moduleN.conditions = conditions;
             id = this.module.ID;
-            if(passed){
+            if (passed) {
                 moduleN.grade = this.gradeInput.value === "" ? null : parseFloat(this.gradeInput.value);
                 moduleN.weight = this.weightInput.value === "" ? 1 : parseFloat(this.weightInput.value);
             }
         }
-        else{
+        else {
             moduleN = new Module(title, shortname, ects, period, semester, length);
             for (let i = 0; i < length; i++) {
                 moduleN.addSelectedSemester(semester ? semester + i : 1 + i);
             }
             moduleN.conditions = conditions;
         }
-        
+
         let data = {
             module: moduleN,
             subject: this.subject,
@@ -94,44 +90,40 @@ class ModalView extends Observable {
         }
 
         let stud = studies;
-        // if(this.root === "edit"){
-        //     stud.deleteModule(id);
-        // }
-        // stud.subjects[this.subject].addModule(moduleN);
-        // stud.kids.push(moduleN.ID);
-        if(this.root === "edit"){
+
+        if (this.root === "edit") {
             let parent = stud.getParent(id);
-            if(parent){
+            if (parent) {
                 parent.removeChild(id, true);
             }
             stud.deleteModule(id, true);
-            if(parent){
+            if (parent) {
                 parent.addChild(moduleN.ID);
                 parent.calculateGrade();
             }
         }
         stud.subjects[this.subject].addModule(moduleN);
-        if(this.root !== "edit"){
-             stud.kids.push(moduleN.ID);
+        if (this.root !== "edit") {
+            stud.kids.push(moduleN.ID);
         }
         stud.calculateSubjectECTS();
         stud.calculateSemesterECTS();
         stud.calculateGrade();
-        if(stud){
+        if (stud) {
             setStudyInstance(stud);
         }
-        if(this.root === "edit" && moduleN.passed){
+        if (this.root === "edit" && moduleN.passed) {
             studies.setModuleGrade(id, moduleN.grade, moduleN.weight)
         }
         console.log("SOURCE 8");
-        fileManager.updateFile(); 
+        fileManager.updateFile();
         ev = new Event("onModuleChanged", data);
         this.notifyAll(ev);
 
         this.close();
     }
 
-    close(){
+    close() {
         this.moduleForm.reset();
         this.module = null;
         this.errorMessage.textContent = "";
@@ -149,7 +141,6 @@ class ModalView extends Observable {
         let subject = studies.getSubject(subjectTitle);
         document.getElementById('ects').max = subject.ects;
         document.getElementById('length').max = studies.semesters.length;
-        //this.modal.style.backgroundColor = Config.COLOUR_CODES_LIGHT[subject.colourCode];
         this.modal.style.border = "5px solid " + Config.COLOUR_CODES[subject.colourCode];
         document.getElementById('edit-module-h2').innerHTML = "Modul erstellen";
     }
@@ -161,7 +152,6 @@ class ModalView extends Observable {
         document.getElementById('module-title').value = module.title;
         document.getElementById('shortname').value = module.ID;
         document.getElementById('ects').value = module.ECTS;
-        //document.getElementById('start').value = module.period;
         document.getElementById('condition').value = module.conditions.join(", ");
         document.getElementById('semester').value = module.recommendedSemester;
         document.getElementById('length').value = module.minSemLength;
@@ -177,14 +167,14 @@ class ModalView extends Observable {
 
         document.getElementById('edit-module-h2').innerHTML = "Modul bearbeiten";
 
-        if(module.passed){
+        if (module.passed) {
             this.gradeEl.classList.remove("hidden");
             this.weightEl.classList.remove("hidden");
             this.passedEl.classList.remove("hidden");
-            if(module.grade){
+            if (module.grade) {
                 this.gradeInput.value = module.grade;
             }
-            if(module.weight){
+            if (module.weight) {
                 this.weightInput.value = module.weight;
             }
         }

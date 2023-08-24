@@ -1,5 +1,4 @@
 import fileManager from "../model/FileManager.js";
-import ScheduleModel from "../model/ScheduleModel.js";
 import { studies } from "../model/studiesInstance.js";
 import ScheduleView from "../view/ScheduleView.js";
 import ScheduleViewRight from "../view/ScheduleViewRight.js";
@@ -7,7 +6,6 @@ import ScheduleViewRight from "../view/ScheduleViewRight.js";
 class ScheduleController{
     
     constructor(){
-        this.scheduleModel = new ScheduleModel(fileManager);
         this.scheduleView = new ScheduleView();
         this.scheduleViewRight = new ScheduleViewRight();
 

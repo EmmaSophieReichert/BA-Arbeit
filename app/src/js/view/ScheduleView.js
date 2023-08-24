@@ -1,6 +1,4 @@
-// import { GridStack } from 'gridstack';
 import { GridStack } from '../../../../node_modules/gridstack/dist/gridstack.js';
-import Module from '../model/structure/Module.js';
 import modalView from './modals/ModalView.js';
 import { Observable, Event } from '../utils/Observable.js';
 import { studies, setStudyInstance } from '../model/studiesInstance.js';
@@ -19,11 +17,6 @@ class ScheduleView extends Observable {
 
         modalView.addEventListener("onModuleChanged", e => {
             if (window.location.hash === "#schedule") {
-                //console.log("Module added");
-                // if(e.data.root === "edit"){
-                //     this.updateStudy();
-                // }
-                // this.addModule(e.data.module, e.data.subject);
                 this.updateStudy();
                 this.notifyAll(e);
             }
@@ -90,7 +83,6 @@ class ScheduleView extends Observable {
     }
 
     show(study) {
-        //console.log(study);
         let semesters = study.semesters;
         if (this.grid === null) {
             this.initGrid(semesters.length);
@@ -158,10 +150,6 @@ class ScheduleView extends Observable {
     getSemesterWidget(period, count, ects) {
         let div = document.createElement("div");
 
-        // let pPeriod = document.createElement("p");
-        // pPeriod.id = "sem" + count + "period";
-        // pPeriod.innerHTML = period;
-
         let h3 = document.createElement("h3");
         h3.innerHTML = "<b>" + "Semester " + count + "</b>";
 
@@ -169,7 +157,6 @@ class ScheduleView extends Observable {
         p.id = "sem" + count + "ects";
         p.innerHTML = ects + " ECTS";
 
-        //div.innerHTML = pPeriod.outerHTML + h3.outerHTML + p.outerHTML;
         div.innerHTML = h3.outerHTML + p.outerHTML;
         div.className = "semester";
         div.id = "semester-" + count + "-div";
@@ -262,7 +249,7 @@ class ScheduleView extends Observable {
         ectsBox.classList.add('ects-box');
         ectsBox.innerHTML = ectsCount.outerHTML + ectsDescription.outerHTML;
 
-        let turnusBox = document.createElement('div'); //TODO: ADD sth here
+        let turnusBox = document.createElement('div');
         turnusBox.classList.add('turnus-box');
         let symbol;
         switch (module.period) {
@@ -288,21 +275,19 @@ class ScheduleView extends Observable {
     changeWidgets(items) {
         let stud = studies;
         items.forEach(item => {
-           // console.log(item.id, item.x, item.y);
             stud.changeModulePosition(item.id, item.x, item.y);
             stud.calculateSemesterECTS();
         });
         if (stud) {
             setStudyInstance(stud);
         }
-        //console.log("Change IT!");
         for (let i = 1; i <= studies.semesters.length; i++) {
             this.updateSemesterECTS(i);
         }
+        //if there are many events right after another, only one Event will be thrown for change
+        //Otherwise: DB is overloaded
         if (this.timerId === null) {
             this.timerId = setTimeout(() => {
-                console.log("Timer finished");
-                //console.log(studies);
                 let e = new Event("positionsChanged", "positionsChanged");
                 this.notifyAll(e);
                 this.timerId = null;
@@ -314,7 +299,7 @@ class ScheduleView extends Observable {
         for (let item of items) {
             let oldMod = studies.getModuleAndSubjectByID(this.currentDraggedModuleID),
                 oldPosition = null;
-            if(oldMod){
+            if (oldMod) {
                 oldPosition = oldMod.module.selectedSemester[0];
             }
             if (item.id === this.currentDraggedModuleID && item.x + 1 !== oldPosition) {
@@ -378,11 +363,6 @@ class ScheduleView extends Observable {
                 let modDiv = document.getElementById(con + "-div");
                 if (modDiv) {
                     modDiv.classList.add("dragging-condition");
-                    // modDiv.style.backgroundColor = "black";
-                    // let undDivs = modDiv.querySelectorAll("div");
-                    // for(let undDiv of undDivs){
-                    //     undDiv.style.backgroundColor = Config.COLOUR_CODES_DARKER[subject.colourCode];
-                    // }
                 }
             }
         }
@@ -409,11 +389,6 @@ class ScheduleView extends Observable {
                 let modDiv = document.getElementById(con + "-div");
                 if (modDiv) {
                     modDiv.classList.remove("dragging-condition");
-                    // modDiv.style.backgroundColor = "black";
-                    // let undDivs = modDiv.querySelectorAll("div");
-                    // for(let undDiv of undDivs){
-                    //     undDiv.style.backgroundColor = Config.COLOUR_CODES_DARKER[subject.colourCode];
-                    // }
                 }
             }
         }
@@ -427,6 +402,7 @@ class ScheduleView extends Observable {
         }
     }
 
+    //save png
     savePNG() {
         let gr = document.querySelector(".grid-stack");
         html2canvas(gr).then(function (canvas) {
@@ -438,6 +414,7 @@ class ScheduleView extends Observable {
         });
     }
 
+    //open new window to print div
     printDiv() {
         let gr = document.querySelector(".grid-stack");
         html2canvas(gr).then(function (canvas) {
@@ -453,11 +430,9 @@ class ScheduleView extends Observable {
             var printWin = window.open('', '', 'width=340,height=260');
             printWin.document.open();
             printWin.document.write(windowContent);
-            //printWin.document.write('<script type="text/javascript">window.onload = function(){ console.log("WINDOW PRINT"); window.print(); //window.close(); };</script>');
             printWin.document.close();
             printWin.focus();
             printWin.print();
-            //printWin.close();
         });
     }
 }

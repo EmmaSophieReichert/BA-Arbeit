@@ -22,23 +22,18 @@ class RegisterView extends Observable {
         } else if (password !== confirmPassword) {
             this.setServerAnswer('Die Passwörter stimmen nicht überein.');
         } else {
-            // Alle Felder wurden ausgefüllt und die Passwörter stimmen überein
             this.onSubmit(email, password, username);
-            // Beispiel: Weiterleitung zu einer anderen Seite
-            //window.location.href = '#schedule';
         }
     }
 
-    // User wants to create an account
+    // User wants to create an account -> event to controller
     onSubmit(email, password, username) {
-        // Data as JSON object stores email and password and the username
         let data = {
             email: email,
             password: password,
             username: username,
         },
-        // Data is send with an new account-submit event
-        event = new Event("account-submit", data);
+            event = new Event("account-submit", data);
         this.notifyAll(event);
     }
 

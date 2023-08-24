@@ -51,9 +51,6 @@ class AppController {
             let logged = res.login;
             console.log("LOGGED: ", logged);
             console.log("USER: ", res.user);
-            // if (logged) {
-            //     this.navView.setCurrentlyLoggedInUser(res.user.name);
-            // }
             this.computeCurrentPage(event, logged);
         });
 
@@ -63,30 +60,26 @@ class AppController {
         let currentHash = window.location.hash;
         console.log("HASH: ", currentHash);
         // If a user is logged in, he should not be able to view login and register page
-        // If a user starts the app
         if (currentHash === "") {
             this.setHash("login");
         }
-        if (!this.router.isDynamicShareRoute(currentHash)) {
-            if (loggedIn) {
-                if (currentHash === "#login" || currentHash === "#register") {
-                    this.setHash("schedule");
-                }
-                this.logoutButton.style.display = "inline-block";
-                this.navLinks.style.display = "flex";
+        if (loggedIn) {
+            if (currentHash === "#login" || currentHash === "#register") {
+                this.setHash("schedule");
+            }
+            this.logoutButton.style.display = "inline-block";
+            this.navLinks.style.display = "flex";
 
-            } else {
-                this.logoutButton.style.display = "none";
-                this.navLinks.style.display = "none";
-                if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
-                    currentHash !== "#datenschutz") {
-                    this.setHash("login");
-                }
+        } else {
+            this.logoutButton.style.display = "none";
+            this.navLinks.style.display = "none";
+            if (currentHash !== "#login" && currentHash !== "#register" && currentHash !== "#impressum" &&
+                currentHash !== "#datenschutz") {
+                this.setHash("login");
             }
         }
         if (currentHash === "#schedule") {
             setTimeout(() => {
-                //console.log("TIMER");
                 this.router.onHashChanged(event);
                 return;
             }, 500);
@@ -97,38 +90,25 @@ class AppController {
     }
 
     async onTemplateReady(event) {
-        let template = event.data,
-            shareData,
-            computedID,
-            accountData;
-
-        console.log("TEMPLATE READY");
-
+        let template = event.data;
         if (template.route === "") {
             template.route = "#schedule";
         }
-
         this.container.innerHTML = template.template;
 
         // After a template is set, we init a controller which takes care of the functionality
         switch (template.route) {
             case "#login":
                 this.controller = new LoginController();
-                // this.controller.init(this.navView);
                 break;
             case "#register":
                 this.controller = new RegisterController();
-                // this.controller.init(this.navView);
                 break;
             case "#study":
                 this.controller = new StudyController();
-                // this.controller.init(this.navView);
                 break;
             case "#schedule":
                 this.controller = new ScheduleController();
-                // this.controller.init(this.navView);
-                // this.controller.addEventListener("on-view", this.onViewCastClicked.bind(this));
-                // this.controller.addEventListener("ad-status", (event) => this.onAdStatusChanged(event));
                 break;
             case "#module-catalogue":
                 this.controller = new ModuleCatalogueController();
@@ -137,14 +117,8 @@ class AppController {
                 this.controller = new GradeCalculatorController();
                 break;
             case "#impressum":
-                console.log("IMPRESSUM");
-                // this.controller = new ImpressumController();
-                // this.controller.init(this.navView);
                 break;
             default:
-            //this.container.innerHTML = template.template;
-            // this.controller = new ErrorController();
-            // this.controller.init(this.navView);
         }
     }
 

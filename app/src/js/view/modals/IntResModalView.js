@@ -1,9 +1,6 @@
 import fileManager from '../../model/FileManager.js';
-import Module from '../../model/structure/Module.js';
 import { studies, setStudyInstance } from '../../model/studiesInstance.js';
-import Config from '../../utils/Config.js';
 import { Event, Observable } from '../../utils/Observable.js';
-import modalView from './ModalView.js';
 
 class IntResModalView extends Observable {
 

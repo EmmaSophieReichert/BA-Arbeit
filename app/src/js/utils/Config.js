@@ -10,24 +10,17 @@ const Config = {
     COLOUR_CODES_LIGHT: [
         "#c7e8ffff", //blue
         "#ebfbf7ff", //green
-        "#ffe5d9ff",
-        "#f8d9edff",
-        "#fff8e1ff",
+        "#ffe5d9ff", //orange
+        "#f8d9edff", //pink
+        "#fff8e1ff", //yellow
     ],
     COLOUR_CODES: [
         "#b0deffff", //blue
         "#d5f7eeff", //green
-        "#ffd6c4ff", 
-        "#f4c5e4ff",
+        "#ffd6c4ff", //orange
+        "#f4c5e4ff", //pink
         "#fff2c8ff", //yellow
     ],
-    // COLOUR_CODES_DARK: [
-    //     "#87cfffff",
-    //     "#d4f7edff",
-    //     "#fff1bfff",
-    //     "#ffc5abff",
-    //     "#f0add9ff",
-    // ],
     COLOUR_CODES_DARK: [
         "#87cfffff",//"#0e9effff", //blue
         "#aaeedbff", //green
@@ -50,25 +43,6 @@ const Config = {
         "#ffdd63ff", //yellow
     ],
 };
-
-/* 
---celestial-blue: #0e9effff;
---tiffany-blue: #aaeedbff;
---jasmine: #ffe482ff;
---atomic-tangerine: #ff8d58ff;
---brilliant-rose: #e259b2ff;
-
---light-sky-blue: #87cfffff;
---mint-green: #d4f7edff;
---vanilla: #fff1bfff;
---apricot: #ffc5abff;
---lavender-pink: #f0add9ff;
-
---columbia-blue: #c7e8ffff;
---azure-web: #ebfbf7ff;
---cornsilk: #fff8e1ff;
---champagne-pink: #ffe5d9ff;
---mimi-pink: #f8d9edff; */
 
 Object.freeze(Config);
 
