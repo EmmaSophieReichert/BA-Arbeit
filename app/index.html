@@ -20,9 +20,6 @@
     <link rel="stylesheet" href="src/css/study.css">
     <link rel="stylesheet" href="src/css/catalogue.css">
     <link rel="stylesheet" href="src/css/grade-calculator.css">
-
-    <!-- <link rel="stylesheet" type="css" href="../node_modules/gridstack/dist/gridstack.min.css" /> -->
-    <!-- <link type="css" href="node_modules/gridstack/dist/gridstack-extra.min.css" rel="stylesheet"/> -->
 </head>
 
 <body>
@@ -31,10 +28,8 @@
             <div class="nav-align-left">
                 <a href="#schedule" class="logo nav-link">
                     SchedulEDucation
-                    <!-- <img src="./resources/custom-icons/MME-Codeverse-Logo2.svg"> -->
                 </a>
             </div>
-
             <div id="nav-links" class="nav-align-middle">
                 <a id="nav-schedule" href="#schedule" class="navigation-button">
                     <p>Studienverlaufsplan</p>
@@ -46,7 +41,6 @@
                     <p>Notenrechner</p>
                 </a>
             </div>
-
             <div class="nav-align-right">
                 <button class="underline-button" id="logout-button">Log-out</button>
                 <a id="home-link" class="home nav-link hidden">
@@ -69,13 +63,10 @@
             </div>
         </div>
         <div class="content-container">
-            <!-- <p>Hello</p> -->
+
         </div>
         <footer>
             <div class="nav-align-right">
-                <!-- <a href="#impressum" class="logo nav-link">
-                    <p>Über mich</p>
-                </a> -->
                 <a href="#impressum" class="logo nav-link">
                     <p>Impressum</p>
                 </a>
@@ -120,7 +111,7 @@
                 <div class="form-row">
                     <label for="condition">Voraussetzungen:</label>
                     <input type="text" id="condition">
-                    <p id="input-description">  (Modulkurzformen, kommasepariert)</p>
+                    <p id="input-description"> (Modulkurzformen, kommasepariert)</p>
                 </div>
                 <div class="form-row">
                     <label for="semester">Empfohlenes Semester:</label>
@@ -159,7 +150,6 @@
 
     <dialog id="delete-subject-modal" class="modal">
         <div class="modal-content">
-            <!-- <span class="close close-module-grade">&times;</span> -->
             <h2 class="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
             <p> Bist du dir sicher, dass du den Studiengang löschen willst? </p>
             <p class="row-space"> Damit werden auch <b>alle Module</b> des Faches gelöscht! </p>
@@ -174,12 +164,10 @@
 
     <dialog id="error-modal" class="modal">
         <div class="modal-content">
-            <!-- <span class="close close-module-grade">&times;</span> -->
             <h2 class="edit-module-h2">‼️ ACHTUNG! ‼️</h2>
             <p id="error-modal-description"> </p>
             <p id="conditions-error-box" class="row-space hidden"> </p>
             <p class="row-space"> Willst du das wirklich tun? </p>
-
             <div class="button-container row-space">
                 <button id="error-submit-button" class="red-button" type="button">Klar!</button>
                 <button id="error-decline-button" class="register-button" type="button">Lieber doch nicht...</button>
@@ -202,7 +190,6 @@
                     <label for="weight-input">Gewicht:</label>
                     <input type="number" id="weight-input" min="0" max="1000" step="0.01">
                 </div>
-                <!-- <p class="server-answer answer" id="module-error-message"></p> -->
                 <button class="row-space" type="submit">Fertig!</button>
             </form>
         </div>
@@ -222,12 +209,10 @@
                     <label for="weight-input-int-res">Gewicht:</label>
                     <input type="number" id="weight-input-int-res" min="0" max="1000" step="0.01" value="1" required>
                 </div>
-                <!-- <p class="server-answer answer" id="module-error-message"></p> -->
                 <button class="row-space" type="submit">Hinzufügen</button>
             </form>
         </div>
     </dialog>
-
 
     <dialog id="show-modal" class="modal">
         <div class="modal-content">
@@ -276,17 +261,10 @@
         </div>
     </dialog>
 
-
     <script type="module" src="src/js/index.js"></script>
-    <!-- <link rel="stylesheet" type="css" href="../node_modules/gridstack/dist/gridstack.min.css"> -->
     <script src="https://cdn.jsdelivr.net/npm/appwrite@11.0.0"></script>
     <script src="src/js/treant-js-master/vendor/raphael.js"></script>
     <script src="src/js/treant-js-master/Treant.js"></script>
-    <!-- Scrollbar Treant.js : -->
-    <!-- <link href="src/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" type="text/css"/>
-    <script src="src/js/treant-js-master/vendor/jquery.min.js"></script>
-    <script src="src/js/treant-js-master/vendor/jquery.mousewheel.js"></script>
-    <script src="src/js/treant-js-master/vendor/perfect-scrollbar/perfect-scrollbar.js"></script> -->
 </body>
 
 </html>
