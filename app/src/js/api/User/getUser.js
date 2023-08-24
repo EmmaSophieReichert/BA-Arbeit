@@ -6,4 +6,4 @@ function getUser() {
     return promise;
 }
 
-export {getUser};
+export { getUser };

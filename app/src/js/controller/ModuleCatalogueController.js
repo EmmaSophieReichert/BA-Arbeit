@@ -4,21 +4,20 @@ import { studies } from "../model/studiesInstance.js";
 import CatalogueView from "../view/CatalogueView.js";
 import CatalogueViewRight from "../view/CatalogueViewRight.js";
 
+class ModuleCatalogueController {
 
-class ModuleCatalogueController{
-    
-    constructor(){
+    constructor() {
         this.catalogueManager = new CatalogueManager();
         this.catalogueView = new CatalogueView();
         this.catalogueViewRight = new CatalogueViewRight();
 
-        if(studies !== null){
+        if (studies !== null) {
             this.catalogueViewRight.show(studies);
             this.catalogueView.show(studies);
         }
-        else{
+        else {
             fileManager.addEventListener("on-study-loaded", e => {
-                if(window.location.hash === "#module-catalogue"){
+                if (window.location.hash === "#module-catalogue") {
                     let study = e.data;
                     this.catalogueView.show(study);
                     this.catalogueViewRight.show(study);
@@ -27,7 +26,7 @@ class ModuleCatalogueController{
             fileManager.getStudy();
         }
 
-        this.catalogueView.addEventListener("onModuleChanged", () =>{
+        this.catalogueView.addEventListener("onModuleChanged", () => {
             fileManager.updateFile();
         });
 

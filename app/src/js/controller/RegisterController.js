@@ -3,25 +3,13 @@
 import RegisterView from "../view/RegisterView.js";
 import RegisterManager from "../model/RegisterManager.js";
 
-// Controls the Register page
-// The Register Manager handles account creation
-// The Register View is there to show proceedings to the user
 class RegisterController {
 
-    constructor(){
+    constructor() {
         this.registerView = new RegisterView();
         this.registerView.addEventListener("account-submit", this.onSubmit.bind(this));
         this.registerManager = new RegisterManager();
         this.registerManager.addEventListener("account-result", this.onAccountResult.bind(this));
-    }
-
-    init(navView) {
-        // Navbar Viev
-        this.navView = navView;
-        this.navView.hideLinks();
-        this.navView.hideSafeBtn();
-        this.navView.hideTitleInput();
-        this.navView.hideNavView();
     }
 
     // On submit button click the data from the inputs is used create an account in the database
@@ -40,17 +28,16 @@ class RegisterController {
     onAccountResult(event) {
         let bool = event.data.register;
         if (bool) {
-            // Instead of creating a session for the new user, we redirect to the login page
-            // where he can login
+            // Instead of creating a session for the new user, we redirect to the login page where he/she can login
             alert('Registrierung erfolgreich!');
             window.location.hash = "login";
         }
         let message = event.data.answer.message;
-        if(message){
-            if(event.data.answer.response.message === "Invalid email: Value must be a valid email address"){
+        if (message) {
+            if (event.data.answer.response.message === "Invalid email: Value must be a valid email address") {
                 message = "Invalide Email."
             }
-            else if(event.data.answer.response.message === "Invalid password: Password must be at least 8 characters"){
+            else if (event.data.answer.response.message === "Invalid password: Password must be at least 8 characters") {
                 message = "Invalides Passwort. Das Passwort muss mindestens 8 Zeichen lang sein."
             }
             this.registerView.setServerAnswer(message);

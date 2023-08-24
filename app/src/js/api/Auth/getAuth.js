@@ -3,7 +3,7 @@
 
 import { getUser } from "../User/getUser.js";
 
-async function getAuth(){
+async function getAuth() {
     let promise = getUser(),
         auth = null;
     await promise.then(res => {
@@ -20,4 +20,4 @@ async function getAuth(){
     return auth;
 }
 
-export {getAuth};
+export { getAuth };

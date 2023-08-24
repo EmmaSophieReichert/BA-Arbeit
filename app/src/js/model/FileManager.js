@@ -1,5 +1,5 @@
 import { listFiles } from "../api/Storage/listFiles.js";
-import { getFile } from "../api/Storage/getFile.js";
+import { getJWT } from "../api/Storage/getJWT.js";
 import Studies from "./structure/Studies.js";
 import appwrite, { reloadClient } from "../api/appwrite.js";
 import Config from "../utils/Config.js";
@@ -42,7 +42,7 @@ class FileManager extends Observable {
                 return;
             }
             let id = res.files[0].$id,
-                jwtPromise = getFile(id),
+                jwtPromise = getJWT(id),
                 reader = new FileReader(),
                 data,
                 currentFile = res.files[0];
