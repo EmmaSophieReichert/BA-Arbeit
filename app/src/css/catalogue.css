@@ -1,18 +1,21 @@
-#filter-container{
+#filter-container {
     margin-top: 50px;
 }
 
-.filter-group label{
+.filter-group label {
     text-align: left;
-    hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; -moz-hyphens: auto;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
     width: fit-content;
 }
 
-.filter-group h4{
+.filter-group h4 {
     margin-bottom: 0.5em
 }
 
-.module-div-middle p{
+.module-div-middle p {
     margin: 0;
 }
 
@@ -25,22 +28,21 @@
     width: 200px;
 }
 
-.catalogue-template .module-div-right{
+.catalogue-template .module-div-right {
     width: 40px;
 }
 
-#reset-filter-button-container{
+#reset-filter-button-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-#reset-filter-button-container h3{
+#reset-filter-button-container h3 {
     margin: 0;
 }
 
-#reset-filter-button{
-    /* margin-left: 5px; */
+#reset-filter-button {
     background-color: var(--elephant-grey);
     color: white;
     font-size: 70%;

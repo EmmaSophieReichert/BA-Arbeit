@@ -63,6 +63,8 @@ class StudyView extends Observable {
         this.specializationLabel = document.getElementById("specialization-label");
         this.specializationRadio = document.getElementById("specialization-radio");
 
+        this.navLinks = document.getElementById("nav-links");
+
         this.addSubjectButton = document.getElementById("add-study");
         this.addSubjectButton.addEventListener("click", this.onAddSubjectButtonClicked.bind(this));
 
@@ -89,6 +91,7 @@ class StudyView extends Observable {
     }
 
     async handleNoStudies() {
+        this.navLinks.style.display = "none";
         let res = fileManager.getList();
         if (res.total !== 0) {
             await fileManager.getStudy();
@@ -96,7 +99,11 @@ class StudyView extends Observable {
     }
 
     fill(data) {
-        //console.log("FILL");
+        this.navLinks.style.display = "flex";
+        let navs = document.querySelectorAll(".navigation-button");
+        for (let nav of navs) {
+            nav.classList.remove("selected-side");
+        }
         if(this.editMode){
             return;
         }
@@ -143,11 +150,7 @@ class StudyView extends Observable {
             }
         });
 
-        let studBoxes = document.getElementById("add-subjects-div")
-
-        // studBoxes.setAttribute("hidden", true);
-
-        // Studiengang hinzufügen
+        // add subject
         let studyBox = this.studyBoxes[0];
         studyBox.id = data.subjects[0].title;
         let studyTitleInput = studyBox.querySelector('.study-title');

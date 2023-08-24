@@ -20,7 +20,7 @@
     transform: none;
 }
 
-.grid-input-study{
+.grid-input-study {
     display: grid;
     grid-template-columns: 3fr 8fr;
     align-items: center;
@@ -28,7 +28,7 @@
     overflow-y: hidden;
 }
 
-.section{
+.section {
     margin: 20px 0;
 }
 
@@ -36,7 +36,7 @@
     color: black;
     text-decoration: underline;
     background-color: transparent;
-    border: 0; 
+    border: 0;
     margin: 0;
 }
 
@@ -54,20 +54,18 @@
     .study-container {
         width: 85vw;
     }
-    .grid-input-study{
+
+    .grid-input-study {
         grid-template-columns: 3fr 8fr;
     }
+
     .radio-div {
         width: 75vw;
     }
 }
 
 .study-container label {
-    /* text-align: left;
-    width: auto; */
     margin-left: 5px;
-    /* min-width: 180px;
-    width: 180px; */
     grid-column: 1;
 }
 
@@ -89,17 +87,17 @@ input[type='text'] {
     display: flex;
 }
 
-.study-input-box input[type="number"]{
+.study-input-box input[type="number"] {
     width: auto;
     margin-right: 10px;
 }
 
-.study-input-box input[type="text"]{
+.study-input-box input[type="text"] {
     width: 56ch;
     margin-right: 20px;
 }
 
-.submit-subject-button{
+.submit-subject-button {
     width: 15ch;
 }
 
@@ -115,19 +113,11 @@ input[type='text'] {
 
 /* Quelle: https://moderncss.dev/pure-css-custom-styled-radio-buttons/ */
 
-/* .radio-div {
-    display: grid;
-    grid-template-columns: 1em auto;
-    gap: 0.5em; 
-} */
-
 .radio-div {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    /* max-width: 400px;
-    min-width: 300px; */
 }
 
 .radio-div div {
@@ -137,7 +127,6 @@ input[type='text'] {
 }
 
 .radio-div label {
-    /* min-height: 2em; */
     text-align: left;
     align-items: center;
     width: auto;
@@ -151,26 +140,11 @@ input[type='radio'] {
     margin-top: 0;
 }
 
-/* input[type="radio"] {
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: #fff;
-    margin: 0;
-
-    font: inherit;
-  color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 50%;
-} */
-
 .delete-subject-button {
     padding: 10px 20px;
     border: 2px solid var(--brilliant-rose);
     cursor: pointer;
     border-radius: 0.5em;
-    /* background: linear-gradient(120deg, var(--mint-green), var(--light-sky-blue)); */
     color: var(--brilliant-rose);
     font-weight: bold;
     background-color: white;
@@ -178,4 +152,3 @@ input[type='radio'] {
     font-size: 19px;
     padding: 0 7px;
 }
-
