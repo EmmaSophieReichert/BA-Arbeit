@@ -24,7 +24,6 @@ let subjectOptions = {
         'M.Mus.', // - Master of Music',
         'M.F.A.', // - Master of Fine Arts',
     ],
-    // Weitere Studienabschlüsse ?
 };
 
 let ectsOptions = {
@@ -75,7 +74,7 @@ class StudyView extends Observable {
 
         document.getElementById('study-form').addEventListener('submit', this.onSubmitButtonClicked.bind(this));
 
-        if(window.location.hash === "#study"){
+        if (window.location.hash === "#study") {
             if (studies !== null) {
                 this.fill(studies);
             }
@@ -104,7 +103,7 @@ class StudyView extends Observable {
         for (let nav of navs) {
             nav.classList.remove("selected-side");
         }
-        if(this.editMode){
+        if (this.editMode) {
             return;
         }
         this.editMode = true;
@@ -135,7 +134,6 @@ class StudyView extends Observable {
         this.ectsInput.value = data.totalECTS;
         // semesters
         this.semesterInput.value = data.semesters.length;
-
         // turnus start
         let startRadios = document.querySelectorAll('input[name="start"]'),
             firstSemester;
@@ -149,14 +147,12 @@ class StudyView extends Observable {
                 radio.checked = true;
             }
         });
-
         // add subject
         let studyBox = this.studyBoxes[0];
         studyBox.id = data.subjects[0].title;
         let studyTitleInput = studyBox.querySelector('.study-title');
         studyTitleInput.value = data.subjects[0].title;
         studyTitleInput.id = data.subjects[0].title + "-title";;
-
         if (data.subjects.length > 1) {
             studyBox.appendChild(this.getNumberInput(data.subjects[0]));
             studyBox.appendChild(this.getDeleteButton(data.subjects[0]));
@@ -251,49 +247,45 @@ class StudyView extends Observable {
         return input;
     }
 
-    getDeleteButton(subject){
-        //<span class="close close-module-grade">&times;</span>
+    getDeleteButton(subject) {
         let deleteButton = document.createElement('button');
-        //deleteButton.classList.add("close");
         deleteButton.classList.add("delete-subject-button");
         deleteButton.type = "button";
         deleteButton.innerHTML = "&times;";
-        if(subject){
+        if (subject) {
             deleteButton.id = subject.title + "-delete-button";
         }
-        deleteButton.addEventListener("click", (e)=> {this.onSubjectDeleteButtonClicked(e.target, subject)});
+        deleteButton.addEventListener("click", (e) => { this.onSubjectDeleteButtonClicked(e.target, subject) });
         return deleteButton;
     }
 
-    onSubjectDeleteButtonClicked(target, subject){
-        if(this.editMode){
-            if(subject){
-                //console.log("EDIT DELETE", subject.title);
+    onSubjectDeleteButtonClicked(target, subject) {
+        if (this.editMode) {
+            if (subject) {
                 deleteSubjectModalView.show(subject);
             }
-            else{
-                //console.log("CREATE DELETE", target);
+            else {
                 let div = target.closest('.study-input-box');
                 this.removeDiv(div);
             }
         }
-        else{
+        else {
             let div = target.closest('.study-input-box');
             this.removeDiv(div);
         }
     }
 
-    removeDiv(div){
+    removeDiv(div) {
         let container = document.getElementById("additional-study-boxes");
-        if(div && container){
+        if (div && container) {
             container.removeChild(div);
         }
         this.studyBoxes = document.querySelectorAll('.study-input-box');
         if (this.studyBoxes.length < MAX_NUM_SUBJECTS) {
             this.addSubjectButton.style.display = "block";
-            if (this.studyBoxes.length === 1){
+            if (this.studyBoxes.length === 1) {
                 let deleteButton = this.studyBoxes[0].querySelector("button");
-                if(deleteButton){
+                if (deleteButton) {
                     this.studyBoxes[0].removeChild(deleteButton);
                 }
             }
@@ -302,7 +294,7 @@ class StudyView extends Observable {
 
     onAddSubjectButtonClicked() {
         if (this.studyBoxes.length === 1) {
-            if(!this.studyBoxes[0].querySelector("input[type='number']")){
+            if (!this.studyBoxes[0].querySelector("input[type='number']")) {
                 let input = document.createElement('input');
                 input.type = 'number';
                 input.classList.add("study-ects");
@@ -335,10 +327,11 @@ class StudyView extends Observable {
         }
     }
 
+    //Proves if data is logically correct
     proveData() {
         this.studyBoxes = document.querySelectorAll('.study-input-box');
         if (this.studyBoxes.length === 1) {
-            if(this.studyBoxes[0].querySelector('input[name="ects"]') === null){
+            if (this.studyBoxes[0].querySelector('input[name="ects"]') === null) {
                 return true; //No split of ECTS, one subject
             }
         }
@@ -383,7 +376,6 @@ class StudyView extends Observable {
             studyData.push({ title, ects, subID });
         }
 
-        //if (!degree || specializations.length === 0 || isNaN(ectsValue) || isNaN(semesterValue)) {
         if (!degree || isNaN(ectsValue) || isNaN(semesterValue)) {
             this.errorMessage.textContent = 'Bitte füllen Sie alle Felder aus.';
             return;
@@ -396,8 +388,8 @@ class StudyView extends Observable {
             stud.totalECTS = ectsValue;
             stud.semesters = Studies.initFirstSemesters(semesterValue, period);
             stud = this.initSubjects(stud, studyData);
-            if(stud){
-               setStudyInstance(stud); 
+            if (stud) {
+                setStudyInstance(stud);
             }
             this.editMode = false;
             console.log("SOURCE 4");
@@ -427,10 +419,10 @@ class StudyView extends Observable {
                     ects: data.ects,
                 });
             }
-            else{
+            else {
                 let id = data.subID;
                 let subject = stud.getSubject(id);
-                if(subject){
+                if (subject) {
                     subject.title = data.title;
                     subject.ects = data.ects;
                 };

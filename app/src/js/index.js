@@ -2,7 +2,7 @@ import AppController from "./controller/AppController.js";
 
 // Starting the App
 function start() {
-    // Init your App Controller and set the Starting page (Login in this case)
+    // Init AppController and set the Starting page
     let app = new AppController();
     app.init();
 }
